@@ -48,3 +48,18 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Quarto-Zwischendateien
+/.quarto/
+slides/*_files/
+slides/*.html
+slides/*_cache/
+*.rmarkdown
+
+# R
+.Rproj.user/
+.Rhistory
+.RData
+
+# Entpackte Excel-Datei aus dem Arbeitslose-ZIP (wird im Setup wieder gelöscht)
+slides/*.xlsx

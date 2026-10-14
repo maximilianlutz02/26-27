@@ -1,0 +1,57 @@
+---
+title: "Quellen und KI Guidelines"
+output: 
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+---
+
+# Zitationsrichtlinien
+
+Im Web finden Sie viele hilfreiche Tipps, wie bestimmte Aufgaben, die wir ihnen in den Projekten stellen, gelöst werden können. Ob es nun StackOverflow ist, wo Sie Code finden, oder Lehrbüchern in denen die Antworten auf Fragen aus ihrer Projektarbeit stehen.
+
+Diese Informationsquellen dürfen gerne verwendet werden! Das einzige was ich von Ihnen verlange sind die folgenden Punkte:
+
+- Wenn Sie Code aus dem Internet verwenden, dann **müssen Sie die Quelle entsprechend kennzeichnen**! Dies tun Sie **im Fließtext** und durch eine **Verlinkung auf die jeweilige Quelle**
+    - Falls Sie die Quelle nicht zitieren wird dies als Plagiat gewertet und wird mit einer 5.0 für das gesamte Projekt geahndet
+    - Projekte dürfen innerhalb der Gruppe und auch gerne mit anderen Gruppen diskutiert werden, jedoch darf kein Code oder Beschreibungen/Interpretationen an andere Gruppen weitergegeben werden!
+- `RTutor` Problem Sets sind selbstständig auszuführen. Code darf nicht mit anderen geteilt werden!
+
+# KI Guidelines
+
+LLMs wie ChatGPT und Co sind aus unserem Alltag nicht mehr weg zu denken und Sie können und sollen diese Tools für die Projektausarbeitungen verwenden. Jedoch sollten Sie bedenken, dass ChatGPT Stärken und Schwächen hat. Z.B. halluzinieren LLMs, d.h. teilweise erfinden sie Antworten auf Fragen. Es gilt:
+
+1. Vertrauen Sie keiner Antwort von ChatGPT. Wenn es Ihnen eine Antwort auf eine Frage gibt, dann gehen Sie davon aus, dass diese Antwort falsch ist, außer Sie kennen die richtige Antwort, oder Sie können die Antwort durch andere Quellen verifizieren. **Sie sind verantwortlich für die Antworten in ihren Projektausarbeitungen!** ChatGPT ist am hilfreichsten für Themen, bei denen Sie sich gut auskennen.
+
+2. Denken Sie darüber nach, für welche Aufgaben dieses Tool sinnvoll sein kann. Nutzen Sie ChatGPT und Co. nicht blind für alle Aufgaben, sondern als Untersützung ihrer eigenen Kenntnisse.
+
+3. **ChatGPT und Co. sind Tools, welche Sie laut der [Richtlinie der Universität Ulm](https://www.uni-ulm.de/fileadmin/website_uni_ulm/studium/Studienorganisation/Pruefungsanmeldung/Formulare/formular_eigenstaendigkeitserklaerung_abschlussarbeiten_WEB.pdf) entsprechend zitieren müssen**. Wenn Sie diese Tools verwenden, dann bitte ich Sie diese in der folgenden Form in ihren Projekten zu dokumentieren:
+
+```{r, echo = TRUE, eval = FALSE}
+| Aufgabe | Coding | Beschreibung | Interpretation | Textliche Verbesserungen  |
+|---------|--------|--------------|----------------|---------------------------|
+| 1       |        |              |                |                           |
+| 2       |        |              |                |                           |
+| 3       |        |              |                |                           |
+| 4       |        |              |                |                           |
+| 5       |        |              |                |                           |
+| 6       |        |              |                |                           |
+| 7       |        |              |                |                           |
+| 8       |        |              |                |                           |
+| 9       |        |              |                |                           |
+| 10      |        |              |                |                           |
+| 11      |        |              |                |                           |
+| 12      |        |              |                |                           |
+| 13      |        |              |                |                           |
+| 14      |        |              |                |                           |
+| 15      |        |              |                |                           |
+| 16      |        |              |                |                           |
+| 17      |        |              |                |                           |
+| 18      |        |              |                |                           |
+
+```
+
+Hier sollten Sie auf einer Skala von 1-5 angeben, wie sehr Sie KI für die jeweilige Aufgabe genutzt haben. Dabei bedeutet (1 = gar nicht; 5 = sehr viel). Die Tabelle soll später nicht in ihrer HTML Datei erscheinen (setzen Sie hierfür im Code chunk echo = FALSE). Durch diese Tabelle kommen Sie ihrer Zitationspflicht nach.
+
+KI Tools können in vielen Situationen hilfreich sein und ihre Ausarbeitungen verbessern. Dazu sollten Sie sich jedoch vorher selbst intensiv mit dieser Ausarbeitung beschäftigt haben um dieses Verbesserungspotential überhaupt erkennen zu können. **Im ersten Schritt sollten sie deshalb die Aufgaben verstehen und diese selbstständig lösen.**

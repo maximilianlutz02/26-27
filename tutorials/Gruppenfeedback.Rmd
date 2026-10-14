@@ -1,0 +1,51 @@
+---
+title: "Feedback zu den Review Reports für Gruppen"
+output: 
+  html_document:
+    theme: cosmo
+    code_download: true
+    toc: true
+    toc_float: true
+---
+
+# Bewertung des Review Reports durch die Gruppen
+
+- _Jedes Mitglied einer Gruppe_ erhält 3 Review Reports pro Projekt
+- Die Bewertung der Reports erfolgt von _jedem Gruppenmitglied_ auf der Basis folgender Kriterien:
+
+a) Wie hilfreich war der Report?
+  - Bewertung auf einer Skala von 1 bis 5 (1 = nicht hilfreich)
+  - Hinweise um dies bewerten zu können:
+    - Gab es hilfreiche Kritik?
+    - Ist die Kritik nachvollziehbar?
+    - Können Sie als Gruppe diese Kritik dazu nutzen ihre nächste Projektarbeit aufzuwerten?
+
+b) Wie spezifisch war der Report?
+  - Bewertung auf einer Skala von 1 bis 5 (1 = nicht spezifisch)
+  - Hinweise um dies bewerten zu können:
+    - Hatten Sie das Gefühl ihre Arbeit wurde gelesen und verstanden?
+    - Wurden Kommentare angebracht, welche auf Probleme in ihren Antworten/Grafiken eingehen?
+    - Wurden Probleme in ihrer Interpretation aufgedeckt und auf diese verwiesen?
+ 
+c) Wie ist ihr Gesamturteil zum erhalten Report im Verhältnis zu den anderen Reports (Ranking)?
+  - Bewertung auf einer Skala von 1 bis 3 (1 = bester Report)
+  - Hinweise um dies bewerten zu können:
+    - Gegeben aller Review Reports die ihnen vorliegen: Welcher hat Ihnen am Meisten gebracht, welcher am wenigsten?
+
+# Beispielhafte Bewertung eines Review Reports
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+---
+title: "Feedback für Gruppe 1234"
+output: html_document
+Hilfreich_Peer12: 4
+Spezifisch_Peer12: 3
+Ranking_Peer12: 2
+Hilfreich_Peer25: 1
+Spezifisch_Peer25: 1
+Ranking_Peer25: 3
+Hilfreich_Peer6: 5
+Spezifisch_Peer6: 3
+Ranking_Peer6: 1
+---
+```

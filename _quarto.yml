@@ -1,0 +1,27 @@
+project:
+  type: website
+  # GitHub Pages liest aus dem Ordner docs/ (Settings -> Pages -> "Deploy from a branch", main, /docs)
+  output-dir: docs
+  render:
+    - index.qmd
+    - "slides/*.qmd"
+    - "!case-study/"
+    - "!problem-sets/"
+
+website:
+  title: "Projektkurs Data Science & Business Analytics 26/27"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Start
+      - href: slides/VL_case-study-Teil1.qmd
+        text: "Case-Study Teil 1"
+  page-footer: "Universität Ulm · Studienkommission Wirtschaftswissenschaften"
+
+format:
+  html:
+    theme: cosmo
+    lang: de
+    toc: true
+
+engine: knitr
