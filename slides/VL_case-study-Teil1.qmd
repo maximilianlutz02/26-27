@@ -1,11 +1,6 @@
 ---
 title: "Case-Study zur Arbeitslosigkeit in Deutschland"
 subtitle: "Teil 1: Daten beschaffen, bereinigen, prüfen"
-author:
-  - name: Alex Rieber
-    affiliations: Universität Ulm · Projektkurs Data Science & Business Analytics
-date: last-modified
-date-format: "D. MMMM YYYY"
 lang: de
 engine: knitr
 format:
@@ -52,9 +47,9 @@ execute:
 
 ```{r setup}
 #| include: false
-library(readxl)
-library(skimr)
-library(tidyverse)
+# readxl / skimr / tidyverse werden bewusst ERST im sichtbaren Chunk "pakete"
+# geladen, damit dort die Attach-/Konflikt-Meldung von tidyverse zu sehen ist.
+# Hier nur, was schon vor dieser Folie gebraucht wird:
 library(countdown)
 
 # Kompakte Ausgabe: max. 4 Zeilen je Tibble, Breite begrenzt -> kein Overflow auf den Folien
@@ -76,15 +71,15 @@ hat_qr <- requireNamespace("qrcode", quietly = TRUE)
 
 # Worum geht es? {.section background-color="#1d3f73"}
 
-## Ziel der Case-Study
+## Ziel der Case-Study {.smaller}
 
 Deutschland hat europaweit eine der niedrigsten Arbeitslosenquoten:
 
 :::: {.columns}
 ::: {.column width="42%"}
-![](figs/eu_unemployment_2022.jpeg){width="78%"}
+![](figs/eu_unemployment_2024.png){width="82%"}
 
-[Quelle: [Fleck, A. (2022). The State of Unemployment in Europe.](https://www.statista.com/chart/20834/unemployment-rates-eu-plus-uk/)]{.supersmall}
+[Quelle: [Eurostat, Arbeitslosenquote nach Ländern (`une_rt_a`)](https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table), Jahresdurchschnitt 2024, 15–74 Jahre. Datenstand 10.09.2026.]{.supersmall}
 :::
 
 ::: {.column width="58%"}
@@ -115,7 +110,7 @@ Dem gehen wir in dieser Case-Study auf den Grund.
 - Wo liegt Baden-Württemberg?
 :::
 
-Auflösung am Ende des Abschnitts "Arbeitslose" – mit Ihren eigenen Daten.
+Auflösung am Ende des Abschnitts zu den Arbeitslosendaten.
 
 ::: {.notes}
 Zuruf/Handzeichen reicht. Auflösung: Balkendiagramm am Ende von Abschnitt 1, Streudiagramm am Ende von Teil 1.
@@ -128,7 +123,7 @@ Am Ende steht eine Karte: Arbeitslosigkeit, Verschuldung und Wirtschaftskraft **
 ![](figs/pipeline.svg){width="92%" fig-align="center"}
 
 ::: {.callout-note appearance="simple"}
-**Teil 1 = alles Grüne.** Unspektakulär, aber hier passieren 80 % der Fehler in echten Projekten – und in KI-generiertem Code.
+**Teil 1 = alles Grüne.** Unspektakulär, aber hier passieren 80 % der Fehler in echten Projekten.
 :::
 
 ```{r}
@@ -138,8 +133,6 @@ Am Ende steht eine Karte: Arbeitslosigkeit, Verschuldung und Wirtschaftskraft **
 #| fig-align: center
 knitr::include_graphics("figs/ziel_karte.png")
 ```
-
-<!-- TODO: Karte aus Teil 3 als figs/ziel_karte.png ablegen -> erscheint automatisch. -->
 
 ## Ziele der Case-Study
 
@@ -152,7 +145,7 @@ Die Case-Study besteht aus **mehreren Teilen** und begleitet die komplette Vorle
 . . .
 
 ::: {.callout-tip title="Das eigentliche Lernziel von Teil 1"}
-Sie sollen **Code lesen, prüfen und reparieren** können – egal ob er von Ihnen, von Kommiliton:innen oder von Chat AI stammt. Deshalb gibt es regelmäßig **🐛 Bug Hunts**: Code, der läuft, aber falsch ist.
+Sie sollen **Code lesen, prüfen und reparieren** können, egal ob er von Ihnen, von Kommiliton:innen oder von Chat AI stammt. Deshalb gibt es regelmäßig **🐛 Bug Hunts**: Code, der läuft, aber falsch ist.
 :::
 
 ## Drei Arten von Fehlern
@@ -166,32 +159,32 @@ Sie sollen **Code lesen, prüfen und reparieren** können – egal ob er von Ihn
 . . .
 
 ::: {.alert}
-KI-generierter Code produziert fast nie Fehler der ersten Art – aber regelmäßig der dritten. Alle Bug Hunts heute sind stille Fehler.
+KI-generierter Code produziert fast nie Fehler der ersten Art, aber regelmäßig der dritten. Alle Bug Hunts heute sind stille Fehler.
 :::
 
 . . .
 
-**Unser Werkzeug dagegen – der Review-Loop:** Verdacht → Prüfung (`nrow()`, `glimpse()`, `count()`, externe Quelle) → Fix.
+**Was wir dagegen setzen ist der Review-Loop:** Verdacht → Prüfung (`nrow()`, `glimpse()`, `count()`, externe Quelle) → Fix.
 
 ## So läuft die Vorlesung {.smaller}
 
 :::: {.columns}
 ::: {.column width="50%"}
-**🔮 Prognose** – Sie tippen, bevor der Output kommt (Handzeichen).
+**🔮 Prognose**: Sie tippen, bevor der Output kommt (Handzeichen).
 
-**🐛 Bug Hunt** – KI-Code, der läuft, aber falsch ist. 1–2 Minuten zu zweit.
+**🐛 Bug Hunt**: KI-Code, der läuft, aber falsch ist. 1–2 Minuten zu zweit.
 
-**✍️ Jetzt Sie** – kurze Programmieraufgabe im eigenen RStudio.
+**✍️ Jetzt Sie**: kurze Programmieraufgabe im eigenen RStudio.
 :::
 ::: {.column width="50%"}
-**📱 Kahoot-Checkpoint** – am Ende jedes Abschnitts, 6–7 Fragen, 5 Minuten. Die Bug Hunts kommen dort wieder vor.
+**📱 Kahoot-Checkpoint**: am Ende jedes Abschnitts, 6–7 Fragen, 5 Minuten. Die Bug Hunts kommen dort wieder vor.
 
-Halten Sie **kahoot.it** auf dem Handy bereit; die PIN steht jeweils auf der Folie bzw. am Beamer.
+Halten Sie **kahoot.it** auf dem Handy bereit; die PIN steht jeweils auf der Folie.
 :::
 ::::
 
 ::: {.callout-note appearance="simple"}
-Kahoot-Punkte zählen nichts – aber wer bei den Checkpoints mitmacht, besteht erfahrungsgemäß die Übungsaufgaben deutlich schneller.
+Bei den Kahoot-Quizzes gibt es immer etwas zu gewinnen.
 :::
 
 ## Zwei Umgebungen zum Coden {.smaller}
@@ -200,7 +193,7 @@ Kahoot-Punkte zählen nichts – aber wer bei den Checkpoints mitmacht, besteht 
 ::: {.column width="50%"}
 **Direkt auf der Folie (webR)**
 
-Code-Felder mit *Run Code* laufen **in Ihrem Browser** – nichts installieren, nichts hochladen. Für die kurzen ✍️-Aufgaben und die Bug-Hunt-Fixes.
+Code-Felder mit *Run Code* laufen **in Ihrem Browser**; nichts installieren, nichts hochladen. Für die kurzen ✍️-Aufgaben und die Bug-Hunt-Fixes.
 
 - Hinweise und Lösung lassen sich aufklappen
 - Ein automatischer Check sagt Ihnen, ob es stimmt
@@ -217,7 +210,7 @@ sum(x) / length(x)
 ::: {.column width="50%"}
 **In RStudio (Ihr Rechner oder Posit Cloud)**
 
-Für die 20-Minuten-Aufgaben mit den vollständigen Excel-Dateien aus dem Repository – so, wie Sie später auch im Projekt arbeiten.
+Für die 20-Minuten-Aufgaben mit den vollständigen Excel-Dateien aus dem Repository, so, wie Sie später auch im Projekt arbeiten.
 
 - GitHub Desktop → Pull → `case-study/` öffnen
 - Chat AI erlaubt, Prüfen Pflicht
@@ -296,13 +289,13 @@ Automatisierten Download programmieren (in der ausformulierten Case-Study) ✔
 . . .
 
 ::: {.alert}
-Die Daten liegen bereits im GitHub-Repository `case-study-germany`. Klonen Sie dieses Repository auf Ihren PC!
+Die Daten liegen bereits im GitHub-Repository "case-study-germany". Klonen Sie dieses Repository auf Ihren PC!
 :::
 
 ## Klonen Sie unsere GitHub-Seite
 
-- [GitHub-Seite des Projektkurses](https://github.com/projektkurs-datascience/25-26) → grüner "Code"-Button
-- [HTTPS-URL](https://github.com/projektkurs-datascience/25-26.git) kopieren
+- [GitHub-Seite des Projektkurses](https://github.com/projektkurs-datascience/26-27) → grüner "Code"-Button
+- [HTTPS-URL](https://github.com/projektkurs-datascience/26-27.git) kopieren
 - GitHub Desktop → "Clone a repository" → "URL" → einfügen
 
 [Step-by-Step-Anleitung](https://docs.github.com/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)
@@ -346,10 +339,10 @@ library(tidyverse)
 ## Bevor wir Code schreiben: die Rohdaten
 
 ::: {.instructions}
-**3 Minuten, zu zweit:** Öffnen Sie `data/Arbeitslose_2023.xlsx.zip` (Blatt "Gesamt"). Notieren Sie **drei Dinge**, die das Einlesen in R erschweren werden.
+**3 Minuten, zu zweit:** Öffnen Sie im geklonten Repository `case-study/data/Arbeitslose_2024.xlsx.zip` (Blatt "Gesamt"). Notieren Sie **drei Dinge**, die das Einlesen in R erschweren werden.
 :::
 
-![](figs/Alo_Ueberblick2023.png){width="70%" fig-align="center"}
+![](figs/Alo_Ueberblick2024_zoom.png){width="92%" fig-align="center"}
 
 ```{r}
 #| echo: false
@@ -364,10 +357,17 @@ Erwartete Antworten: mehrere Kopfzeilen, Spaltennamen über mehrere Zeilen, Schl
 
 Unterschiedliche Dateien und Tabellenblätter – was verwenden wir?
 
+Zuerst legen wir den Pfad zum Datenordner fest. Im RStudio-Projekt `case-study/` liegen die Rohdaten im Unterordner `data/`:
+
+```{r}
+#| eval: false
+datenpfad <- "data"
+```
+
 ```{r}
 #| code-line-numbers: "1-3|4|5"
 # Im ZIP liegen zwei Tabellen; uns interessiert die Anzahl der Arbeitslosen ([1])
-alo_zip  <- file.path(datenpfad, "Arbeitslose_2023.xlsx.zip")
+alo_zip  <- file.path(datenpfad, "Arbeitslose_2024.xlsx.zip")
 alo_name <- as.character(unzip(alo_zip, list = TRUE)$Name)
 alo_name <- alo_name[1]
 unzip(alo_zip, alo_name)
@@ -377,17 +377,17 @@ unzip(alo_zip, alo_name)
 
 **Vermutung:** Über das Tabellenblatt "Inhaltsverzeichnis" werden wir schlauer.
 
-## Daten einlesen
+## Daten einlesen {.smaller}
 
 :::: {.columns}
 ::: {.column width="55%"}
 ```{r}
 alo_inhalt <- read_xlsx(alo_name, sheet = "Inhaltsverzeichnis")
-head(alo_inhalt, 9)
+head(alo_inhalt, 7)
 ```
 :::
 ::: {.column width="45%"}
-![](figs/Einlesen_Alo.png){width="65%"}
+![](figs/Einlesen_Alo.png){width="50%"}
 
 [**Alternative:** Excel-Datei in Excel/LibreOffice öffnen und dann entscheiden, welches Blatt Sie einlesen.]{.small}
 :::
@@ -395,14 +395,14 @@ head(alo_inhalt, 9)
 
 ## Welche Information brauchen wir?
 
-- [Die Anzahl aller Arbeitslosen pro Gemeinde (SGB II und III) **aus dem Jahr 2023**]{.alert}
+- [Die Anzahl aller Arbeitslosen pro Gemeinde (SGB II und III) **aus dem Jahr 2024**]{.alert}
 - … pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)
 - … pro Gemeinde für Rechtskreis und Alter (z.B. SGB II, unter 25)
 
 . . .
 
 ::: {.question}
-Was ist hier eine **Beobachtung**? Welche Zeilen der Excel-Tabelle sind *keine*?
+Was ist hier eine **Beobachtung**?
 :::
 
 . . .
@@ -433,9 +433,74 @@ data_alo <- alo_skip |>
 
 ```{r}
 #| echo: false
-data_alo <- data_alo[-c(1, 2), ]   # Deutschland gesamt, West/Ost entfernen
+data_alo <- data_alo[-c(1, 2), ]   # Kopfzeile ("Region") und Deutschland gesamt entfernen
 unlink(alo_name)
 ```
+
+## Schritt für Schritt durch die Pipe {.smaller}
+
+Klicken Sie sich durch die Reiter – nach jedem `|>` sehen Sie, was mit den Daten passiert:
+
+::: {.panel-tabset}
+
+### 1 · `select()`
+
+Von den 27 eingelesenen Spalten nur die **drei relevanten** behalten:
+
+```{r}
+alo_skip |>
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) |>
+  head(4)
+```
+
+### 2 · `mutate()` zerlegen
+
+`...1` enthält Schlüssel **und** Name – wir ziehen beides in **eigene Spalten**:
+
+```{r}
+#| code-line-numbers: "3-4"
+alo_skip |>
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) |>
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde           = str_extract(`...1`, "[A-Z].*")) |>
+  head(4)
+```
+
+### 3 · `mutate()` als Zahl
+
+`...3` ist **Text** – als Zahl `alo` umwandeln (Kopfzeilen werden dabei zu `NA`):
+
+```{r}
+#| code-line-numbers: "5"
+alo_skip |>
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) |>
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde           = str_extract(`...1`, "[A-Z].*")) |>
+  mutate(alo = as.numeric(`...3`)) |>
+  head(4)
+```
+
+### 4 · aufräumen
+
+Hilfsspalten entfernen und `NA`-Zeilen (Kopf-/Leerzeilen) herausfiltern → **fertig**:
+
+```{r}
+#| code-line-numbers: "6-7"
+alo_skip |>
+  select(c(`...1`, Jahresdurchschnitte, `...3`)) |>
+  mutate(Regionalschluessel = str_extract(`...1`, "[[:digit:]]+"),
+         Gemeinde           = str_extract(`...1`, "[A-Z].*")) |>
+  mutate(alo = as.numeric(`...3`)) |>
+  select(-c(`...1`, Jahresdurchschnitte, `...3`)) |>
+  filter(!is.na(alo)) |>
+  head(4)
+```
+
+:::
+
+::: {.notes}
+Durch die Reiter klicken und bei jedem Schritt fragen: Welche Spalte kommt dazu, welche fällt weg, welche Zeilen verschwinden? Guter Moment, um den Pipe-Operator `|>` ("… und dann …") zu erklären.
+:::
 
 ## Einlesen und bereinigen: Ergebnis
 
@@ -446,7 +511,7 @@ head(data_alo, 4)
 ```
 
 ::: {.notes}
-Die ersten zwei Zeilen (Deutschland, West/Ost) wurden im Hintergrund entfernt – kurz sagen. Warum Bundesländer und Kreise trotzdem im Datensatz bleiben dürfen, klärt der nchar-Trick gleich.
+Die ersten zwei Zeilen (Kopfzeile "Region" und Deutschland gesamt) wurden im Hintergrund entfernt – kurz sagen. Warum Bundesländer und Kreise trotzdem im Datensatz bleiben dürfen, klärt der nchar-Trick gleich.
 :::
 
 ## 🐛 Bug Hunt 1: Läuft, aber … {.bughunt}
@@ -533,8 +598,11 @@ alo_roh |>
 #| check: true
 ok <- is.data.frame(.result) && "Gemeinde" %in% names(.result) &&
   all(stringr::str_detect(.result$Gemeinde, "^[ÄÖÜ]"))
-if (ok) list(correct = TRUE, message = "Alle Umlaut-Gemeinden haben jetzt ihren vollen Namen.")
-else list(correct = FALSE, message = "Noch nicht: Mindestens eine Gemeinde beginnt nicht mit dem Umlaut aus den Rohdaten. Hinweis 1 aufklappen.")
+if (ok) {
+  list(correct = TRUE, message = "Alle Umlaut-Gemeinden haben jetzt ihren vollen Namen.")
+} else {
+  list(correct = FALSE, message = "Noch nicht: Mindestens eine Gemeinde beginnt nicht mit dem Umlaut aus den Rohdaten. Hinweis 1 aufklappen.")
+}
 ```
 
 ## 🐛 Bug Hunt 1: Fix {.bughunt}
@@ -566,9 +634,9 @@ Eine Regex, die auf den ersten fünf Zeilen funktioniert, ist noch nicht geteste
 
 . . .
 
-- Zunächst: Arbeitslose je **Bundesland** 2023 → zweistelliger `Regionalschluessel`
+- Zunächst: Arbeitslose je **Bundesland** 2024 → zweistelliger `Regionalschluessel`
   - Zeichen zählen mit `nchar()` (number of characters)
-- **Externe Quelle:** [Arbeitslose 2023 nach Ländern (Arbeitsagentur)](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202312/iiia4/akt-dat-jz/akt-dat-jz-d-0-202312-xlsx.xlsx), Tabellenblatt 8
+- **Externe Quelle:** [Arbeitslose 2024 nach Ländern (Arbeitsagentur)](https://statistik.arbeitsagentur.de/Statistikdaten/Detail/202412/iiia4/akt-dat-jz/akt-dat-jz-d-0-202412-xlsx.xlsx), Tabellenblatt 8
 
 . . .
 
@@ -592,7 +660,7 @@ nrow(check_alo_bundesland)
 **Wette (Handzeichen):** Stimmen unsere 16 Zahlen mit der Tabelle der Arbeitsagentur überein? **(a)** exakt **(b)** kleine Abweichungen **(c)** große Abweichungen
 :::
 
-## Konsistenzcheck: externe Quelle
+## Konsistenzcheck: externe Quelle {.smaller}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -601,17 +669,15 @@ print(check_alo_bundesland, n = 16)
 ```
 :::
 ::: {.column width="50%"}
-![](figs/Alo_Laender2023.png){width="70%"}
+![](figs/Alo_Laender2024.png){width="88%"}
 :::
 ::::
 
 . . .
 
-::: {.alert .center}
-Beide Datenreihen sind identisch.
-:::
+[Beide Datenreihen sind identisch.]{.alert .center}
 
-## Interne Konsistenz prüfen
+## Interne Konsistenz prüfen {.smaller}
 
 ::: {.instructions}
 Berechne: Arbeitslose je Bundesland als **Summe** über die Gemeinden – und vergleiche mit der Arbeitsagentur.
@@ -668,7 +734,7 @@ alo_bundesland_ki <- data_alo |>
 ```
 
 ::: {.instructions}
-**2 Minuten:** Läuft fehlerfrei. In welcher Zeile steckt der Fehler, was kommt heraus – und mit welchem *einen* Befehl entlarven Sie es?
+**2 Minuten:** Läuft fehlerfrei. In welcher Zeile steckt der Fehler?
 :::
 
 ```{r}
@@ -734,8 +800,11 @@ Welche Schlüssellänge haben *nur* Gemeinden? Bundesländer haben 2, Landkreise
 #| check: true
 ok <- is.data.frame(.result) && "diff" %in% names(.result) &&
   nrow(.result) == 16 && all(abs(.result$diff) < 1e-6)
-if (ok) list(correct = TRUE, message = "diff = 0 für alle 16 Bundesländer – unsere Summe stimmt mit der Arbeitsagentur überein.")
-else list(correct = FALSE, message = "Die Differenzen sind noch nicht überall 0. Tipp: Welche Zeilen sind Gemeinden, welche sind schon Summen?")
+if (ok) {
+  list(correct = TRUE, message = "diff = 0 für alle 16 Bundesländer – unsere Summe stimmt mit der Arbeitsagentur überein.")
+} else {
+  list(correct = FALSE, message = "Die Differenzen sind noch nicht überall 0. Tipp: Welche Zeilen sind Gemeinden, welche sind schon Summen?")
+}
 ```
 
 ## Erster Blick auf die Daten
@@ -743,14 +812,14 @@ else list(correct = FALSE, message = "Die Differenzen sind noch nicht überall 0
 ```{r}
 #| echo: false
 #| fig-width: 10
-#| fig-height: 4.6
+#| fig-height: 4.1
 alo_bundesland |>
   mutate(name = bl_namen[bundesland], hier = bundesland == "08") |>
   ggplot(aes(x = reorder(name, total_alo), y = total_alo / 1000, fill = hier)) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
   scale_fill_manual(values = c("grey60", "#1b5e20")) +
-  labs(x = NULL, y = "Arbeitslose 2023 (in Tausend)") +
+  labs(x = NULL, y = "Arbeitslose 2024 (in Tausend)") +
   theme_minimal(base_size = 15)
 ```
 
@@ -777,7 +846,7 @@ plot(qrcode::qr_code("https://kahoot.it"))
 [**kahoot.it** · PIN am Beamer]{.pin}
 :::
 ::: {.column width="65%"}
-**7 Fragen, 5 Minuten** – darunter die beiden Bug Hunts von eben.
+**7 Fragen, 5 Minuten**.
 
 - `read_xlsx()`, `skip`, `nchar()`
 - Regionalschlüssel: 2 / 5 / 8 Stellen
@@ -785,7 +854,7 @@ plot(qrcode::qr_code("https://kahoot.it"))
 - Bug Hunt 2: Doppelzählung
 - Stille Fehler erkennen
 
-[Kahoot öffnen →](https://play.kahoot.it/v2/lobby?quizId=770e0894-11e9-4fd8-b8f5-682f64b1b25d)
+[Kahoot öffnen →](https://play.kahoot.it/v2/?quizId=09152d59-7781-4ef1-8d41-4a494f80357a&hostId=5cd1e16c-12ee-4aae-ab95-0cb9fdfa0473)
 :::
 ::::
 
@@ -822,7 +891,7 @@ Arbeitslose ✔ → [Schulden]{.hier} → BIP → Merge → Karte
 Ist Ulm stärker oder schwächer verschuldet als der Durchschnitt aller Gemeinden?
 :::
 
-Auflösung am Ende des Abschnitts – mit Ihrem eigenen Code.
+Auflösung am Ende des Abschnitts.
 
 ```{r}
 #| echo: false
@@ -831,7 +900,7 @@ countdown(minutes = 1, bottom = 0, right = 0)
 
 ## Pro-Kopf-Verschuldung auf Gemeindeebene
 
-- Gemeindeebene, Jahr 2023, Querschnittsdaten
+- Gemeindeebene, Jahr 2024, Querschnittsdaten
 - Vom Statistischen Bundesamt direkt als Excel-Tabelle heruntergeladen ✔
 
 ::: {.question}
@@ -840,7 +909,7 @@ Welche Tabellenblätter sollten wir nutzen?
 
 ```{r}
 #| output-location: fragment
-schulden_pfad <- file.path(datenpfad, "Schulden_2023.xlsx")
+schulden_pfad <- file.path(datenpfad, "Schulden_2024.xlsx")
 excel_sheets(schulden_pfad)
 ```
 
@@ -896,10 +965,10 @@ schulden_sh$Bundesland <- "SH"
 head(schulden_sh, 4)
 ```
 
-## ✍️ Jetzt Sie: alle Bundesländer
+## ✍️ Jetzt Sie: alle Bundesländer {.smaller}
 
 ::: {.instructions}
-**Teams von zwei Personen, 20 Minuten:** Code, der **alle Bundesländer** einliest und zu *einem* Datensatz zusammenfügt. Nutzen Sie **Chat AI** – und prüfen Sie den Code, bevor Sie ihn posten:
+**Teams von zwei Personen, 20 Minuten:** Code, der **alle Bundesländer** einliest und zu *einem* Datensatz zusammenfügt. Nutzen Sie **Chat AI** und posten Sie ihren Code hier (am Besten vorher prüfen):
 :::
 
 - `nrow()` – plausibel für ~11.000 Gemeinden?
@@ -926,7 +995,7 @@ countdown(minutes = 20, bottom = 0, right = 0)
 #| eval: false
 #| code-line-numbers: true
 sheet_names <- excel_sheets(schulden_pfad)
-sheet_read  <- sheet_names[6:18]
+sheet_read  <- sheet_names[7:19]
 
 for (s in sheet_read) {
   tmp <- read_xlsx(schulden_pfad, sheet = s, skip = 5)[1:7]
@@ -936,7 +1005,7 @@ for (s in sheet_read) {
 ```
 
 ::: {.instructions}
-**1 Minute:** Läuft ohne Fehler. Welche Zeile? Was steht am Ende in `schulden_individuell`? Welcher Check zeigt es?
+**1 Minute:** Läuft ohne Fehler. Welche Zeile? Was steht am Ende in `schulden_individuell`?
 :::
 
 ```{r}
@@ -946,14 +1015,14 @@ countdown(minutes = 1, bottom = 0, right = 0)
 
 . . .
 
-Zeile 7 **überschreibt** in jedem Durchlauf – am Ende ist nur Thüringen übrig. `count(Bundesland)` zeigt eine einzige Zeile.
+Zeile 7 **überschreibt** in jedem Durchlauf und am Ende ist nur Thüringen übrig. `count(Bundesland)` zeigt eine einzige Zeile.
 
 ## Lösung: `map()` statt Schleife
 
 ```{r einlesen_alle}
 #| code-line-numbers: "1-2|4-5|7-10"
 sheet_names <- excel_sheets(schulden_pfad)
-sheet_read  <- sheet_names[6:18]           # Blätter 6-18: die Bundesländer
+sheet_read  <- sheet_names[7:19]           # Blätter 7-19: die Bundesländer
 
 spalten <- c("Regionalschluessel", "Gemeinde", "Verwaltungsform",
              "Einwohner", "Schulden_gesamt", "Veraenderung_Vorjahr", "Schulden_pro_kopf")
@@ -1009,20 +1078,21 @@ as.numeric(c("{15 653}", "15 653", "15653"))
 . . .
 
 ::: {.alert}
-Eine **Warnung**, keine Fehlermeldung. Der Code läuft weiter – mit `NA` statt Zahlen. Wer Warnungen pauschal abschaltet, sieht das nie.
+Eine **Warnung**, keine Fehlermeldung. Der Code läuft weiter, aber mit "NA" statt Zahlen. Daher ist es wichtig Warnungen nicht zu ignorieren, sondern diesen nachzugehen.
 :::
 
 ## Variablen umformen
 
 ```{r schulden_umformen}
-#| code-line-numbers: "1-2|4-6|7-9"
+#| code-line-numbers: "1-2|4-6|7|8-10"
 # Hilfsfunktion: Klammern und Leerzeichen entfernen, dann in Zahl umwandeln
 zahl <- function(x) as.numeric(gsub("[[:space:]{}]", "", x))
 
 schulden_bereinigt <- schulden_individuell |>
   filter(!is.na(Regionalschluessel)) |>
-  mutate(across(c(Einwohner, Schulden_gesamt, Schulden_pro_kopf), zahl),
-         landkreis = str_extract(Regionalschluessel, "^.{5}")) |>
+  mutate(across(c(Einwohner, Schulden_gesamt, Schulden_pro_kopf), zahl)) |>
+  filter(nchar(Regionalschluessel) == 12) |>   # nur echte Gemeinden – Landkreis-, Verwaltungs- und Summenzeilen raus!
+  mutate(landkreis = str_extract(Regionalschluessel, "^.{5}")) |>
   select(-Veraenderung_Vorjahr) |>
   filter(!is.na(Einwohner))        # manche Einheiten haben keine Einwohnerangabe
 ```
@@ -1050,7 +1120,7 @@ Was machen `gsub("[[:space:]{}]", "", x)` und `str_extract(x, "^.{5}")` hier gen
 | `^[[:digit:]]+\\s*` | Ziffern am Anfang, dann optionale Leerzeichen |
 
 ::: {.callout-tip appearance="simple"}
-Regex von Chat AI schreiben lassen ist in Ordnung – aber **immer** auf einem Randfall testen (Bug Hunt 1).
+Lassen Sie ihre Regex von Chat AI schreiben, aber achten Sie in der Prüfung auf die Randfälle (Bug Hunt 1).
 :::
 
 ## Interne Validität: Schulden pro Kopf
@@ -1077,16 +1147,31 @@ range(schulden_consistency$differenz, na.rm = TRUE)
 ± 50 Cent – Rundung auf ganze Euro in der Quelle. Intern konsistent.
 :::
 
-## Auflösung: Ihr Landkreis
+## Auflösung: Ihr Landkreis {.smaller}
 
 ```{r}
 schulden_bereinigt |>
-  filter(str_detect(Gemeinde, "^Ulm|^Biberach")) |>
-  select(Regionalschluessel, Gemeinde, Einwohner, Schulden_pro_kopf)
+  filter(str_detect(Gemeinde, "Ulm, Stadtkreis|Biberach an der Riß")) |>
+  select(Gemeinde, Einwohner, Schulden_pro_kopf)
+```
+
+::: {.instructions}
+**Jetzt Sie:** Suchen Sie **Ihre** Gemeinde – Suchbegriff unten ersetzen, dann *Run Code* (Teil des Namens genügt):
+:::
+
+```{webr}
+#| autorun: false
+library(dplyr); library(stringr); library(readr)
+schulden <- read_csv("data-webr/schulden_gemeinden.csv",
+                     col_types = cols(Regionalschluessel = "c"))
+
+schulden |>
+  filter(str_detect(Gemeinde, regex("Ulm", ignore_case = TRUE))) |>
+  select(Gemeinde, Einwohner, Schulden_pro_kopf)
 ```
 
 ::: {.notes}
-Gemeindename prüfen: "Ulm, Stadt" oder "Ulm, Universitätsstadt" – ^Ulm fängt beides. Alb-Donau-Kreis ist kein Gemeindename; der Landkreiswert kommt im Merge-Abschnitt (08425).
+Namensformat 2024: Die Verwaltungsform steht im Namen, z.B. "Stadt Ulm, Stadtkreis" oder "Große Kreisstadt Biberach an der Riß" – deshalb matcht `^Ulm` nicht (das fängt stattdessen Ulmen/Ulmet in RP). Alb-Donau-Kreis ist kein Gemeindename; der Landkreiswert kommt im Merge-Abschnitt (08425). Die webR-Suche nutzt `str_detect(..., ignore_case)` – "Teil des Namens" reicht.
 :::
 
 ## Auflösung: Ulm im Vergleich
@@ -1094,8 +1179,8 @@ Gemeindename prüfen: "Ulm, Stadt" oder "Ulm, Universitätsstadt" – ^Ulm fäng
 ```{r}
 #| echo: false
 #| fig-width: 10
-#| fig-height: 4.3
-ulm <- schulden_bereinigt |> filter(str_detect(Gemeinde, "^Ulm")) |> slice(1)
+#| fig-height: 3.9
+ulm <- schulden_bereinigt |> filter(str_detect(Gemeinde, "Ulm, Stadtkreis")) |> slice(1)
 schulden_bereinigt |>
   filter(Schulden_pro_kopf < quantile(Schulden_pro_kopf, 0.99, na.rm = TRUE)) |>
   ggplot(aes(x = Schulden_pro_kopf)) +
@@ -1103,7 +1188,7 @@ schulden_bereinigt |>
   geom_vline(xintercept = ulm$Schulden_pro_kopf, colour = "#1b5e20", linewidth = 1.2) +
   annotate("text", x = ulm$Schulden_pro_kopf, y = Inf, label = "  Ulm", hjust = 0, vjust = 1.5,
            colour = "#1b5e20", size = 5) +
-  labs(x = "Schulden pro Kopf 2023 (Euro, Gemeinden; oberstes 1 % ausgeblendet)", y = "Anzahl Gemeinden") +
+  labs(x = "Schulden pro Kopf 2024 (Euro, Gemeinden; oberstes 1 % ausgeblendet)", y = "Anzahl Gemeinden") +
   theme_minimal(base_size = 15)
 ```
 
@@ -1174,7 +1259,7 @@ Außerdem:
 ## Einlesen
 
 ```{r}
-bip_pfad  <- file.path(datenpfad, "BIP_2023.xlsx")
+bip_pfad  <- file.path(datenpfad, "BIP_2024.xlsx")
 bip       <- read_xlsx(bip_pfad, sheet = "1.1", skip = 4)
 erwerb    <- read_xlsx(bip_pfad, sheet = "3.1", skip = 4)
 einwohner <- read_xlsx(bip_pfad, sheet = "5",   skip = 4)
@@ -1232,7 +1317,7 @@ Einen Fehler dann nur **einmal** beheben. Fragen Sie Chat AI ruhig: "Fasse die d
 
 ```{r}
 #| eval: false
-bip_long <- pivot_longer(bip_wide, cols = `1992`:`2022`, names_to = "Jahr", values_to = "bip")
+bip_long <- pivot_longer(bip_wide, cols = `1992`:`2024`, names_to = "Jahr", values_to = "bip")
 ```
 
 ```
@@ -1252,7 +1337,7 @@ countdown(minutes = 1, bottom = 0, right = 0)
 ## Fehlermeldungen lesen: Prüfung
 
 ```{r}
-bip_wide |> select(`1992`, `1999`, `2000`, `2022`) |> sapply(class)
+bip_wide |> select(`1992`, `1999`, `2000`, `2024`) |> sapply(class)
 ```
 
 . . .
@@ -1263,7 +1348,7 @@ bip_wide |> select(`1992`, `1999`, `2000`, `2022`) |> sapply(class)
 tidyverse-Fehlermeldungen nennen fast immer die betroffenen Spalten **und** die Klassen. Lesen, nicht raten.
 :::
 
-## Umwandeln – und die Warnung ernst nehmen
+## Umwandeln – und die Warnung ernst nehmen {.smaller}
 
 ```{r}
 #| warning: true
@@ -1369,9 +1454,13 @@ einwohner_long
 r <- .result
 ok_form  <- is.data.frame(r) && all(c("Regionalschluessel", "Jahr", "einwohner") %in% names(r)) && is.numeric(r$Jahr)
 ok_skala <- ok_form && max(r$einwohner, na.rm = TRUE) > 1e6
-if (ok_form && ok_skala) list(correct = TRUE, message = "tidy und in Personen – Berlin hat jetzt > 3 Mio. Einwohner, nicht 3.600.")
-else if (ok_form) list(correct = FALSE, message = "Format stimmt, aber die Einheit nicht: Die größte Stadt hat > 1 Mio. Einwohner. Faktor vergessen?")
-else list(correct = FALSE, message = "Erwartet werden genau die Spalten Regionalschluessel, Jahr (numerisch) und einwohner.")
+if (ok_form && ok_skala) {
+  list(correct = TRUE, message = "tidy und in Personen – Berlin hat jetzt > 3 Mio. Einwohner, nicht 3.600.")
+} else if (ok_form) {
+  list(correct = FALSE, message = "Format stimmt, aber die Einheit nicht: Die größte Stadt hat > 1 Mio. Einwohner. Faktor vergessen?")
+} else {
+  list(correct = FALSE, message = "Erwartet werden genau die Spalten Regionalschluessel, Jahr (numerisch) und einwohner.")
+}
 ```
 
 ```{r}
@@ -1399,13 +1488,13 @@ einwohner_long <- ins_long(einwohner_wide, "einwohner", 1000)
 ## Konsistenzcheck: Ihre Aufgabe
 
 ::: {.instructions}
-Vergleichen Sie die **Einwohnerzahlen** aus dem BIP-Datensatz (Blatt 5, Jahr 2022) mit denen aus dem Schulden-Datensatz (2023) – auf Landkreisebene.
+Vergleichen Sie die **Einwohnerzahlen** aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) – auf Landkreisebene.
 :::
 
 Leitfragen:
 
 - Welche Schlüssel-Länge brauchen Sie in beiden Datensätzen?
-- Wie groß dürfen die Abweichungen sein (2022 vs. 2023)?
+- Wie groß dürfen die Abweichungen sein (beide beziehen sich auf 2024)?
 - Welche Landkreise fallen auf – und warum?
 
 ::: {.callout-tip appearance="simple"}
@@ -1447,7 +1536,7 @@ Nun fügen wir die Datensätze zu **einem** zusammen.
 Vorher:
 
 - Verschuldung auf **Landkreisebene** aggregieren
-- BIP auf das Jahr **2022** einschränken (letztes verfügbares Jahr)
+- BIP auf das Jahr **2024** einschränken (letztes verfügbares Jahr)
 - Datensätze anhand des **Regionalschlüssels** verbinden
 
 Die Geodaten speichern wir separat und mergen sie bei Bedarf hinzu.
@@ -1523,8 +1612,11 @@ soll <- .envir_prep$schulden_bw |> dplyr::group_by(landkreis) |>
   dplyr::summarise(s = sum(Schulden_gesamt) / sum(Einwohner))
 ok <- is.data.frame(r) && all(c("landkreis", "Schulden_pro_kopf_lk") %in% names(r)) &&
   isTRUE(all.equal(sort(r$Schulden_pro_kopf_lk), sort(soll$s), tolerance = 1e-6))
-if (ok) list(correct = TRUE, message = "Gewichtet richtig gerechnet. Vergleichen Sie für Ulm (08421) einmal mit dem ungewichteten Mittelwert.")
-else list(correct = FALSE, message = "Die Werte entsprechen noch nicht Summe(Schulden) / Summe(Einwohner) je Landkreis.")
+if (ok) {
+  list(correct = TRUE, message = "Gewichtet richtig gerechnet. Vergleichen Sie für Ulm (08421) einmal mit dem ungewichteten Mittelwert.")
+} else {
+  list(correct = FALSE, message = "Die Werte entsprechen noch nicht Summe(Schulden) / Summe(Einwohner) je Landkreis.")
+}
 ```
 
 ## Schulden auf Landkreisebene
@@ -1550,16 +1642,16 @@ schulden_bereinigt |>
   summarise(mittelwert_ki = mean(Schulden_pro_kopf), gewichtet = sum(Schulden_gesamt) / sum(Einwohner))
 ```
 
-## Erwerbstätige und Einwohner 2022
+## Erwerbstätige und Einwohner 2024
 
 ```{r kombi2}
 #| code-line-numbers: "1-3|5-7"
 erwerb_kombi <- erwerb_long |>
-  filter(nchar(Regionalschluessel) == 5 & Jahr == 2022) |>
+  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |>
   select(-Jahr)
 
 einwohner_kombi <- einwohner_long |>
-  filter(nchar(Regionalschluessel) == 5 & Jahr == 2022) |>
+  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |>
   select(-Jahr)
 ```
 
@@ -1572,7 +1664,7 @@ Chat AI, gefragt nach "BIP pro Kopf":
 #| code-line-numbers: true
 bip_kombi_ki <- left_join(bip_long, einwohner_long, by = "Regionalschluessel") |>
   mutate(bip_pro_kopf = bip / einwohner) |>
-  filter(nchar(Regionalschluessel) == 5 & Jahr == 2022)
+  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024)
 ```
 
 ::: {.instructions}
@@ -1593,7 +1685,7 @@ left_join(bip_long, einwohner_long, by = "Regionalschluessel") |> nrow()
 
 . . .
 
-Jedes BIP-Jahr wird mit **jedem** Einwohner-Jahr kombiniert (31 × 31). dplyr warnt vor der *many-to-many*-Beziehung – und `filter(Jahr == 2022)` schlägt danach fehl, weil es nur noch `Jahr.x` und `Jahr.y` gibt.
+Jedes BIP-Jahr wird mit **jedem** Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der *many-to-many*-Beziehung – und `filter(Jahr == 2024)` schlägt danach fehl, weil es nur noch `Jahr.x` und `Jahr.y` gibt.
 
 ::: {.callout-tip appearance="simple"}
 **Faustregel:** Nach jedem `join` die Zeilenzahl prüfen. Bei `left_join` darf sie nicht steigen – sonst fehlt ein Schlüssel.
@@ -1601,7 +1693,7 @@ Jedes BIP-Jahr wird mit **jedem** Einwohner-Jahr kombiniert (31 × 31). dplyr wa
 
 ## ✍️ Jetzt Sie: Bug Hunt 5 reparieren {.bughunt}
 
-`bip_long` und `einwohner_long` (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie `bip_pro_kopf` für 2022. Die Zeilenzahl von `bip_long` ist `nrow(bip_long)` – prüfen Sie sie nach dem Join!
+`bip_long` und `einwohner_long` (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie `bip_pro_kopf` für 2024. Die Zeilenzahl von `bip_long` ist `nrow(bip_long)` – prüfen Sie sie nach dem Join!
 
 ```{webr}
 #| setup: true
@@ -1615,7 +1707,7 @@ einwohner_long <- read_csv("data-webr/einwohner_long_lk.csv", col_types = cols(R
 #| exercise: ex_bh5
 bip_kombi <- left_join(bip_long, einwohner_long, by = "Regionalschluessel") |>
   mutate(bip_pro_kopf = bip / einwohner) |>
-  filter(Jahr == 2022)
+  filter(Jahr == 2024)
 bip_kombi
 ```
 
@@ -1632,7 +1724,7 @@ Ein Panel hat **zwei** Schlüssel: Region *und* Jahr. `by = c("Regionalschluesse
 ```r
 bip_kombi <- left_join(bip_long, einwohner_long, by = c("Regionalschluessel", "Jahr")) |>
   mutate(bip_pro_kopf = bip / einwohner) |>
-  filter(Jahr == 2022)
+  filter(Jahr == 2024)
 bip_kombi
 ```
 :::
@@ -1644,12 +1736,15 @@ bip_kombi
 r <- .result
 n_lk <- length(unique(.envir_prep$bip_long$Regionalschluessel))
 ok <- is.data.frame(r) && "bip_pro_kopf" %in% names(r) && "Jahr" %in% names(r) &&
-  nrow(r) == n_lk && all(r$Jahr == 2022) &&
+  nrow(r) == n_lk && all(r$Jahr == 2024) &&
   median(r$bip_pro_kopf, na.rm = TRUE) > 20000 && median(r$bip_pro_kopf, na.rm = TRUE) < 200000
-if (ok) list(correct = TRUE, message = paste0("Genau ", n_lk, " Zeilen – eine je Landkreis – und ein plausibles BIP pro Kopf."))
-else if (is.data.frame(r) && !"Jahr" %in% names(r))
+if (ok) {
+  list(correct = TRUE, message = paste0("Genau ", n_lk, " Zeilen – eine je Landkreis – und ein plausibles BIP pro Kopf."))
+} else if (is.data.frame(r) && !"Jahr" %in% names(r)) {
   list(correct = FALSE, message = "Es gibt kein `Jahr` mehr, sondern `Jahr.x` und `Jahr.y` – der Join hat das Jahr nicht als Schlüssel benutzt.")
-else list(correct = FALSE, message = "Zeilenzahl oder Größenordnung stimmen noch nicht. Erwartet: eine Zeile je Landkreis, BIP pro Kopf in der Größenordnung 30.000–100.000 €.")
+} else {
+  list(correct = FALSE, message = "Zeilenzahl oder Größenordnung stimmen noch nicht. Erwartet: eine Zeile je Landkreis, BIP pro Kopf in der Größenordnung 30.000–100.000 €.")
+}
 ```
 
 ## BIP pro Kopf
@@ -1658,7 +1753,7 @@ else list(correct = FALSE, message = "Zeilenzahl oder Größenordnung stimmen no
 #| code-line-numbers: "1|2|3-4"
 bip_kombi <- left_join(bip_long, einwohner_long, by = c("Regionalschluessel", "Jahr")) |>
   mutate(bip_pro_kopf = bip / einwohner) |>
-  filter(nchar(Regionalschluessel) == 5 & Jahr == 2022) |>
+  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |>
   select(-c(Jahr, einwohner))
 nrow(bip_kombi)
 summary(bip_kombi$bip_pro_kopf)
@@ -1721,7 +1816,7 @@ gesamtdaten |>
 ```{r}
 #| echo: false
 #| fig-width: 10
-#| fig-height: 4.8
+#| fig-height: 4.2
 gesamtdaten |>
   mutate(alo_je_100_ew = 100 * total_alo / Einwohner,
          region = if_else(bundesland %in% c("11", "12", "13", "14", "15", "16"), "Ost (inkl. Berlin)", "West"),
@@ -1736,7 +1831,7 @@ gesamtdaten |>
   geom_text(aes(label = label), colour = "black", nudge_y = 0.35, size = 4.5, na.rm = TRUE) +
   scale_x_log10() +
   scale_colour_manual(values = c("#b85c38", "#1b5e20"), name = NULL) +
-  labs(x = "BIP pro Kopf 2022 (Tsd. Euro, log-Skala)", y = "Arbeitslose je 100 Einwohner (2023)") +
+  labs(x = "BIP pro Kopf 2024 (Tsd. Euro, log-Skala)", y = "Arbeitslose je 100 Einwohner (2024)") +
   theme_minimal(base_size = 15) +
   theme(legend.position = "top")
 ```
@@ -1879,6 +1974,9 @@ write_csv(schulden_bereinigt |>
             filter(Bundesland == "BW") |>
             select(Regionalschluessel, Gemeinde, landkreis, Einwohner, Schulden_gesamt, Schulden_pro_kopf),
           "data-webr/schulden_bw.csv")
+write_csv(schulden_bereinigt |>
+            select(Regionalschluessel, Gemeinde, Einwohner, Schulden_pro_kopf),
+          "data-webr/schulden_gemeinden.csv")
 write_csv(bip_long       |> filter(nchar(Regionalschluessel) == 5), "data-webr/bip_long_lk.csv")
 write_csv(einwohner_long |> filter(nchar(Regionalschluessel) == 5), "data-webr/einwohner_long_lk.csv")
 ```

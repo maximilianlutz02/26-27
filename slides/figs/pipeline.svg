@@ -1,37 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 345" width="100%" font-family="Lato, Helvetica, Arial, sans-serif">
-<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1b5e20"/></marker></defs>
-<rect x="20" y="18" width="290" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="165.0" y="39" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Arbeitslose</text>
-<text x="165.0" y="63" text-anchor="middle" font-size="18" fill="#14301b">Bundesagentur für Arbeit</text>
-<text x="165.0" y="87" text-anchor="middle" font-size="18" fill="#14301b">Gemeindeebene</text>
-<rect x="20" y="131" width="290" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="165.0" y="152" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Schulden</text>
-<text x="165.0" y="176" text-anchor="middle" font-size="18" fill="#14301b">Statistisches Bundesamt</text>
-<text x="165.0" y="200" text-anchor="middle" font-size="18" fill="#14301b">Gemeindeebene</text>
-<rect x="20" y="244" width="290" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="165.0" y="265" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">BIP, Erwerbstätige, Einwohner</text>
-<text x="165.0" y="289" text-anchor="middle" font-size="18" fill="#14301b">Statistische Ämter (VGRdL)</text>
-<text x="165.0" y="313" text-anchor="middle" font-size="18" fill="#14301b">Landkreisebene</text>
-<rect x="360" y="131" width="175" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="447.5" y="164" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Einlesen &</text>
-<text x="447.5" y="188" text-anchor="middle" font-size="18" fill="#14301b">bereinigen</text>
-<rect x="575" y="131" width="175" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="662.5" y="164" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Konsistenz-</text>
-<text x="662.5" y="188" text-anchor="middle" font-size="18" fill="#14301b">checks</text>
-<rect x="790" y="131" width="175" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="877.5" y="164" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Aggregation</text>
-<text x="877.5" y="188" text-anchor="middle" font-size="18" fill="#14301b">auf Landkreis</text>
-<rect x="1005" y="131" width="175" height="78" rx="8" fill="#dcebdc" stroke="#1b5e20" stroke-width="2.5"/>
-<text x="1092.5" y="164" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Merge über</text>
-<text x="1092.5" y="188" text-anchor="middle" font-size="18" fill="#14301b">Regionalschlüssel</text>
-<path d="M310,57.0 C350,57.0 320,170.0 360,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M310,170.0 C350,170.0 320,170.0 360,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M310,283.0 C350,283.0 320,170.0 360,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M535,170.0 C575,170.0 535,170.0 575,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M750,170.0 C790,170.0 750,170.0 790,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M965,170.0 C1005,170.0 965,170.0 1005,170.0" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<path d="M1092.5,209 L1092.5,262" fill="none" stroke="#1b5e20" stroke-width="2.5" marker-end="url(#ah)"/>
-<rect x="960" y="262" width="265" height="60" rx="8" fill="#ffffff" stroke="#6b6b6b" stroke-width="2.5" stroke-dasharray="8 6"/>
-<text x="1092.5" y="298" text-anchor="middle" font-size="18" fill="#14301b" font-weight="600">Karte & Analyse (Teil 2 / 3)</text>
-<text x="20" y="339" font-size="14" fill="#555">Grün = Teil 1 (heute)</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 360" width="100%" font-family="Lato, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#1b5e20"/>
+    </marker>
+    <style>
+      .src     { fill:#eaf4ea; stroke:#2e7d32; stroke-width:2.5; }
+      .step    { fill:#1b5e20; }
+      .future  { fill:#ffffff; stroke:#8a8a8a; stroke-width:2.5; stroke-dasharray:8 6; }
+      .edge    { fill:none; stroke:#1b5e20; stroke-width:2.5; }
+      text          { text-anchor:middle; }
+      .lgd          { text-anchor:start; }
+      .title        { font-size:18px; font-weight:700; }
+      .sub          { font-size:15px; }
+      .on-light     { fill:#184a1e; }
+      .on-light-sub { fill:#4a6b50; }
+      .on-dark      { fill:#ffffff; }
+      .on-dark-sub  { fill:#d7e8d7; }
+      .grey         { fill:#5a5a5a; }
+      .grey-sub     { fill:#7a7a7a; }
+    </style>
+  </defs>
+
+  <!-- Datenquellen (links, gleich große Kästen) -->
+  <rect class="src" x="20" y="20"  width="320" height="80" rx="10"/>
+  <text class="title on-light"    x="180" y="50">Arbeitslose</text>
+  <text class="sub on-light-sub"  x="180" y="72">Bundesagentur für Arbeit</text>
+  <text class="sub on-light-sub"  x="180" y="92">Gemeindeebene</text>
+
+  <rect class="src" x="20" y="130" width="320" height="80" rx="10"/>
+  <text class="title on-light"    x="180" y="160">Schulden</text>
+  <text class="sub on-light-sub"  x="180" y="182">Statistisches Bundesamt</text>
+  <text class="sub on-light-sub"  x="180" y="202">Gemeindeebene</text>
+
+  <rect class="src" x="20" y="240" width="320" height="80" rx="10"/>
+  <text class="title on-light"    x="180" y="270">BIP · Erwerbstätige · Einwohner</text>
+  <text class="sub on-light-sub"  x="180" y="292">Statistische Ämter (VGRdL)</text>
+  <text class="sub on-light-sub"  x="180" y="312">Landkreisebene</text>
+
+  <!-- Verarbeitungsschritte (grün = Teil 1) -->
+  <rect class="step" x="400"  y="130" width="180" height="80" rx="10"/>
+  <text class="title on-dark"     x="490"  y="164">Einlesen &amp;</text>
+  <text class="title on-dark"     x="490"  y="188">bereinigen</text>
+
+  <rect class="step" x="612"  y="130" width="180" height="80" rx="10"/>
+  <text class="title on-dark"     x="702"  y="164">Konsistenz-</text>
+  <text class="title on-dark"     x="702"  y="188">checks</text>
+
+  <rect class="step" x="824"  y="130" width="180" height="80" rx="10"/>
+  <text class="title on-dark"     x="914"  y="164">Aggregation</text>
+  <text class="sub on-dark-sub"   x="914"  y="189">auf Landkreisebene</text>
+
+  <rect class="step" x="1036" y="130" width="180" height="80" rx="10"/>
+  <text class="title on-dark"     x="1126" y="164">Merge über</text>
+  <text class="sub on-dark-sub"   x="1126" y="189">Regionalschlüssel</text>
+
+  <!-- Zukunft (Teil 2 / 3) -->
+  <rect class="future" x="1011" y="258" width="230" height="68" rx="10"/>
+  <text class="title grey"        x="1126" y="289">Karte &amp; Analyse</text>
+  <text class="sub grey-sub"      x="1126" y="311">Teil 2 / 3</text>
+
+  <!-- Pfeile: Quellen -> Einlesen -->
+  <path class="edge" d="M340,60  C372,60  368,170 400,170" marker-end="url(#ah)"/>
+  <path class="edge" d="M340,170 L400,170"                 marker-end="url(#ah)"/>
+  <path class="edge" d="M340,280 C372,280 368,170 400,170" marker-end="url(#ah)"/>
+
+  <!-- Pfeile: Kette -->
+  <path class="edge" d="M580,170  L612,170"  marker-end="url(#ah)"/>
+  <path class="edge" d="M792,170  L824,170"  marker-end="url(#ah)"/>
+  <path class="edge" d="M1004,170 L1036,170" marker-end="url(#ah)"/>
+  <path class="edge" d="M1126,210 L1126,255" marker-end="url(#ah)"/>
+
+  <!-- Legende -->
+  <rect x="20" y="338" width="24" height="15" rx="3" class="step"/>
+  <text class="sub lgd" x="52"  y="350" fill="#333">Teil 1 (heute)</text>
+  <rect x="190" y="338" width="24" height="15" rx="3" fill="#ffffff" stroke="#8a8a8a" stroke-width="2" stroke-dasharray="6 4"/>
+  <text class="sub lgd" x="222" y="350" fill="#333">Teil 2 / 3</text>
 </svg>
