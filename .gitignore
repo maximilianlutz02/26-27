@@ -63,3 +63,4 @@ slides/*_cache/
 
 # Entpackte Excel-Datei aus dem Arbeitslose-ZIP (wird im Setup wieder gelöscht)
 slides/*.xlsx
+.positai
