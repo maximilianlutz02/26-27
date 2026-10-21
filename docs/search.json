@@ -4,7 +4,7 @@
     "href": "slides/intro_projektkurs_data-science.html#kurz-umfrage-handzeichen",
     "title": "Projektkurs Data Science & Business Analytics",
     "section": "Kurz-Umfrage (Handzeichen)",
-    "text": "Kurz-Umfrage (Handzeichen)\n\nDrei Fragen und bitte antworten Sie ehrlich:\n\n\n\nWer hat schon einmal programmiert, irgendeine Sprache, auch Excel-Makros?\nWer hat R schon einmal geöffnet?\nWer hat in den letzten 7 Tagen ChatGPT, Gemini oder Claude benutzt?\n\n\n\n\n\n\n\n\n\nTypisches Bild: 1 → ein Drittel, 2 → fast niemand, 3 → fast alle. Dieser Kurs holt Sie bei 3 ab und bringt Sie zu 1 und 2. Mein Ziel ist es, dass Sie beurteilen können, ob der Code, den die KI Ihnen schreibt, stimmt."
+    "text": "Kurz-Umfrage (Handzeichen)\n\nDrei Fragen und bitte antworten Sie ehrlich:\n\n\nWer hat schon einmal programmiert, irgendeine Sprache, auch Excel-Makros?\nWer hat R schon einmal geöffnet?\nWer hat in den letzten 7 Tagen ChatGPT, Gemini oder Claude benutzt?\n\n\n\n\n\n\n\n\nTypisches Bild: 1 → ein Drittel, 2 → fast niemand, 3 → fast alle. Dieser Kurs holt Sie bei 3 ab und bringt Sie zu 1 und 2. Mein Ziel ist es, dass Sie beurteilen können, ob der Code, den die KI Ihnen schreibt, stimmt."
   },
   {
     "objectID": "slides/intro_projektkurs_data-science.html#was-sie-am-ende-können",
@@ -95,14 +95,14 @@
     "href": "slides/intro_projektkurs_data-science.html#was-sie-in-den-projekten-lernen",
     "title": "Projektkurs Data Science & Business Analytics",
     "section": "Was Sie in den Projekten lernen",
-    "text": "Was Sie in den Projekten lernen\n\n\nAnalysen auf echten Daten\nDaten selbst herunterladen und zusammenführen\nDeskriptive Analysen und Grafiken, die eine Aussage transportieren\nDie Analyse so beschreiben, dass andere sie nachvollziehen können\nSommersemester 2027: Statistische Auswertungen auf Beobachtungsdaten und Experimentaldaten"
+    "text": "Was Sie in den Projekten lernen\n\nAnalysen auf echten Daten\nDaten selbst herunterladen und zusammenführen\nDeskriptive Analysen und Grafiken, die eine Aussage transportieren\nDie Analyse so beschreiben, dass andere sie nachvollziehen können\nSommersemester 2027: Statistische Auswertungen auf Beobachtungsdaten und Experimentaldaten"
   },
   {
     "objectID": "slides/intro_projektkurs_data-science.html#peer-review-sie-werden-zum-gutachter",
     "href": "slides/intro_projektkurs_data-science.html#peer-review-sie-werden-zum-gutachter",
     "title": "Projektkurs Data Science & Business Analytics",
     "section": "Peer Review: Sie werden zum Gutachter",
-    "text": "Peer Review: Sie werden zum Gutachter\n\nNach Projekt 2 und 3 bekommen Sie die Ausarbeitung eines anderen Teams zur Einschätzung.\n\n\n\nWarum machen wir das?\n\n\n\nSie sehen, wie andere dieselbe Aufgabe gelöst haben und was Sie daraus mitnehmen\nKritisch lesen ist eine Fähigkeit, die Sie später bei jedem KI-Output brauchen\nRekapitulation des Projekts = automatische Klausurvorbereitung\n\n\n\n\n\nReview Reports sind individuelle Abgaben und die Vorleistung für die Klausur: Das Team, das Ihren Report erhält, rankt alle Reports nach Nützlichkeit. Mindestens einer Ihrer beiden Reports muss auf Platz 2 oder besser landen."
+    "text": "Peer Review: Sie werden zum Gutachter\n\nNach Projekt 2 und 3 bekommen Sie die Ausarbeitung eines anderen Teams zur Einschätzung.\n\n\n\nWarum machen wir das?\n\n\nSie sehen, wie andere dieselbe Aufgabe gelöst haben und was Sie daraus mitnehmen\nKritisch lesen ist eine Fähigkeit, die Sie später bei jedem KI-Output brauchen\nRekapitulation des Projekts = automatische Klausurvorbereitung\n\n\n\n\nReview Reports sind individuelle Abgaben und die Vorleistung für die Klausur: Das Team, das Ihren Report erhält, rankt alle Reports nach Nützlichkeit. Mindestens einer Ihrer beiden Reports muss auf Platz 2 oder besser landen."
   },
   {
     "objectID": "slides/intro_projektkurs_data-science.html#notengebung",
@@ -151,7 +151,7 @@
     "href": "slides/intro_projektkurs_data-science.html#wo-bekommen-sie-hilfe",
     "title": "Projektkurs Data Science & Business Analytics",
     "section": "Wo bekommen Sie Hilfe?",
-    "text": "Wo bekommen Sie Hilfe?\n\n\nForum auf Moodle: erste Adresse für alle fachlichen Fragen. Bevor Sie eine Mail schreiben: Forum. Meist haben fünf andere dieselbe Frage.\n\nWie man Fragen stellt, damit sie schnell beantwortet werden: Wie stelle ich Fragen im Forum?\n\nTutorium: in der Projektphase ein fester Termin pro Woche und Team, online mit Break-out-Räumen\nE-Mail an den Dozenten: für Noten und persönliche Anliegen\n\n\n\n\n\n\n\n\n\nWenn Sie die Antwort auf eine Forumsfrage wissen: posten Sie sie. Erklären ist die beste Art zu lernen."
+    "text": "Wo bekommen Sie Hilfe?\n\nForum auf Moodle: erste Adresse für alle fachlichen Fragen. Bevor Sie eine Mail schreiben: Forum. Meist haben fünf andere dieselbe Frage.\n\nWie man Fragen stellt, damit sie schnell beantwortet werden: Wie stelle ich Fragen im Forum?\n\nTutorium: in der Projektphase ein fester Termin pro Woche und Team, online mit Break-out-Räumen\nE-Mail an den Dozenten: für Noten und persönliche Anliegen\n\n\n\n\n\n\n\n\nWenn Sie die Antwort auf eine Forumsfrage wissen: posten Sie sie. Erklären ist die beste Art zu lernen."
   },
   {
     "objectID": "slides/intro_projektkurs_data-science.html#tutorium",
