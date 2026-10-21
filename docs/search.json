@@ -1,0 +1,765 @@
+[
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#kurz-umfrage-handzeichen",
+    "href": "slides/intro_projektkurs_data-science.html#kurz-umfrage-handzeichen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Kurz-Umfrage (Handzeichen)",
+    "text": "Kurz-Umfrage (Handzeichen)\n\nDrei Fragen und bitte antworten Sie ehrlich:\n\n\n\nWer hat schon einmal programmiert, irgendeine Sprache, auch Excel-Makros?\nWer hat R schon einmal geöffnet?\nWer hat in den letzten 7 Tagen ChatGPT, Gemini oder Claude benutzt?\n\n\n\n\n\n\n\n\n\nTypisches Bild: 1 → ein Drittel, 2 → fast niemand, 3 → fast alle. Dieser Kurs holt Sie bei 3 ab und bringt Sie zu 1 und 2. Mein Ziel ist es, dass Sie beurteilen können, ob der Code, den die KI Ihnen schreibt, stimmt."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#was-sie-am-ende-können",
+    "href": "slides/intro_projektkurs_data-science.html#was-sie-am-ende-können",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Was Sie am Ende können",
+    "text": "Was Sie am Ende können\n\n\nDieses Semester\n\n💻 R programmieren: Daten einlesen, bereinigen, zusammenführen\n📊 Daten visualisieren: Grafiken, die eine Aussage haben\n🔁 Reproduzierbar arbeiten: andere können Ihre Analyse nachvollziehen (Git, R Markdown / Quarto)\n🤖 AI Literacy: KI als Tutor nutzen und ihren Code prüfen\n🎤 Präsentieren: Ergebnisse in 5 Minuten auf den Punkt bringen\n\n\nSommersemester 2027\n\n📈 Statistik: Regressionen rechnen und interpretieren\n🎯 Kausalität: aus Experimenten und Beobachtungsdaten Ursache-Wirkung ableiten\n\n\n\n\nKeine dieser Fähigkeiten lernt man durch Zuschauen. Deshalb ist dieser Kurs ein Projektkurs: Sie bauen drei Analysen auf echten Daten – das erste Projekt machen Sie gemeinsam mit mir in der Vorlesung."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#ihr-team",
+    "href": "slides/intro_projektkurs_data-science.html#ihr-team",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Ihr Team",
+    "text": "Ihr Team\n\n\nDozent\nDr. Alexander Rieber 📧 alexander.rieber@uni-ulm.de 🏢 Helmholtzstraße 18, Raum 1.22\nÜbungsleiter\nDr. Dennis Steinle 📧 dennis.steinle@uni-ulm.de 🏢 Helmholtzstraße 18, Raum 1.10\n\nTutor:innen – Ihre erste Anlaufstelle in der Projektphase\n\nTimm Rodrigues Mota · timm.rodrigues-mota@uni-ulm.de\nAmy Funk-Duque · amy.funk-duque@uni-ulm.de\nVincent van den Driesch · vincent.von-den-driesch@uni-ulm.de\nSelen Yagci · selen.yagci@uni-ulm.de\n\n\n\n\n\n\n\nWer antwortet worauf? Forum → Tutor:innen und Übungsleiter, meist innerhalb eines Tages. Noten und Persönliches → E-Mail an den Dozenten."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#das-semester-auf-einen-blick",
+    "href": "slides/intro_projektkurs_data-science.html#das-semester-auf-einen-blick",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Das Semester auf einen Blick",
+    "text": "Das Semester auf einen Blick"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#warum-in-die-vorlesung-kommen",
+    "href": "slides/intro_projektkurs_data-science.html#warum-in-die-vorlesung-kommen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Warum in die Vorlesung kommen?",
+    "text": "Warum in die Vorlesung kommen?\nDie Lehrvideos erklären die Werkzeuge. Die Vorlesung ist für das, was nur live funktioniert:\n\n\nWas in der Vorlesung passiert\n\n🐛 Bug Hunts: Code, der läuft, aber falsch ist – finden Sie den Fehler, bevor ich ihn zeige\n🔮 Prognosen: Sie tippen, was der Code ausgibt, dann sehen wir es\n✍️ Mini-Aufgaben direkt auf der Folie, im Browser\n📱 Kahoot-Checkpoints am Ende jedes Abschnitts\n🗂️ Projekt 1 wird komplett in der Vorlesung erarbeite, als Testprojek\n\n\nWas Sie zu Hause machen\n\n🎬 Lehrvideos (Werkzeug lernen)\n🧩 RTutor Problem Sets (Werkzeug üben)\n📖 Tutorials (Nachschlagen)\n\n\n\n\nDie Case-Study, die wir in der Vorlesung bauen, ist die Vorlage für Ihre Projekte. Wer sie live mitgemacht hat, hat im Projekt den Code schon einmal gesehen."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#was-erwarten-wir-von-ihnen",
+    "href": "slides/intro_projektkurs_data-science.html#was-erwarten-wir-von-ihnen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Was erwarten wir von Ihnen?",
+    "text": "Was erwarten wir von Ihnen?\n\n\nWir versprechen\n\nJede Vorlesung hat mindestens drei Stellen, an denen Sie etwas tun\nAntworten im Forum, meist am selben Tag\nFeste Tutoriumstermine pro Team in der Projektphase\n\n\nWir erwarten\n\nLaptop dabei, R installiert (bis Freitag!)\nFragen im Forum statt per Mail\nKI nutzen, aber prüfen – Sie sind verantwortlich für das, was Sie abgeben"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#vorlesung-zeiten-und-ablauf",
+    "href": "slides/intro_projektkurs_data-science.html#vorlesung-zeiten-und-ablauf",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Vorlesung: Zeiten und Ablauf",
+    "text": "Vorlesung: Zeiten und Ablauf\nBis zum 13. November finden Vorlesungen als Präsenzveranstaltung in H3 statt:\n\nMittwoch, 8:30–10:00 Uhr\nFreitag, 10:15–11:45 Uhr\n\nBegleitend: Lehrvideos, Tutorials und RTutor Problem Sets.\n\nAm Freitag, 13. November erarbeiten wir Projekt 1 gemeinsam in der Vorlesung – ein Testprojekt ohne Note. Danach folgen zwei eigenständige Teamprojekte (je 20 % der Endnote).\n\n\n\n\n\n\nGeblockte Vorlesungseinheiten zu Semesterbeginn: Erst das lernen Sie die Theorie, dann setzen Sie diese in konkreten projekten um. In der Projektphase gibt es keine regulären Vorlesungen, dafür wöchentliche Tutorien."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#wo-finden-sie-was",
+    "href": "slides/intro_projektkurs_data-science.html#wo-finden-sie-was",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Wo finden Sie was?",
+    "text": "Wo finden Sie was?\n\nUnsere Kommunikation läuft über Moodle und GitHub.\n\n\n\nMoodle\n\n📅 Veranstaltungsplanung und Wochenkalender\n🎬 Lehrvideos\n📘 Aufgabenstellungen der Projekte\n👥 Tutoriumszeiten und Teams\n❓ Forum für Fragen\n📝 Abgaben\n\n\nGitHub\n\n🗒️ Vorlesungsfolien (diese hier)\n💻 Case-Study mit Code und Daten\n🧩 RTutor Problem Sets\n📖 Tutorials\n\nEinmal klonen, danach jede Woche Pull und alles ist aktuell."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#rtutor-werkzeug-üben",
+    "href": "slides/intro_projektkurs_data-science.html#rtutor-werkzeug-üben",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "RTutor: Werkzeug üben",
+    "text": "RTutor: Werkzeug üben\n\nDrei RTutor Problem Sets, die die Vorlesung aufgreifen und vertiefen\nInhalte: Einführung in R - Datenaufbereitung - Visualisierung\nNebenbei lernen Sie R Markdown als Grundlage der späteren Projektberichte\nIndividuelle Abgabe als Vorleistung (je Set mindestens 80 %), letztes Set fällig am 2. November\n\n\nBearbeitung lokal oder in der Posit Cloud.\n\n\n\n\n\n\n\nRTutor sagt Ihnen sofort, ob eine Lösung stimmt. Nutzen Sie das: Erst selbst versuchen, dann Hinweis, dann Lösung. BItte nicht umgekehrt."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#case-study-verschuldung-und-arbeitslosigkeit",
+    "href": "slides/intro_projektkurs_data-science.html#case-study-verschuldung-und-arbeitslosigkeit",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Case-Study: Verschuldung und Arbeitslosigkeit",
+    "text": "Case-Study: Verschuldung und Arbeitslosigkeit\n\n\n\n🔮 Schätzfrage: Welcher Landkreis in Baden-Württemberg hat die höchsten kommunalen Schulden pro Kopf. Liegt Ulm darüber oder darunter?\n\n\nIn der Case-Study bauen wir gemeinsam die Antwort auf:\n\nGibt es einen Zusammenhang zwischen der Verschuldung eines Landkreises und dessen Arbeitslosenquote?\n\nDaten: Statistisches Bundesamt, Bundesagentur für Arbeit, Statistische Ämter der Länder – auf Landkreisebene."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#projekt-1-betrugserkennung-im-unternehmen",
+    "href": "slides/intro_projektkurs_data-science.html#projekt-1-betrugserkennung-im-unternehmen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Projekt 1: Betrugserkennung im Unternehmen",
+    "text": "Projekt 1: Betrugserkennung im Unternehmen\n\n\n\n🔮 Schätzfrage: An welchem Wochentag werden in einem Unternehmen die meisten Buchungen erfasst?\n\n\n\nWie kann ein:e Wirtschaftsprüfer:in mögliche Bilanzmanipulationen aufspüren?\n\nDaten: Journalbuchungen eines Unternehmens. Wir erarbeiten dieses Projekt gemeinsam in der Vorlesung als Testprojekt."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#projekt-2-kino-oder-couch",
+    "href": "slides/intro_projektkurs_data-science.html#projekt-2-kino-oder-couch",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Projekt 2: Kino oder Couch?",
+    "text": "Projekt 2: Kino oder Couch?\n\n\n\n🔮 Schätzfrage: Wie viele der 100 meistbesuchten Kinofilme eines Jahres tauchen später bei Netflix auf – 1 von 10, 1 von 3 oder 2 von 3?\n\n\n\nVerdrängt Streaming das Kino, oder bedienen beide Märkte unterschiedliche Bedürfnisse? Und ist die staatliche Filmförderung samt Kinofenster noch gerechtfertigt?\n\nDaten: Filmförderungsanstalt (monatliche Top 100, Bundesländer), Netflix Engagement Reports (Sehstunden je Titel), Eurostat (Streaming-Nutzung in Europa).\n\n\n\n\n\n\n\nAuflösung Schätzfrage: 533 von 4.336 Kinotiteln überschneiden sich im Projekt mit dem Netflix-Katalog, also rund jeder achte. Fast neun von zehn Kinofilmen tauchen nie bei Netflix auf"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#projekt-3-wer-zahlt-für-den-wind",
+    "href": "slides/intro_projektkurs_data-science.html#projekt-3-wer-zahlt-für-den-wind",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Projekt 3: Wer zahlt für den Wind?",
+    "text": "Projekt 3: Wer zahlt für den Wind?\n\n\n\n🔮 Schätzfrage: In wie vielen Stunden des Jahres 2024 war der Strompreis an der Börse negativ – 45, 457 oder 4.570?\n\n\n\nWarum hat Deutschland gleichzeitig Rekordanteile erneuerbarer Energien, negative Strompreise und die höchsten Haushaltsstrompreise Europas und wer trägt die Kosten der Energiewende?\n\nDaten: SMARD der Bundesnetzagentur (stündliche Erzeugung und Börsenpreise), Marktstammdatenregister (jede PV- und Windanlage mit Standort), Eurostat (Strompreise und EE-Anteile in Europa).\n\n\n\n\nInteraktive Karte hier\n\n\n\nAuflösung Schätzfrage: 457 Stunden mit negativen Day-Ahead-Preisen 2024 (2023: 301)\nInteressante interaktive Karte:"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#was-sie-in-den-projekten-lernen",
+    "href": "slides/intro_projektkurs_data-science.html#was-sie-in-den-projekten-lernen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Was Sie in den Projekten lernen",
+    "text": "Was Sie in den Projekten lernen\n\n\nAnalysen auf echten Daten\nDaten selbst herunterladen und zusammenführen\nDeskriptive Analysen und Grafiken, die eine Aussage transportieren\nDie Analyse so beschreiben, dass andere sie nachvollziehen können\nSommersemester 2027: Statistische Auswertungen auf Beobachtungsdaten und Experimentaldaten"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#peer-review-sie-werden-zum-gutachter",
+    "href": "slides/intro_projektkurs_data-science.html#peer-review-sie-werden-zum-gutachter",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Peer Review: Sie werden zum Gutachter",
+    "text": "Peer Review: Sie werden zum Gutachter\n\nNach Projekt 2 und 3 bekommen Sie die Ausarbeitung eines anderen Teams zur Einschätzung.\n\n\n\nWarum machen wir das?\n\n\n\nSie sehen, wie andere dieselbe Aufgabe gelöst haben und was Sie daraus mitnehmen\nKritisch lesen ist eine Fähigkeit, die Sie später bei jedem KI-Output brauchen\nRekapitulation des Projekts = automatische Klausurvorbereitung\n\n\n\n\n\nReview Reports sind individuelle Abgaben und die Vorleistung für die Klausur: Das Team, das Ihren Report erhält, rankt alle Reports nach Nützlichkeit. Mindestens einer Ihrer beiden Reports muss auf Platz 2 oder besser landen."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#notengebung",
+    "href": "slides/intro_projektkurs_data-science.html#notengebung",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Notengebung",
+    "text": "Notengebung\n\n\n\n\n\n\n\n\nLeistung\nAnteil an der Endnote\nWer\n\n\n\n\nProjekt 1 – Testprojekt, gemeinsam in der Vorlesung\n0 % (zum Üben)\nTeam\n\n\nProjekt 2 – Bericht 70 % + Screencast 30 %\n20 %\nTeam\n\n\nProjekt 3 – Bericht 70 % + Screencast 30 %\n20 %\nTeam\n\n\nMultiple-Choice-Abschlussprüfung\n60 %\nindividuell\n\n\n\n\n\n\n\n\n\n\n60 % Klausur heißt nicht, dass die Projekte unwichtig sind: Die Klausur fragt genau das ab, was Sie in den Projekten gemacht haben. Wer das Testprojekt und die zwei Teamprojekte wirklich selbst erarbeitet hat, lernt für die Klausur nebenbei.\n\n\n\n\n\nTeams von drei Personen, Projekte werden gemeinsam abgegeben. Diskutieren über Teams hinweg ist erlaubt und erwünscht, Code und Texte weitergeben jedoch nicht."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#vorleistungen",
+    "href": "slides/intro_projektkurs_data-science.html#vorleistungen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Vorleistungen",
+    "text": "Vorleistungen\n\n\n\n\n\n\n\n\n\n\n\nWas\nBedingung\nWann\nZulassung zu\n\n\n\n\n1\nDrei RTutor Problem Sets, individuell\n≥ 80 % der Punkte pro Set\nletztes Set 2. November\nProjekte\n\n\n2\nProbeklausur (Multiple Choice, keine Hilfsmittel)\n≥ 30 % der Punkte\n20. November\nProjekte\n\n\n3\nReview Reports zu Projekt 2 und 3, individuell\nbei mindestens einem Projekt auf Platz 2 oder besser gerankt\nnach Projekt 2 bzw. 3\nKlausur\n\n\n\n\n\n\n\n\n\n\nDie Probeklausur ist bewusst früh und niedrigschwellig: Sie sollen ein Gefühl für die Fragen bekommen, bevor 60 % der Note daran hängen. 30 % der Punkte erreicht, wer die RTutor-Sets selbst gelöst hat.\nBei den Review Reports zählt nicht die Abgabe, sondern die Nützlichkeit: Das bewertete Team rankt die erhaltenen Reports. Wer zweimal einen sorgfältigen Report schreibt, ist auf der sicheren Seite. Werden alle Reports als gleich nützlich eingestuft, entscheidet der Dozent über die Zulassung.\n\n\n\n\n\n\nDie Abschlussprüfung fragt alles ab: die drei Projekte, die Vorlesung, die Case-Study und die RTutor Problem Sets."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#der-screencast-30-jeder-projektnote",
+    "href": "slides/intro_projektkurs_data-science.html#der-screencast-30-jeder-projektnote",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Der Screencast: 30 % jeder Projektnote",
+    "text": "Der Screencast: 30 % jeder Projektnote\n\nMaximal 5 Minuten: Fragestellung, Daten, die wichtigsten Grafik und Ergebnisse\nWird bei Projekt 2 und 3 verlangt\nDas Format, in dem Sie später im Beruf Ergebnisse präsentieren werden\n\n\nFrühzeitig vorbereiten. Jedes Jahr verschenken Teams hier Punkte, weil der Screencast am letzten Abend entsteht.\n\n\n\n\n\n\n\nIhr erster R-Code heute war ein Balkendiagramm mit einem Satz als Titel. Ein guter Screencast ist genau das: eine Grafik, ein Satz, dann die nächste."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#ki-ist-erlaubt",
+    "href": "slides/intro_projektkurs_data-science.html#ki-ist-erlaubt",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "KI ist erlaubt",
+    "text": "KI ist erlaubt\n\nSie dürfen für Vorlesung und Projekte jede Form von LLM-Unterstützung nutzen\nWir setzen LLMs selbst in der Vorlesung ein – auch als Gegenspieler: Code, der plausibel aussieht und falsch ist\nFür die Projekte gilt unsere KI-Guideline, die auch die Sichtweise der Uni Ulm abbildet\nSehen Sie das LLM als Tutorin, die 24/7 erreichbar ist und nie müde wird\n\n\n\nDie KI ersetzt nicht das Denken. Sie sind verantwortlich für alles, was Sie einreichen, auch wenn die KI eine falsche Analyse produziert oder Dinge falsch interpretiert."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#zugang-1-chat-ai-gwdg",
+    "href": "slides/intro_projektkurs_data-science.html#zugang-1-chat-ai-gwdg",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Zugang 1: Chat AI (GWDG)",
+    "text": "Zugang 1: Chat AI (GWDG)\n\n\n\n\nDatenschutzkonformer Zugang über die GWDG, kostenlos mit Ihrem Uni-Account.\n\nVon der GWDG gehostete Open-Source-Modelle (Qwen, DeepSeek, GPT-OSS, Llama, …)\nIhre Eingaben bleiben in Deutschland\nMehrere Modelle vergleichbar\n\nDarum geht es im Kurs: LLMs in den Lernprozess integrieren, in Vorlesung und Projekten einsetzen, und ihre Grenzen im akademischen Kontext kennen (Ethik, Recht, Zitation)."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#zugang-2-google-gemini-für-studierende",
+    "href": "slides/intro_projektkurs_data-science.html#zugang-2-google-gemini-für-studierende",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Zugang 2: Google Gemini für Studierende",
+    "text": "Zugang 2: Google Gemini für Studierende\n\n\n\n\nGemini Pro über einen Studierendenaccount ist ein Jahr kostenlos.\n\nSehr leistungsstarke Modelle, plus weitere Google-Dienste\nAber: Nach einem Jahr kostenpflichtig, d.h. Kündigung selbst im Kalender eintragen!\n\n\n\n\n\n\n\n\nEgal welches Modell: Geben Sie ihm Kontext (welche Vorlesung, welche Daten, glimpse()-Output) und verlangen Sie zu jedem Code einen Check: “Wie prüfe ich, dass das stimmt?”"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#wo-bekommen-sie-hilfe",
+    "href": "slides/intro_projektkurs_data-science.html#wo-bekommen-sie-hilfe",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Wo bekommen Sie Hilfe?",
+    "text": "Wo bekommen Sie Hilfe?\n\n\nForum auf Moodle: erste Adresse für alle fachlichen Fragen. Bevor Sie eine Mail schreiben: Forum. Meist haben fünf andere dieselbe Frage.\n\nWie man Fragen stellt, damit sie schnell beantwortet werden: Wie stelle ich Fragen im Forum?\n\nTutorium: in der Projektphase ein fester Termin pro Woche und Team, online mit Break-out-Räumen\nE-Mail an den Dozenten: für Noten und persönliche Anliegen\n\n\n\n\n\n\n\n\n\nWenn Sie die Antwort auf eine Forumsfrage wissen: posten Sie sie. Erklären ist die beste Art zu lernen."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#tutorium",
+    "href": "slides/intro_projektkurs_data-science.html#tutorium",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Tutorium",
+    "text": "Tutorium\n\nVorlesungsbegleitendes Tutorium ab der 1. Woche\nIn der Projektphase wöchentlich online: eigener Zoom-Raum pro Tutor:in, Break-out-Raum pro Team\nTutor:innen beantworten auch Fragen im Forum\n\n\nDas Tutorium ist vor allem dafür da, Sie bei Ihren Projekten zu unterstützen, d.h. bringen Sie konkrete Probleme mit.\n\n\n\n\n\n\n\n\n\n\nWann\n\n\n\n\nErstes Tutorium (technische Probleme: Installation, GitHub, Posit Cloud)\nDonnerstag, 15.10., 14–18 Uhr (online)\n\n\nErste Vorlesung\nFreitag, 16.10., 10:15 Uhr, H3"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#zeitmanagement-in-den-projekten",
+    "href": "slides/intro_projektkurs_data-science.html#zeitmanagement-in-den-projekten",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Zeitmanagement in den Projekten",
+    "text": "Zeitmanagement in den Projekten\n\n\nWas gut funktioniert\n\nMeilensteine: Bis wann muss was von wem fertig sein?\nEin gemeinsamer Kanal (GitHub Issues, WhatsApp, …)\nFragen früh im Forum, nicht am Abend vor der Abgabe\nSchwierigkeiten im Tutorium direkt ansprechen\n\n\nWoran Teams jedes Jahr scheitern\n\nScreencast “machen wir am Schluss” (30 % der Projektnote!)\nEine Person macht alles, die anderen verstehen den Code nicht und fallen in der Klausur durch\nCode aus dem Netz ohne Quelle oder vom LLM ohne Angabe in der LLM Nutzungs-Tabelle → Plagiat → 5,0 für das gesamte Projekt\n\n\n\nCode aus dem Web ist erlaubt, aber mit Quellenangabe. Gleiches gilt für die Nutzung von LLMs. RTutor-Code wird nicht geteilt. Projekt-Code bleibt im Team."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#begleitstudie",
+    "href": "slides/intro_projektkurs_data-science.html#begleitstudie",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Begleitstudie",
+    "text": "Begleitstudie\nAuf Basis des Feedbacks früherer Kohorten haben wir den Kurs mehrfach umgebaut: Kahoot, Bug Hunts, Code-Felder, Einbau von LLMs, Umgestaltung der Projekte etc. sind das Ergebnis. Damit wir wissen, was wirkt, wollen wir eine wissenschaftliche Begleitstudie durchführen.\n\nAnalysiert werden: GitHub-Commits, Vorleistungen und Prüfungsergebnisse, Ihre Einschätzung zu den Projekten\nPseudonymisiert: keine Rückschlüsse auf einzelne Personen, keine Auswirkung auf Ihre Note\n\n\nBitte lesen Sie die Einverständnis- und Datenschutzerklärung und geben Sie im Moodle-Formular an, ob wir Ihre Daten verwenden dürfen. Wir würden uns sehr freuen, wenn Sie uns unterstützen."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#ihre-to-do-liste-bis-zur-ersten-vorlesung",
+    "href": "slides/intro_projektkurs_data-science.html#ihre-to-do-liste-bis-zur-ersten-vorlesung",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Ihre To-do-Liste bis zur ersten Vorlesung",
+    "text": "Ihre To-do-Liste bis zur ersten Vorlesung\nFür jeden Punkt gibt es ein Lehrvideo auf Moodle.\n\n\n1. R und RStudio installieren\n\nR 4.6.1 und RStudio 2026.09.0-174\nSchon installiert? version und RStudio.Version() zeigen den Stand; installr::updateR() aktualisiert\nPakete: install.packages(c(\"tidyverse\", \"RTutor\")), danach update.packages()\n\n2. GitHub-Account → nächste Folie\n3. Posit Cloud: auf posit.cloud mit dem GitHub-Account einloggen\n\n4. In Moodle eintragen\n\nGitHub-Name und die E-Mail-Adresse des GitHub-Kontos (empfohlen: Uni-Ulm-Adresse – damit gibt es GitHub Education)\n\n5. KI-Zugang anlegen → übernächste Folie\n6. Erstes Tutorium am Donnerstag, 15.10., 14–18 Uhr (online): alles, was bei 1–5 hakt, wird dort gelöst"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#github-account-anlegen",
+    "href": "slides/intro_projektkurs_data-science.html#github-account-anlegen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "GitHub-Account anlegen",
+    "text": "GitHub-Account anlegen\n\ngithub.com → Account erstellen (falls noch keiner vorhanden). Ihre Projekte laufen später komplett über GitHub.\n\nTipps zum Nutzernamen1\n\nIhren echten Namen verwenden, insbesondere da wir die Projekte (mit ihrer Zustimmung) später veröffentlichen\nKein Fantasiename, der schwer zu finden ist\nKurz und prägnant\nKeine Uni oder Jahreszahl im Namen\n\nNach Happy Git with R von Jenny Bryan"
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#erste-aufgabe-die-ki-auf-die-probe-stellen",
+    "href": "slides/intro_projektkurs_data-science.html#erste-aufgabe-die-ki-auf-die-probe-stellen",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Erste Aufgabe: Die KI auf die Probe stellen",
+    "text": "Erste Aufgabe: Die KI auf die Probe stellen\nAccount bei GWDG Chat AI und/oder Google Gemini anlegen. Dann:\n\nStellen Sie 10 Fragen aus Gebieten, in denen Sie sich wirklich auskennen – Hobby, Heimatort, Lieblingsverein, Nebenjob\nProbieren Sie dabei mindestens zwei verschiedene Modelle bei GWDG Chat AI\nBewerten Sie jede Antwort von 1 (nutzlos) bis 10 (perfekt) und notieren Sie, wo die KI falsch lag\n\n\n\nAm Freitag sammeln wir: Wie viele von 10 Antworten hatten einen Fehler? Was war die überzeugendste falsche Antwort?\n\n\n\n\n\n\n\nDas ist der Kern von AI Literacy: Sie wissen nur dann, ob die KI Recht hat, wenn Sie das Thema kennen. In R schaffen wir dieses Wissen in den nächsten Wochen."
+  },
+  {
+    "objectID": "slides/intro_projektkurs_data-science.html#bis-freitag-1",
+    "href": "slides/intro_projektkurs_data-science.html#bis-freitag-1",
+    "title": "Projektkurs Data Science & Business Analytics",
+    "section": "Bis Freitag",
+    "text": "Bis Freitag\n\n\nMitbringen am Freitag, 16.10., 10:15 Uhr:\n\n💻 Laptop mit R und RStudio\n🐙 GitHub-Account, in Moodle eingetragen\n🤖 Ihre 10 KI-Antworten mit Bewertung\n❓ Mindestens eine Frage\n\nErste Vorlesung: Wir klonen das Repository und bauen den ersten Teil der Case-Study mit dem ersten Bug Hunt.\n\n\n\n\n\n\n\n\nKontakt\n\n\nDr. Alexander Rieber alexander.rieber@uni-ulm.de\nForum: Moodle Material: GitHub"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#ziel-der-case-study",
+    "href": "slides/VL_case-study-Teil1.html#ziel-der-case-study",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ziel der Case-Study",
+    "text": "Ziel der Case-Study\nDeutschland hat europaweit eine der niedrigsten Arbeitslosenquoten:\n\n\n\nQuelle: Eurostat, Arbeitslosenquote nach Ländern (une_rt_a), Jahresdurchschnitt 2024, 15–74 Jahre. Datenstand 10.09.2026.\n\n\n\nDoch gilt dies für alle Regionen in Deutschland?\n\n\nWarum ist die Arbeitslosenquote in manchen Regionen höher als in anderen?\n\n\n\n\nDem gehen wir in dieser Case-Study auf den Grund."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#schätzfrage-zum-einstieg",
+    "href": "slides/VL_case-study-Teil1.html#schätzfrage-zum-einstieg",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schätzfrage zum Einstieg",
+    "text": "Schätzfrage zum Einstieg\n\n30 Sekunden, Handzeichen:\n\nWelches Bundesland hat die höchste Arbeitslosenquote?\nWelches die niedrigste?\nWo liegt Baden-Württemberg?\n\n\nAuflösung am Ende des Abschnitts zu den Arbeitslosendaten.\n\nZuruf/Handzeichen reicht. Auflösung: Balkendiagramm am Ende von Abschnitt 1, Streudiagramm am Ende von Teil 1."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#wo-wollen-wir-hin",
+    "href": "slides/VL_case-study-Teil1.html#wo-wollen-wir-hin",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wo wollen wir hin?",
+    "text": "Wo wollen wir hin?\nAm Ende steht eine Karte: Arbeitslosigkeit, Verschuldung und Wirtschaftskraft pro Landkreis. Dafür bauen wir eine Daten-Pipeline:\n\n\n\n\n\n\n\nTeil 1 = alles Grüne. Unspektakulär, aber hier passieren 80 % der Fehler in echten Projekten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#ziele-der-case-study",
+    "href": "slides/VL_case-study-Teil1.html#ziele-der-case-study",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ziele der Case-Study",
+    "text": "Ziele der Case-Study\nDie Case-Study besteht aus mehreren Teilen und begleitet die komplette Vorlesung als konkretes Anschauungsobjekt. Sie dient als\n\nkonkretes und umfangreiches Beispiel für ein Projekt,\nQuelle ökonomischer und geographischer Kenntnisse über Deutschland,\nBeispiel, wie Statistik und Programmierung in der empirischen Arbeit zusammenspielen.\n\n\n\n\n\n\n\n\n\nDas eigentliche Lernziel von Teil 1\n\n\nSie sollen Code lesen, prüfen und reparieren können, egal ob er von Ihnen, von Kommiliton:innen oder von Chat AI stammt. Deshalb gibt es regelmäßig 🐛 Bug Hunts: Code, der läuft, aber falsch ist."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#drei-arten-von-fehlern",
+    "href": "slides/VL_case-study-Teil1.html#drei-arten-von-fehlern",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Drei Arten von Fehlern",
+    "text": "Drei Arten von Fehlern\n\n\n\n\n\n\n\n\n\n\nWas passiert?\nWie merkt man es?\nGefahr\n\n\n\n\nFehler (Error)\nCode stoppt\nsofort\ngering\n\n\nWarnung (Warning)\nCode läuft weiter\nnur wenn man liest\nmittel\n\n\nStiller Fehler\nCode läuft, Ergebnis falsch\nnur durch Prüfen\nhoch\n\n\n\n\n\nKI-generierter Code produziert fast nie Fehler der ersten Art, aber regelmäßig der dritten. Alle Bug Hunts heute sind stille Fehler.\n\n\n\nWas wir dagegen setzen ist der Review-Loop: Verdacht → Prüfung (nrow(), glimpse(), count(), externe Quelle) → Fix."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#so-läuft-die-vorlesung",
+    "href": "slides/VL_case-study-Teil1.html#so-läuft-die-vorlesung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "So läuft die Vorlesung",
+    "text": "So läuft die Vorlesung\n\n\n🔮 Prognose: Sie tippen, bevor der Output kommt (Handzeichen).\n🐛 Bug Hunt: KI-Code, der läuft, aber falsch ist. 1–2 Minuten zu zweit.\n✍️ Jetzt Sie: kurze Programmieraufgabe im eigenen RStudio.\n\n📱 Kahoot-Checkpoint: am Ende jedes Abschnitts, 6–7 Fragen, 5 Minuten. Die Bug Hunts kommen dort wieder vor.\nHalten Sie kahoot.it auf dem Handy bereit; die PIN steht jeweils auf der Folie.\n\n\n\n\n\n\n\nBei den Kahoot-Quizzes gibt es immer etwas zu gewinnen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#zwei-umgebungen-zum-coden",
+    "href": "slides/VL_case-study-Teil1.html#zwei-umgebungen-zum-coden",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Zwei Umgebungen zum Coden",
+    "text": "Zwei Umgebungen zum Coden\n\n\nDirekt auf der Folie (webR)\nCode-Felder mit Run Code laufen in Ihrem Browser; nichts installieren, nichts hochladen. Für die kurzen ✍️-Aufgaben und die Bug-Hunt-Fixes.\n\nHinweise und Lösung lassen sich aufklappen\nEin automatischer Check sagt Ihnen, ob es stimmt\nBeim ersten Öffnen lädt webR ca. 20 Sekunden\n\nProbieren Sie es gleich aus:\n\n\n\n\n\n\n\n\n\nIn RStudio (Ihr Rechner oder Posit Cloud)\nFür die 20-Minuten-Aufgaben mit den vollständigen Excel-Dateien aus dem Repository, so, wie Sie später auch im Projekt arbeiten.\n\nGitHub Desktop → Pull → case-study/ öffnen\nChat AI erlaubt, Prüfen Pflicht\n\n\n\n\n\n\n\nDie Felder auf den Folien speichern nichts. Was Sie behalten wollen, kopieren Sie in Ihr eigenes R-Skript."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#teil-1-im-überblick",
+    "href": "slides/VL_case-study-Teil1.html#teil-1-im-überblick",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Teil 1 im Überblick",
+    "text": "Teil 1 im Überblick\n\nDaten einlesen\nDaten bereinigen und in eine geeignete Form bringen (tidy)\nDaten prüfen (intern und gegen externe Quellen)\n\nAnwenden auf\n\nDaten zur Arbeitslosenstatistik\nDaten zur Verschuldung einzelner Landkreise bzw. Gemeinden\nDaten zum BIP\n\n\n\n\n\n\n\nWir nutzen die Base-R-Pipe |&gt;. Wenn Chat AI Ihnen %&gt;% liefert: funktioniert genauso."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#wichtig-für-die-datenbeschaffung",
+    "href": "slides/VL_case-study-Teil1.html#wichtig-für-die-datenbeschaffung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wichtig für die Datenbeschaffung",
+    "text": "Wichtig für die Datenbeschaffung\n\nZuverlässige, qualitativ hochwertige Datenquellen finden (Beispiel: Warum man BIP-Daten diktatorisch regierter Staaten nicht trauen kann)\nAutomatisierten Download programmieren\nEinlesen, verarbeiten und zusammenführen verschiedener Datensätze in R\n\n\nVerbindung zum 2. RTutor Problem Set:\n\nIm Problem Set: Kennzahlen zu verschiedenen Ländern der EU\nHier: Kennzahlen innerhalb Deutschlands\n\n\n\n\nIn Case-Study und Problem Sets treffen Sie auf konkrete Probleme, die Sie mit Ihren Kenntnissen aus der Vorlesung lösen sollen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#daten-beschaffen",
+    "href": "slides/VL_case-study-Teil1.html#daten-beschaffen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Daten beschaffen",
+    "text": "Daten beschaffen\nWoher beziehen wir unsere Informationen?\n\n\nVerschuldung der Gemeinden: Statistisches Bundesamt, Integrierte Schulden der Gemeinden und Gemeindeverbände\nArbeitslosigkeit auf Verwaltungsgemeinschaftsebene: Bundesagentur für Arbeit\nBIP auf Landkreisebene: Statistische Ämter des Bundes und der Länder\n\n\n\n\nZuverlässige und qualitativ hochwertige Datenquellen ausfindig machen ✔"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#daten-herunterladen",
+    "href": "slides/VL_case-study-Teil1.html#daten-herunterladen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Daten herunterladen",
+    "text": "Daten herunterladen\n\nDaten können von URLs mit readxl und readr direkt eingelesen werden\nAllerdings: Wenn die URL nicht mehr verfügbar ist, was dann?\n\nDaten immer mit download.file() herunterladen und in data/ abspeichern!\n\n\n\n\nAutomatisierten Download programmieren (in der ausformulierten Case-Study) ✔\n\n\n\n\nDie Daten liegen bereits im GitHub-Repository “case-study-germany”. Klonen Sie dieses Repository auf Ihren PC!"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#klonen-sie-unsere-github-seite",
+    "href": "slides/VL_case-study-Teil1.html#klonen-sie-unsere-github-seite",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Klonen Sie unsere GitHub-Seite",
+    "text": "Klonen Sie unsere GitHub-Seite\n\nGitHub-Seite des Projektkurses → grüner “Code”-Button\nHTTPS-URL kopieren\nGitHub Desktop → “Clone a repository” → “URL” → einfügen\n\nStep-by-Step-Anleitung\n\nZu Beginn jeder Woche in GitHub Desktop auf “Pull” klicken: Folien, Case-Study und Tutorials werden automatisch aktualisiert."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#nötige-pakete-laden",
+    "href": "slides/VL_case-study-Teil1.html#nötige-pakete-laden",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Nötige Pakete laden",
+    "text": "Nötige Pakete laden\n\nlibrary(readxl)\nlibrary(skimr)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ─────────────────────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.1     ✔ readr     2.2.0\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.3     ✔ tibble    3.3.1\n✔ lubridate 1.9.5     ✔ tidyr     1.3.2\n✔ purrr     1.2.2     \n── Conflicts ───────────────────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\n\n\n🔮 Prognose: Nach library(tidyverse) rufen Sie filter() auf – welche Funktion wird genommen? Warum steht das hier?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bevor-wir-code-schreiben-die-rohdaten",
+    "href": "slides/VL_case-study-Teil1.html#bevor-wir-code-schreiben-die-rohdaten",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Bevor wir Code schreiben: die Rohdaten",
+    "text": "Bevor wir Code schreiben: die Rohdaten\n\n3 Minuten, zu zweit: Öffnen Sie im geklonten Repository case-study/data/Arbeitslose_2024.xlsx.zip (Blatt “Gesamt”). Notieren Sie drei Dinge, die das Einlesen in R erschweren werden.\n\n\n\n\n\n\n\n\nErwartete Antworten: mehrere Kopfzeilen, Spaltennamen über mehrere Zeilen, Schlüssel und Name in einer Zelle, Summenzeilen gemischt mit Gemeinden, Leerzeilen, ZIP-Archiv."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#daten-einlesen",
+    "href": "slides/VL_case-study-Teil1.html#daten-einlesen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Daten einlesen",
+    "text": "Daten einlesen\nUnterschiedliche Dateien und Tabellenblätter – was verwenden wir?\nZuerst legen wir den Pfad zum Datenordner fest. Im RStudio-Projekt case-study/ liegen die Rohdaten im Unterordner data/:\n\ndatenpfad &lt;- \"data\"\n\n\n# Im ZIP liegen zwei Tabellen; uns interessiert die Anzahl der Arbeitslosen ([1])\nalo_zip  &lt;- file.path(datenpfad, \"Arbeitslose_2024.xlsx.zip\")\nalo_name &lt;- as.character(unzip(alo_zip, list = TRUE)$Name)\nalo_name &lt;- alo_name[1]\nunzip(alo_zip, alo_name)\n\n\nVermutung: Über das Tabellenblatt “Inhaltsverzeichnis” werden wir schlauer."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#daten-einlesen-1",
+    "href": "slides/VL_case-study-Teil1.html#daten-einlesen-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Daten einlesen",
+    "text": "Daten einlesen\n\n\n\nalo_inhalt &lt;- read_xlsx(alo_name, sheet = \"Inhaltsverzeichnis\")\nhead(alo_inhalt, 7)\n\n# A tibble: 7 × 1\n  Inhaltsverzeichnis     \n  &lt;chr&gt;                  \n1 &lt;NA&gt;                   \n2 &lt;NA&gt;                   \n3 Arbeitslose - Zeitreihe\n4 &lt;NA&gt;                   \n# ℹ 3 more rows\n\n\n\n\nAlternative: Excel-Datei in Excel/LibreOffice öffnen und dann entscheiden, welches Blatt Sie einlesen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#welche-information-brauchen-wir",
+    "href": "slides/VL_case-study-Teil1.html#welche-information-brauchen-wir",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Welche Information brauchen wir?",
+    "text": "Welche Information brauchen wir?\n\nDie Anzahl aller Arbeitslosen pro Gemeinde (SGB II und III) aus dem Jahr 2024\n… pro Gemeinde für einen bestimmten Rechtskreis (z.B. nur SGB II)\n… pro Gemeinde für Rechtskreis und Alter (z.B. SGB II, unter 25)\n\n\n\nWas ist hier eine Beobachtung?\n\n\n\nDazu brauchen wir noch Regionalschlüssel und Gemeindenamen.\n\nEinfachster Weg: die ersten acht Zeilen abschneiden (skip = 8) …\n… und nur die ersten 3 Spalten behalten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#einlesen-und-bereinigen",
+    "href": "slides/VL_case-study-Teil1.html#einlesen-und-bereinigen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Einlesen und bereinigen",
+    "text": "Einlesen und bereinigen\n\n🔮 Prognose: Wie viele Zeilen hat alo_skip – mehr oder weniger als die ca. 10.800 Gemeinden in Deutschland?\n\n\nalo_skip &lt;- read_xlsx(alo_name, sheet = \"Gesamt\", skip = 8)\n\ndata_alo &lt;- alo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;          # nur die ersten 3 Spalten\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  mutate(alo = as.numeric(`...3`)) |&gt;                         # Arbeitslose als Zahl\n  select(-c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  filter(!is.na(alo))                                          # Leer- und Textzeilen raus"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#einlesen-und-bereinigen-ergebnis",
+    "href": "slides/VL_case-study-Teil1.html#einlesen-und-bereinigen-ergebnis",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Einlesen und bereinigen: Ergebnis",
+    "text": "Einlesen und bereinigen: Ergebnis\n\ndim(alo_skip)\n\n[1] 11198    27\n\ndim(data_alo)\n\n[1] 11167     3\n\nhead(data_alo, 4)\n\n# A tibble: 4 × 3\n  Regionalschluessel Gemeinde                  alo\n  &lt;chr&gt;              &lt;chr&gt;                   &lt;dbl&gt;\n1 01                 Schleswig-Holstein     92493.\n2 01001              Flensburg, Stadt        4416.\n3 01001000           Flensburg, Stadt        4416.\n4 01002              Kiel, Landeshauptstadt 11137.\n\n\n\nDie ersten zwei Zeilen (Kopfzeile “Region” und Deutschland gesamt) wurden im Hintergrund entfernt – kurz sagen. Warum Bundesländer und Kreise trotzdem im Datensatz bleiben dürfen, klärt der nchar-Trick gleich."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-1-läuft-aber",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-1-läuft-aber",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Läuft, aber …",
+    "text": "🐛 Bug Hunt 1: Läuft, aber …\nDer Code von eben läuft ohne Fehler und ohne Warnung. Trotzdem steckt ein stiller Fehler in dieser Zeile:\n\nGemeinde = str_extract(`...1`, \"[A-Z].*\")\n\n\n2 Minuten, zu zweit: Welche Gemeindenamen werden falsch extrahiert? Wie würden Sie das prüfen, ohne 10.000 Zeilen anzuschauen?\n\n\n\n\n\n\n\n[A-Z] erfasst nur ASCII-Großbuchstaben. “Überlingen, Stadt” → Regex springt zum nächsten Großbuchstaben → “Stadt”. Falls die Prüfung auf der nächsten Folie keine Treffer liefert, ist das Zellformat anders als angenommen – vor der Vorlesung testen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-1-prüfung",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-1-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Prüfung",
+    "text": "🐛 Bug Hunt 1: Prüfung\nGezielt nach Randfällen suchen (Namen, die mit Umlaut beginnen) und Rohdaten mit Ergebnis vergleichen:\n\nalo_skip |&gt;\n  filter(str_detect(`...1`, \"^[[:digit:]]+\\\\s+[ÄÖÜ]\")) |&gt;\n  transmute(roh = `...1`, Gemeinde = str_extract(`...1`, \"[A-Z].*\"))\n\n# A tibble: 22 × 2\n  roh                             Gemeinde        \n  &lt;chr&gt;                           &lt;chr&gt;           \n1 05370028 Übach-Palenberg, Stadt Palenberg, Stadt\n2 07132087 Ölsen                  &lt;NA&gt;            \n3 07143060 Ötzingen               &lt;NA&gt;            \n4 07231125 Ürzig                  &lt;NA&gt;            \n# ℹ 18 more rows\n\n\n\nWarum? [A-Z] erfasst nur A bis Z – keine Umlaute. Bei “Überlingen, Stadt” springt die Regex zum ersten “echten” Großbuchstaben: “Stadt”."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-1-reparieren",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-1-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 1 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 1 reparieren\nalo_roh enthält 40 Zeilen der Rohspalte (roh), darunter die Umlaut-Fälle. Ersetzen Sie die Regex so, dass Gemeinde immer der ganze Name ist. Die letzte Zeile soll das Ergebnis ausgeben.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis 1\n\n\nStatt zu beschreiben, was Sie behalten wollen, entfernen Sie, was Sie nicht wollen: Ziffern und Leerzeichen am Anfang. str_remove() hilft.\n\n\n\n\n\n\n\n\n\n\n\nHinweis 2\n\n\nDas Muster für “Ziffern am Anfang, danach Leerzeichen”: \"^[[:digit:]]+\\\\s*\"\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nalo_roh |&gt;\n  mutate(Gemeinde = str_remove(roh, \"^[[:digit:]]+\\\\s*\")) |&gt;\n  filter(str_detect(roh, \"^[[:digit:]]+\\\\s+[ÄÖÜ]\"))"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-1-fix",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-1-fix",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Fix",
+    "text": "🐛 Bug Hunt 1: Fix\nNicht beschreiben, was wir wollen, sondern entfernen, was wir nicht wollen (Ziffern und Leerzeichen am Anfang):\n\ndata_alo &lt;- alo_skip |&gt;\n  mutate(Gemeinde = str_remove(`...1`, \"^[[:digit:]]+\\\\s*\"),\n         Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         alo = as.numeric(`...3`)) |&gt;\n  select(Regionalschluessel, Gemeinde, alo) |&gt;\n  filter(!is.na(alo))\ndata_alo &lt;- data_alo[-c(1, 2), ]\n\ndata_alo |&gt; filter(str_detect(Gemeinde, \"^[ÄÖÜ]\")) |&gt; head(3)\n\n# A tibble: 3 × 3\n  Regionalschluessel Gemeinde                   alo\n  &lt;chr&gt;              &lt;chr&gt;                    &lt;dbl&gt;\n1 05370028           Übach-Palenberg, Stadt 1024   \n2 07132087           Ölsen                     2.58\n3 07143060           Ötzingen                 26.6 \n\n\n\n\n\n\n\n\nEine Regex, die auf den ersten fünf Zeilen funktioniert, ist noch nicht getestet. Suchen Sie die Randfälle: Umlaute, Bindestriche, Sonderzeichen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#konsistenzcheck",
+    "href": "slides/VL_case-study-Teil1.html#konsistenzcheck",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Konsistenzcheck",
+    "text": "Konsistenzcheck\n\nMachen die Angaben Sinn, sind die Daten in sich konsistent?\nExterne Datenquelle suchen und intern auf Konsistenz prüfen\nInformationen aggregieren und mit anderen Quellen vergleichen\n\n\n\nZunächst: Arbeitslose je Bundesland 2024 → zweistelliger Regionalschluessel\n\nZeichen zählen mit nchar() (number of characters)\n\nExterne Quelle: Arbeitslose 2024 nach Ländern (Arbeitsagentur), Tabellenblatt 8\n\n\n\n\n🔮 Prognose: Wie viele Zeilen liefert filter(nchar(Regionalschluessel) == 2)?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#konsistenzcheck-externe-quelle",
+    "href": "slides/VL_case-study-Teil1.html#konsistenzcheck-externe-quelle",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Konsistenzcheck: externe Quelle",
+    "text": "Konsistenzcheck: externe Quelle\n\ncheck_alo_bundesland &lt;- data_alo |&gt;\n  filter(nchar(Regionalschluessel) == 2) |&gt;\n  rename(bundesland = Regionalschluessel)\nnrow(check_alo_bundesland)\n\n[1] 16\n\n\n\n\nWette (Handzeichen): Stimmen unsere 16 Zahlen mit der Tabelle der Arbeitsagentur überein? (a) exakt (b) kleine Abweichungen (c) große Abweichungen"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#konsistenzcheck-externe-quelle-1",
+    "href": "slides/VL_case-study-Teil1.html#konsistenzcheck-externe-quelle-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Konsistenzcheck: externe Quelle",
+    "text": "Konsistenzcheck: externe Quelle\n\n\n\nprint(check_alo_bundesland, n = 16)\n\n# A tibble: 16 × 3\n   bundesland Gemeinde                   alo\n   &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;\n 1 01         Schleswig-Holstein      92493.\n 2 02         Hamburg                 88471.\n 3 03         Niedersachsen          263090.\n 4 04         Bremen                  41116.\n 5 05         Nordrhein-Westfalen    749712.\n 6 06         Hessen                 194912.\n 7 07         Rheinland-Pfalz        120552.\n 8 08         Baden-Württemberg      269990 \n 9 09         Bayern                 285234.\n10 10         Saarland                37241.\n11 11         Berlin                 203242 \n12 12         Brandenburg             82795.\n13 13         Mecklenburg-Vorpommern  64944.\n14 14         Sachsen                139751.\n15 15         Sachsen-Anhalt          84801.\n16 16         Thüringen               68768.\n\n\n\n\n\n\nBeide Datenreihen sind identisch."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#interne-konsistenz-prüfen",
+    "href": "slides/VL_case-study-Teil1.html#interne-konsistenz-prüfen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Interne Konsistenz prüfen",
+    "text": "Interne Konsistenz prüfen\n\nBerechne: Arbeitslose je Bundesland als Summe über die Gemeinden – und vergleiche mit der Arbeitsagentur.\n\n\n# Nur Gemeinden (8-stelliger Schlüssel), dann Landkreis und Bundesland ableiten\nalo_meta &lt;- data_alo |&gt;\n  filter(nchar(Regionalschluessel) == 8) |&gt;\n  mutate(landkreis  = str_extract(Regionalschluessel, \"^.{5}\"),\n         bundesland = str_extract(Regionalschluessel, \"^.{2}\"))\n\nalo_bundesland &lt;- alo_meta |&gt;\n  group_by(bundesland) |&gt;\n  summarise(total_alo = sum(alo))\n\nalo_landkreis &lt;- alo_meta |&gt;\n  group_by(landkreis) |&gt;\n  summarise(total_alo = sum(alo)) |&gt;\n  rename(Regionalschluessel = landkreis)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#interne-konsistenz-prüfen-1",
+    "href": "slides/VL_case-study-Teil1.html#interne-konsistenz-prüfen-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Interne Konsistenz prüfen",
+    "text": "Interne Konsistenz prüfen\n\ncheck_alo_bundesland: von der Arbeitsagentur bereits aggregiert\nalo_bundesland: unsere Summe aus den Gemeinden\n\n\ncheck_consistency &lt;- left_join(check_alo_bundesland, alo_bundesland, by = \"bundesland\") |&gt;\n  mutate(diff = alo - total_alo)\nsummary(check_consistency$diff)\n\n      Min.    1st Qu.     Median       Mean    3rd Qu.       Max. \n-7.276e-12  0.000e+00  0.000e+00 -4.547e-13  0.000e+00  0.000e+00 \n\n\n\n\nEs bestehen keine Unstimmigkeiten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-2-die-ki-variante",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-2-die-ki-variante",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 2: Die KI-Variante",
+    "text": "🐛 Bug Hunt 2: Die KI-Variante\nChat AI schlägt für denselben Schritt vor:\n\nalo_bundesland_ki &lt;- data_alo |&gt;\n  filter(nchar(Regionalschluessel) &gt;= 5) |&gt;          # \"alle regionalen Einheiten\"\n  mutate(bundesland = str_sub(Regionalschluessel, 1, 2)) |&gt;\n  group_by(bundesland) |&gt;\n  summarise(total_alo = sum(alo))\n\n\n2 Minuten: Läuft fehlerfrei. In welcher Zeile steckt der Fehler?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-2-prüfung",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-2-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 2: Prüfung",
+    "text": "🐛 Bug Hunt 2: Prüfung\n\ndata_alo |&gt;\n  filter(nchar(Regionalschluessel) &gt;= 5) |&gt;\n  mutate(bundesland = str_sub(Regionalschluessel, 1, 2)) |&gt;\n  group_by(bundesland) |&gt;\n  summarise(total_alo = sum(alo)) |&gt;\n  left_join(check_alo_bundesland, by = \"bundesland\") |&gt;\n  mutate(faktor = total_alo / alo)\n\n# A tibble: 16 × 5\n  bundesland total_alo Gemeinde               alo faktor\n  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;\n1 01           184986. Schleswig-Holstein  92493.      2\n2 02           176943. Hamburg             88471.      2\n3 03           526179. Niedersachsen      263090.      2\n4 04            82231. Bremen              41116.      2\n# ℹ 12 more rows\n\n\n\nDoppelzählung: Landkreise (5 Stellen) und ihre Gemeinden (8 Stellen) werden addiert. Der Check gegen die externe Quelle findet das sofort – deshalb machen wir ihn."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-2-reparieren",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-2-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 2 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 2 reparieren\nReparieren Sie den KI-Code so, dass diff für alle 16 Bundesländer 0 ist. data_alo und check_alo_bundesland sind geladen.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nWelche Schlüssellänge haben nur Gemeinden? Bundesländer haben 2, Landkreise 5 Stellen.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nfilter(nchar(Regionalschluessel) == 8) – nur Gemeinden summieren, keine Aggregate."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#erster-blick-auf-die-daten",
+    "href": "slides/VL_case-study-Teil1.html#erster-blick-auf-die-daten",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Erster Blick auf die Daten",
+    "text": "Erster Blick auf die Daten\n\n\nNRW führt klar. Beantwortet das unsere Schätzfrage? Was fehlt, um Regionen fair zu vergleichen?\n\n\nZielantwort: Bezugsgröße (Einwohner / Erwerbspersonen). Dafür holen wir gleich Einwohner- und BIP-Daten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-1-arbeitslose",
+    "href": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-1-arbeitslose",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 1: Arbeitslose",
+    "text": "📱 Kahoot-Checkpoint 1: Arbeitslose\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n7 Fragen, 5 Minuten.\n\nread_xlsx(), skip, nchar()\nRegionalschlüssel: 2 / 5 / 8 Stellen\nBug Hunt 1: Umlaute und [A-Z]\nBug Hunt 2: Doppelzählung\nStille Fehler erkennen\n\nKahoot öffnen →\n\n\n\n\n\n\n\nFragen stehen in kahoot_fragen_teil1.xlsx (Checkpoint 1). Nach dem Kahoot: die Frage mit der schlechtesten Trefferquote kurz an der Folie nachbesprechen – Kahoot zeigt sie im Report."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#schätzfrage-ihr-landkreis",
+    "href": "slides/VL_case-study-Teil1.html#schätzfrage-ihr-landkreis",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schätzfrage: Ihr Landkreis",
+    "text": "Schätzfrage: Ihr Landkreis\n\nSchätzen Sie (notieren!): Kommunale Schulden pro Kopf in\n\nder Stadt Ulm?\ndem Alb-Donau-Kreis?\ndem Landkreis Biberach?\n\nIst Ulm stärker oder schwächer verschuldet als der Durchschnitt aller Gemeinden?\n\nAuflösung am Ende des Abschnitts."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#pro-kopf-verschuldung-auf-gemeindeebene",
+    "href": "slides/VL_case-study-Teil1.html#pro-kopf-verschuldung-auf-gemeindeebene",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Pro-Kopf-Verschuldung auf Gemeindeebene",
+    "text": "Pro-Kopf-Verschuldung auf Gemeindeebene\n\nGemeindeebene, Jahr 2024, Querschnittsdaten\nVom Statistischen Bundesamt direkt als Excel-Tabelle heruntergeladen ✔\n\n\nWelche Tabellenblätter sollten wir nutzen?\n\n\nschulden_pfad &lt;- file.path(datenpfad, \"Schulden_2024.xlsx\")\nexcel_sheets(schulden_pfad)\n\n\n\n [1] \"Titel\"              \"Impressum\"          \"Inhalt\"             \"Abkürzungen\"       \n [5] \"Erläuterungen\"      \"Übersicht\"          \"SH\"                 \"NI\"                \n [9] \"NW\"                 \"HE\"                 \"RP\"                 \"BW\"                \n[13] \"BY\"                 \"SL\"                 \"BB\"                 \"MV\"                \n[17] \"SN\"                 \"ST\"                 \"TH\"                 \"Statistische Ämter\""
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#mehrere-tabellenblätter-einlesen",
+    "href": "slides/VL_case-study-Teil1.html#mehrere-tabellenblätter-einlesen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Mehrere Tabellenblätter einlesen",
+    "text": "Mehrere Tabellenblätter einlesen\n\nNicht alle Informationen stehen in einem Tabellenblatt\n\nein Blatt je Bundesland\ndieselbe Operation muss über mehrere Blätter laufen\n\n\n\n\nZuerst an einem Beispiel schauen, welche Informationen wir benötigen:\n\n\nsh &lt;- read_xlsx(schulden_pfad, sheet = \"SH\")\nhead(sh, 8)\n\n\n\n# A tibble: 8 × 21\n  Zurück zum In…¹ ...2  ...3  ...4  ...5  ...6  ...7  ...8  ...9  ...10 ...11 ...12 ...13 ...14\n  &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 &lt;NA&gt;            &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; \n2 &lt;NA&gt;            &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; \n3 Tabelle 1:    … &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; \n4 nach Höhe der … &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; \n# ℹ 4 more rows\n# ℹ abbreviated name: ¹​`Zurück zum Inhalt...1`\n# ℹ 7 more variables: ...15 &lt;chr&gt;, ...16 &lt;chr&gt;, ...17 &lt;chr&gt;, ...18 &lt;chr&gt;, ...19 &lt;chr&gt;,\n#   `Zurück zum Inhalt...20` &lt;chr&gt;, ...21 &lt;chr&gt;"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#was-wir-brauchen",
+    "href": "slides/VL_case-study-Teil1.html#was-wir-brauchen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Was wir brauchen",
+    "text": "Was wir brauchen\n\nRegionalschlüssel, Gemeindename\nEinwohner\nSchulden des öffentlichen Bereichs insgesamt\nSchulden je Einwohner\n\nVariablenbezeichnungen beginnen in Zeile 5 – die ersten Zeilen überspringen wir.\n\nWas ist hier eine Beobachtung?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#ein-tabellenblatt-als-vorlage",
+    "href": "slides/VL_case-study-Teil1.html#ein-tabellenblatt-als-vorlage",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ein Tabellenblatt als Vorlage",
+    "text": "Ein Tabellenblatt als Vorlage\n\n# Blatt \"SH\" ohne die ersten 5 Zeilen, nur Spalten 1-7\nschulden_sh &lt;- read_xlsx(schulden_pfad, sheet = \"SH\", skip = 5)[1:7]\n\n# Spalten umbenennen\ncolnames(schulden_sh) &lt;- c(\"Regionalschluessel\", \"Gemeinde\", \"Verwaltungsform\",\n                           \"Einwohner\", \"Schulden_gesamt\", \"Veraenderung_Vorjahr\", \"Schulden_pro_kopf\")\n\n# Merken, aus welchem Blatt die Daten kommen\nschulden_sh$Bundesland &lt;- \"SH\"\n\n\n\nhead(schulden_sh, 4)\n\n# A tibble: 4 × 8\n  Regionalschluessel Gemeinde Verwaltun…¹ Einwohner Schulden…² Veraende…³ Schulden…⁴ Bundesland\n  &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     \n1 &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       SH        \n2 &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       SH        \n3 &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;       SH        \n4 &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      Euro       %          Euro       SH        \n# ℹ abbreviated names: ¹​Verwaltungsform, ²​Schulden_gesamt, ³​Veraenderung_Vorjahr,\n#   ⁴​Schulden_pro_kopf"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-alle-bundesländer",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-alle-bundesländer",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: alle Bundesländer",
+    "text": "✍️ Jetzt Sie: alle Bundesländer\n\nTeams von zwei Personen, 20 Minuten: Code, der alle Bundesländer einliest und zu einem Datensatz zusammenfügt. Nutzen Sie Chat AI und posten Sie ihren Code hier (am Besten vorher prüfen):\n\n\nnrow() – plausibel für ~11.000 Gemeinden?\ncount(Bundesland) – sind alle 13 Blätter drin?\nglimpse() – welche Spalten sind &lt;chr&gt;, obwohl sie Zahlen enthalten?\n\n\n\nPosten Sie Ihren Code hier →"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-3-eine-typische-ki-antwort",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-3-eine-typische-ki-antwort",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 3: Eine typische KI-Antwort",
+    "text": "🐛 Bug Hunt 3: Eine typische KI-Antwort\n\nsheet_names &lt;- excel_sheets(schulden_pfad)\nsheet_read  &lt;- sheet_names[7:19]\n\nfor (s in sheet_read) {\n  tmp &lt;- read_xlsx(schulden_pfad, sheet = s, skip = 5)[1:7]\n  tmp$Bundesland &lt;- s\n  schulden_individuell &lt;- tmp\n}\n\n\n1 Minute: Läuft ohne Fehler. Welche Zeile? Was steht am Ende in schulden_individuell?\n\n\n\n\n\n\n\nZeile 7 überschreibt in jedem Durchlauf und am Ende ist nur Thüringen übrig. count(Bundesland) zeigt eine einzige Zeile."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#lösung-map-statt-schleife",
+    "href": "slides/VL_case-study-Teil1.html#lösung-map-statt-schleife",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Lösung: map() statt Schleife",
+    "text": "Lösung: map() statt Schleife\n\nsheet_names &lt;- excel_sheets(schulden_pfad)\nsheet_read  &lt;- sheet_names[7:19]           # Blätter 7-19: die Bundesländer\n\nspalten &lt;- c(\"Regionalschluessel\", \"Gemeinde\", \"Verwaltungsform\",\n             \"Einwohner\", \"Schulden_gesamt\", \"Veraenderung_Vorjahr\", \"Schulden_pro_kopf\")\n\nschulden_individuell &lt;- sheet_read |&gt;\n  set_names() |&gt;                                                       # Namen = Blattnamen\n  map(\\(s) read_xlsx(schulden_pfad, sheet = s, skip = 5)[1:7] |&gt; set_names(spalten)) |&gt;\n  list_rbind(names_to = \"Bundesland\")                                  # zu einem Datensatz\n\n\n\nschulden_individuell |&gt; count(Bundesland) |&gt; pull(n, name = Bundesland)\n\n  BB   BW   BY   HE   MV   NI   NW   RP   SH   SL   SN   ST   TH \n 556 1188 2846  479  900 1259  478 2620 1306   76  460  288  773 \n\n\n\nset_names() ohne Argument benennt den Vektor mit sich selbst; list_rbind(names_to=) macht daraus die Spalte Bundesland. Falls purrr &lt; 1.0: map_df() wie bisher."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#variablen-umformen",
+    "href": "slides/VL_case-study-Teil1.html#variablen-umformen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Variablen umformen",
+    "text": "Variablen umformen\n\nhead(schulden_individuell, 4)\n\n# A tibble: 4 × 8\n  Bundesland Regionalschluessel Gemeinde Verwaltun…¹ Einwohner Schulden…² Veraende…³ Schulden…⁴\n  &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     \n1 SH         &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      \n2 SH         &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      \n3 SH         &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;      \n4 SH         &lt;NA&gt;               &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;      Euro       %          Euro      \n# ℹ abbreviated names: ¹​Verwaltungsform, ²​Schulden_gesamt, ³​Veraenderung_Vorjahr,\n#   ⁴​Schulden_pro_kopf\n\n\n\nEs gibt noch Probleme:\n\n\nDie Werte stehen nicht direkt unter den Variablennamen → NA im Regionalschlüssel entfernen\n“Einwohner”, “Schulden_gesamt”, “Schulden_pro_kopf” sind character (&lt;chr&gt;)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#warum-character",
+    "href": "slides/VL_case-study-Teil1.html#warum-character",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Warum character?",
+    "text": "Warum character?\n\nschulden_individuell[28, c(\"Gemeinde\", \"Einwohner\", \"Schulden_gesamt\")]\n\n# A tibble: 1 × 3\n  Gemeinde                   Einwohner Schulden_gesamt\n  &lt;chr&gt;                      &lt;chr&gt;     &lt;chr&gt;          \n1 Amt Burg-St. Michaelisdonn {15 594}  {44 481 073}   \n\n\n\n🔮 Prognose: Was liefert as.numeric(\"{15 653}\")? Und as.numeric(\"15 653\")?\n\n\n\nas.numeric(c(\"{15 653}\", \"15 653\", \"15653\"))\n\nWarning: NAs durch Umwandlung erzeugt\n\n\n[1]    NA    NA 15653\n\n\n\n\n\nEine Warnung, keine Fehlermeldung. Der Code läuft weiter, aber mit “NA” statt Zahlen. Daher ist es wichtig Warnungen nicht zu ignorieren, sondern diesen nachzugehen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#variablen-umformen-1",
+    "href": "slides/VL_case-study-Teil1.html#variablen-umformen-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Variablen umformen",
+    "text": "Variablen umformen\n\n# Hilfsfunktion: Klammern und Leerzeichen entfernen, dann in Zahl umwandeln\nzahl &lt;- function(x) as.numeric(gsub(\"[[:space:]{}]\", \"\", x))\n\nschulden_bereinigt &lt;- schulden_individuell |&gt;\n  filter(!is.na(Regionalschluessel)) |&gt;\n  mutate(across(c(Einwohner, Schulden_gesamt, Schulden_pro_kopf), zahl)) |&gt;\n  filter(nchar(Regionalschluessel) == 12) |&gt;   # nur echte Gemeinden – Landkreis-, Verwaltungs- und Summenzeilen raus!\n  mutate(landkreis = str_extract(Regionalschluessel, \"^.{5}\")) |&gt;\n  select(-Veraenderung_Vorjahr) |&gt;\n  filter(!is.na(Einwohner))        # manche Einheiten haben keine Einwohnerangabe\n\n\n\nglimpse(schulden_bereinigt)\n\nRows: 10,750\nColumns: 8\n$ Bundesland         &lt;chr&gt; \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", \"SH\", …\n$ Regionalschluessel &lt;chr&gt; \"010010000000\", \"010020000000\", \"010030000000\", \"010040000000\", \"0…\n$ Gemeinde           &lt;chr&gt; \"Flensburg, Stadt\", \"Kiel, Landeshauptstadt\", \"Lübeck, Hansestadt\"…\n$ Verwaltungsform    &lt;chr&gt; \"kreisfreie Stadt\", \"kreisfreie Stadt\", \"kreisfreie Stadt\", \"kreis…\n$ Einwohner          &lt;dbl&gt; 96081, 252175, 217067, 79640, 12747, 22046, 597, 190, 985, 4057, 6…\n$ Schulden_gesamt    &lt;dbl&gt; 475045842, 1302633735, 1323857542, 464688174, 71926757, 65851082, …\n$ Schulden_pro_kopf  &lt;dbl&gt; 4944.22, 5165.59, 6098.84, 5834.86, 5642.64, 2986.99, 3411.50, 848…\n$ landkreis          &lt;chr&gt; \"01001\", \"01002\", \"01003\", \"01004\", \"01051\", \"01051\", \"01051\", \"01…"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#reguläre-ausdrücke",
+    "href": "slides/VL_case-study-Teil1.html#reguläre-ausdrücke",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Reguläre Ausdrücke",
+    "text": "Reguläre Ausdrücke\n\nWas machen gsub(\"[[:space:]{}]\", \"\", x) und str_extract(x, \"^.{5}\") hier genau?\n\n\n\n\n\nMuster\nBedeutung\n\n\n\n\n[[:space:]]\nein Leerzeichen (oder Tab)\n\n\n[{}]\neine geschweifte Klammer\n\n\n[[:space:]{}]\neines von beidem\n\n\n^.{5}\ndie ersten fünf beliebigen Zeichen\n\n\n^[[:digit:]]+\\\\s*\nZiffern am Anfang, dann optionale Leerzeichen\n\n\n\n\n\n\n\n\n\nLassen Sie ihre Regex von Chat AI schreiben, aber achten Sie in der Prüfung auf die Randfälle (Bug Hunt 1)."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#interne-validität-schulden-pro-kopf",
+    "href": "slides/VL_case-study-Teil1.html#interne-validität-schulden-pro-kopf",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Interne Validität: Schulden pro Kopf",
+    "text": "Interne Validität: Schulden pro Kopf\nDas Statistische Bundesamt liefert “Schulden je Einwohner” fertig. Wir rechnen nach:\n\nWette: Stimmt Schulden_gesamt / Einwohner mit der gelieferten Spalte überein? (a) exakt (b) bis auf Rundung (c) echte Abweichungen\n\n\nschulden_consistency &lt;- schulden_bereinigt |&gt;\n  mutate(Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner, 2),\n         differenz = Schulden_pro_kopf - Schulden_pro_kopf_new)\n\nrange(schulden_consistency$differenz, na.rm = TRUE)\n\n\n\n[1] 0.00 0.01\n\n\n\n\n± 50 Cent – Rundung auf ganze Euro in der Quelle. Intern konsistent."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#auflösung-ihr-landkreis",
+    "href": "slides/VL_case-study-Teil1.html#auflösung-ihr-landkreis",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Auflösung: Ihr Landkreis",
+    "text": "Auflösung: Ihr Landkreis\n\nschulden_bereinigt |&gt;\n  filter(str_detect(Gemeinde, \"Ulm, Stadtkreis|Biberach an der Riß\")) |&gt;\n  select(Gemeinde, Einwohner, Schulden_pro_kopf)\n\n# A tibble: 2 × 3\n  Gemeinde                             Einwohner Schulden_pro_kopf\n  &lt;chr&gt;                                    &lt;dbl&gt;             &lt;dbl&gt;\n1 Stadt Ulm, Stadtkreis                   129317            11334.\n2 Große Kreisstadt Biberach an der Riß     34515              932.\n\n\n\nJetzt Sie: Suchen Sie Ihre Gemeinde – Suchbegriff unten ersetzen, dann Run Code (Teil des Namens genügt):\n\n\n\n\n\n\n\n\n\n\nNamensformat 2024: Die Verwaltungsform steht im Namen, z.B. “Stadt Ulm, Stadtkreis” oder “Große Kreisstadt Biberach an der Riß” – deshalb matcht ^Ulm nicht (das fängt stattdessen Ulmen/Ulmet in RP). Alb-Donau-Kreis ist kein Gemeindename; der Landkreiswert kommt im Merge-Abschnitt (08425). Die webR-Suche nutzt str_detect(..., ignore_case) – “Teil des Namens” reicht."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#auflösung-ulm-im-vergleich",
+    "href": "slides/VL_case-study-Teil1.html#auflösung-ulm-im-vergleich",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Auflösung: Ulm im Vergleich",
+    "text": "Auflösung: Ulm im Vergleich\n\n\nWer lag mit seiner Schätzung richtig? Was überrascht Sie an der Verteilung?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-2-schulden",
+    "href": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-2-schulden",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 2: Schulden",
+    "text": "📱 Kahoot-Checkpoint 2: Schulden\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n6 Fragen, 4 Minuten\n\nas.numeric(\"{15 653}\") – Warnung oder Fehler?\nglimpse() und gsub()\nBug Hunt 3: die Schleife\nPro-Kopf-Werte richtig aggregieren (Vorgriff!)\nmap() + list_rbind()\n\nKahoot öffnen →\n\n\n\n\n\n\n\nNeues Kahoot aus kahoot_fragen_teil1.xlsx (Checkpoint 2) anlegen und den Link hier eintragen. Die Frage zu mean() vs. sum()/sum() ist absichtlich vor Bug Hunt 4 – wer sie falsch hat, merkt sich den Bug Hunt besser."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#informationen-zum-bruttoinlandsprodukt",
+    "href": "slides/VL_case-study-Teil1.html#informationen-zum-bruttoinlandsprodukt",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Informationen zum Bruttoinlandsprodukt",
+    "text": "Informationen zum Bruttoinlandsprodukt\nNach dem Download bei den Statistischen Ämtern interessieren uns:\n\nBlatt “1.1”: BIP · Blatt “3.1”: Erwerbstätige · Blatt “5”: Einwohner\n\nAußerdem:\n\nDie ersten vier Zeilen benötigen wir nicht\nDie letzte Zeile ist eine Beschreibung → nur Zeilen behalten, deren Lfd. Nr. numerisch ist\nNicht benötigt: Lfd. Nr., EU-Code, NUTS 1–NUTS 3, Land, Gebietseinheit"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#einlesen",
+    "href": "slides/VL_case-study-Teil1.html#einlesen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Einlesen",
+    "text": "Einlesen\n\nbip_pfad  &lt;- file.path(datenpfad, \"BIP_2024.xlsx\")\nbip       &lt;- read_xlsx(bip_pfad, sheet = \"1.1\", skip = 4)\nerwerb    &lt;- read_xlsx(bip_pfad, sheet = \"3.1\", skip = 4)\neinwohner &lt;- read_xlsx(bip_pfad, sheet = \"5\",   skip = 4)\n\n\n\nbip_wide &lt;- bip |&gt;\n  filter(!is.na(suppressWarnings(as.numeric(`Lfd. Nr.`)))) |&gt;          # Beschreibungszeile raus\n  select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) |&gt;\n  rename(Regionalschluessel = `Regional-schlüssel`)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#panel-im-wide-format",
+    "href": "slides/VL_case-study-Teil1.html#panel-im-wide-format",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Panel im wide-Format",
+    "text": "Panel im wide-Format\n\nbip_wide |&gt; select(1:8) |&gt; head(3)\n\n# A tibble: 3 × 8\n  Regionalschluessel `1992`             `1994`             `1995`   `1996` `1997` `1998` `1999`\n  &lt;chr&gt;              &lt;chr&gt;              &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; \n1 08                 256667.12100000001 263604.43400000001 272286.… 27777… 28379… 29287… 30357…\n2 081                110814.31200000001 111487.84299999999 114967.… 11666… 12100… 12407… 12845…\n3 08111              32842.553999999996 31662.357          32145.6… 32708… 34313… 33567… 35069…\n\n\nDer Datensatz\n\nist ein Panel: mehrere Jahre für mehrere Landkreise,\nliegt im wide-Format vor → nicht tidy.\n\n\n\nWas ist hier eine Beobachtung? Welche tidy-Bedingung verletzt bip_wide?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#dreimal-dasselbe-dann-eine-funktion",
+    "href": "slides/VL_case-study-Teil1.html#dreimal-dasselbe-dann-eine-funktion",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Dreimal dasselbe? Dann eine Funktion",
+    "text": "Dreimal dasselbe? Dann eine Funktion\nFür Erwerbstätige und Einwohner wäre der Code identisch. Dreimal kopieren ist das, was Chat AI gerne tut – und ein Warnsignal:\n\nbereinige_vgr &lt;- function(df) {\n  df |&gt;\n    filter(!is.na(suppressWarnings(as.numeric(`Lfd. Nr.`)))) |&gt;\n    select(-c(`Lfd. Nr.`, `EU-Code`, `NUTS 1`, `NUTS 2`, `NUTS 3`, Land, Gebietseinheit)) |&gt;\n    rename(Regionalschluessel = `Regional-schlüssel`)\n}\n\nerwerb_wide    &lt;- bereinige_vgr(erwerb)\neinwohner_wide &lt;- bereinige_vgr(einwohner)\n\n\n\n\n\n\n\nEinen Fehler dann nur einmal beheben. Fragen Sie Chat AI ruhig: “Fasse die drei identischen Blöcke in eine Funktion zusammen.”"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#fehlermeldungen-lesen",
+    "href": "slides/VL_case-study-Teil1.html#fehlermeldungen-lesen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Fehlermeldungen lesen",
+    "text": "Fehlermeldungen lesen\n\nbip_long &lt;- pivot_longer(bip_wide, cols = `1992`:`2024`, names_to = \"Jahr\", values_to = \"bip\")\n\nError in `pivot_longer()`:\n! Can't combine `1992` &lt;character&gt; and `2000` &lt;double&gt;.\n\n1 Minute, zu zweit: Lesen Sie die Meldung Wort für Wort. Was sagt sie? Welcher eine Befehl bestätigt Ihre Vermutung?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#fehlermeldungen-lesen-prüfung",
+    "href": "slides/VL_case-study-Teil1.html#fehlermeldungen-lesen-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Fehlermeldungen lesen: Prüfung",
+    "text": "Fehlermeldungen lesen: Prüfung\n\nbip_wide |&gt; select(`1992`, `1999`, `2000`, `2024`) |&gt; sapply(class)\n\n       1992        1999        2000        2024 \n\"character\" \"character\"   \"numeric\"   \"numeric\" \n\n\n\n1992–1999 sind character, ab 2000 double. pivot_longer() kann die Spalten nicht in eine Wertespalte stapeln. → Erst umwandeln.\n\n\n\n\n\n\ntidyverse-Fehlermeldungen nennen fast immer die betroffenen Spalten und die Klassen. Lesen, nicht raten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#umwandeln-und-die-warnung-ernst-nehmen",
+    "href": "slides/VL_case-study-Teil1.html#umwandeln-und-die-warnung-ernst-nehmen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Umwandeln – und die Warnung ernst nehmen",
+    "text": "Umwandeln – und die Warnung ernst nehmen\n\nbip_wide |&gt; mutate(across(`1992`:`1999`, as.numeric)) |&gt; nrow()\n\nWarning: There were 7 warnings in `mutate()`.\nThe first warning was:\nℹ In argument: `across(`1992`:`1999`, as.numeric)`.\nCaused by warning:\n! NAs durch Umwandlung erzeugt\nℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.\n\n\n[1] 444\n\n\n\n\nEs wird gewarnt, dass NAs erzeugt wurden. Warum? Welche Werte sind betroffen?\n\n\n\n\nbip_wide |&gt;\n  filter(is.na(suppressWarnings(as.numeric(`1992`)))) |&gt;\n  select(Regionalschluessel, `1992`, `1995`)\n\n# A tibble: 57 × 3\n  Regionalschluessel `1992` `1995`\n  &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 13003              .      .     \n2 13004              .      .     \n3 13071              .      .     \n4 13072              .      .     \n# ℹ 53 more rows\n\n\n\n\nBetroffen sind Zellen mit - (kein Wert). Ein NA ist hier inhaltlich richtig – jetzt dürfen wir guten Gewissens umwandeln."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#umwandeln",
+    "href": "slides/VL_case-study-Teil1.html#umwandeln",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Umwandeln",
+    "text": "Umwandeln\n\nzu_zahl &lt;- function(df) df |&gt; mutate(across(`1992`:`1999`, \\(x) suppressWarnings(as.numeric(x))))\n\nbip_wide       &lt;- zu_zahl(bip_wide)\nerwerb_wide    &lt;- zu_zahl(erwerb_wide)\neinwohner_wide &lt;- zu_zahl(einwohner_wide)\n\n\n\n\n\n\n\nsuppressWarnings() erst, nachdem wir wissen, was die Warnung bedeutet. Vorher versteckt es einen Fehler, nachher dokumentiert es eine Entscheidung."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#ins-long-format",
+    "href": "slides/VL_case-study-Teil1.html#ins-long-format",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ins long-Format",
+    "text": "Ins long-Format\n\nEinwohner und Erwerbstätige in 1.000 Personen → × 1.000\nBIP in Mio. Euro → × 1.000.000\n\n\nbip_long &lt;- bip_wide |&gt;\n  pivot_longer(cols = matches(\"^[0-9]{4}$\"),        # alle Jahresspalten\n               names_to = \"Jahr\", values_to = \"bip\") |&gt;\n  mutate(Jahr = as.numeric(Jahr),\n         bip  = bip * 1e6) |&gt;\n  arrange(Jahr)\n\n\n\nhead(bip_long, 3)\n\n# A tibble: 3 × 3\n  Regionalschluessel  Jahr          bip\n  &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;\n1 08                  1992 256667121000\n2 081                 1992 110814312000\n3 08111               1992  32842554000"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-einwohner-ins-long-format",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-einwohner-ins-long-format",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Einwohner ins long-Format",
+    "text": "✍️ Jetzt Sie: Einwohner ins long-Format\n3 Minuten: Bringen Sie einwohner_wide analog zu bip_long ins long-Format: Spalten Regionalschluessel, Jahr (numerisch), einwohner (in Personen, nicht in Tausend!). Letzte Zeile: das Ergebnis.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nAlle Jahresspalten auswählen: matches(\"^[0-9]{4}$\"). Einwohner sind in 1.000 Personen angegeben.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\neinwohner_long &lt;- einwohner_wide |&gt;\n  pivot_longer(cols = matches(\"^[0-9]{4}$\"), names_to = \"Jahr\", values_to = \"einwohner\") |&gt;\n  mutate(Jahr = as.numeric(Jahr), einwohner = einwohner * 1000)\neinwohner_long"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#lösung-als-funktion",
+    "href": "slides/VL_case-study-Teil1.html#lösung-als-funktion",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Lösung als Funktion",
+    "text": "Lösung als Funktion\nDasselbe für Erwerbstätige – also wieder eine Funktion statt Copy & Paste:\n\nins_long &lt;- function(df, name, faktor) {\n  df |&gt;\n    pivot_longer(cols = matches(\"^[0-9]{4}$\"), names_to = \"Jahr\", values_to = name) |&gt;\n    mutate(Jahr = as.numeric(Jahr), across(all_of(name), \\(x) x * faktor)) |&gt;\n    arrange(Jahr)\n}\n\nerwerb_long    &lt;- ins_long(erwerb_wide,    \"erw\",       1000)\neinwohner_long &lt;- ins_long(einwohner_wide, \"einwohner\", 1000)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#konsistenzcheck-ihre-aufgabe",
+    "href": "slides/VL_case-study-Teil1.html#konsistenzcheck-ihre-aufgabe",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Konsistenzcheck: Ihre Aufgabe",
+    "text": "Konsistenzcheck: Ihre Aufgabe\n\nVergleichen Sie die Einwohnerzahlen aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) – auf Landkreisebene.\n\nLeitfragen:\n\nWelche Schlüssel-Länge brauchen Sie in beiden Datensätzen?\nWie groß dürfen die Abweichungen sein (beide beziehen sich auf 2024)?\nWelche Landkreise fallen auf – und warum?\n\n\n\n\n\n\n\nGenau diese Art Check sollten Sie bei jedem KI-generierten Datensatz machen: eine Zahl, die Sie aus einer anderen Quelle kennen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#kartenmaterial-hinzufügen",
+    "href": "slides/VL_case-study-Teil1.html#kartenmaterial-hinzufügen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Kartenmaterial hinzufügen",
+    "text": "Kartenmaterial hinzufügen\nWir benötigen eine Karte Deutschlands mit Verwaltungsgrenzen als Shape-File; einlesen mit dem sf-Paket.\nDas OpenData-Portal des BKG stellt die Daten kostenlos bereit. Die Dokumentation sollten wir uns immer zuerst anschauen.\n\nDas gilt nicht nur für Geodaten, sondern für alle Datenreihen.\n\n\nVersuchen Sie selbst, die Daten herunterzuladen und über den Regionalschlüssel (ARS) mit BIP, Arbeitslosen und Schulden zu verbinden."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#datensätze-zusammenführen",
+    "href": "slides/VL_case-study-Teil1.html#datensätze-zusammenführen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Datensätze zusammenführen",
+    "text": "Datensätze zusammenführen\n\nNun fügen wir die Datensätze zu einem zusammen.\n\nVorher:\n\nVerschuldung auf Landkreisebene aggregieren\nBIP auf das Jahr 2024 einschränken (letztes verfügbares Jahr)\nDatensätze anhand des Regionalschlüssels verbinden\n\nDie Geodaten speichern wir separat und mergen sie bei Bedarf hinzu."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-4-schulden-pro-kopf-je-landkreis",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-4-schulden-pro-kopf-je-landkreis",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 4: Schulden pro Kopf je Landkreis",
+    "text": "🐛 Bug Hunt 4: Schulden pro Kopf je Landkreis\nChat AI, gefragt nach “Schulden pro Kopf je Landkreis”:\n\nschulden_kombi_ki &lt;- schulden_bereinigt |&gt;\n  group_by(landkreis) |&gt;\n  summarise(Schulden_pro_kopf_lk = mean(Schulden_pro_kopf))\n\n\n2 Minuten: Läuft, liefert plausible Zahlen. Was ist ökonomisch falsch an Zeile 3? Konstruieren Sie ein Gegenbeispiel mit zwei Gemeinden.\n\n\n\n\n\n\n\nStadt: 100.000 Einwohner, 2.000 €/Kopf. Dorf: 500 Einwohner, 0 €/Kopf. Der Mittelwert sagt 1.000 €, der Landkreis hat fast 2.000 €/Kopf. Pro-Kopf-Werte müssen gewichtet werden: Summen bilden, dann teilen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-4-reparieren",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-4-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 4 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 4 reparieren\nschulden_bw enthält alle Gemeinden in Baden-Württemberg. Berechnen Sie Schulden_pro_kopf_lk je landkreis richtig und geben Sie zusätzlich Einwohner (Summe) aus.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nErst sum(Schulden_gesamt) und sum(Einwohner) bilden, dann teilen. Das ist ein einwohnergewichteter Mittelwert.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nschulden_bw |&gt;\n  group_by(landkreis) |&gt;\n  summarise(Schulden_pro_kopf_lk = sum(Schulden_gesamt) / sum(Einwohner),\n            Einwohner = sum(Einwohner))"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#schulden-auf-landkreisebene",
+    "href": "slides/VL_case-study-Teil1.html#schulden-auf-landkreisebene",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schulden auf Landkreisebene",
+    "text": "Schulden auf Landkreisebene\n\nschulden_kombi &lt;- schulden_bereinigt |&gt;\n  group_by(landkreis) |&gt;\n  summarise(Schulden_pro_kopf_lk = sum(Schulden_gesamt) / sum(Einwohner),   # Summen, dann teilen\n            Einwohner       = sum(Einwohner),\n            Schulden_gesamt = sum(Schulden_gesamt)) |&gt;\n  ungroup() |&gt;\n  rename(Regionalschluessel = landkreis)\n\n\n\n# Gegenprobe zur KI-Variante: Ulm, Alb-Donau, Biberach\nschulden_bereinigt |&gt;\n  filter(landkreis %in% c(\"08421\", \"08425\", \"08426\")) |&gt;\n  group_by(landkreis) |&gt;\n  summarise(mittelwert_ki = mean(Schulden_pro_kopf), gewichtet = sum(Schulden_gesamt) / sum(Einwohner))\n\n# A tibble: 3 × 3\n  landkreis mittelwert_ki gewichtet\n  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;\n1 08421            11334.    11334.\n2 08425             1138.     1049.\n3 08426              604.      742."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#erwerbstätige-und-einwohner-2024",
+    "href": "slides/VL_case-study-Teil1.html#erwerbstätige-und-einwohner-2024",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Erwerbstätige und Einwohner 2024",
+    "text": "Erwerbstätige und Einwohner 2024\n\nerwerb_kombi &lt;- erwerb_long |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |&gt;\n  select(-Jahr)\n\neinwohner_kombi &lt;- einwohner_long |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |&gt;\n  select(-Jahr)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-5-der-join",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-5-der-join",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 5: Der Join",
+    "text": "🐛 Bug Hunt 5: Der Join\nChat AI, gefragt nach “BIP pro Kopf”:\n\nbip_kombi_ki &lt;- left_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024)\n\n\n🔮 Prognose: bip_long hat 14.208 Zeilen. Wie viele Zeilen hat das Ergebnis von left_join() in Zeile 1? Wo liegt der Fehler?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-5-prüfung",
+    "href": "slides/VL_case-study-Teil1.html#bug-hunt-5-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 5: Prüfung",
+    "text": "🐛 Bug Hunt 5: Prüfung\n\nleft_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt; nrow()\n\nWarning in left_join(bip_long, einwohner_long, by = \"Regionalschluessel\"): Detected an unexpected many-to-many relationship between `x` and `y`.\nℹ Row 1 of `x` matches multiple rows in `y`.\nℹ Row 1 of `y` matches multiple rows in `x`.\nℹ If a many-to-many relationship is expected, set `relationship = \"many-to-many\"` to silence\n  this warning.\n\n\n[1] 454656\n\n\n\nJedes BIP-Jahr wird mit jedem Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der many-to-many-Beziehung – und filter(Jahr == 2024) schlägt danach fehl, weil es nur noch Jahr.x und Jahr.y gibt.\n\n\n\n\n\n\nFaustregel: Nach jedem join die Zeilenzahl prüfen. Bei left_join darf sie nicht steigen – sonst fehlt ein Schlüssel."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-5-reparieren",
+    "href": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-5-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 5 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 5 reparieren\nbip_long und einwohner_long (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie bip_pro_kopf für 2024. Die Zeilenzahl von bip_long ist nrow(bip_long) – prüfen Sie sie nach dem Join!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nEin Panel hat zwei Schlüssel: Region und Jahr. by = c(\"Regionalschluessel\", \"Jahr\").\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(Jahr == 2024)\nbip_kombi"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#bip-pro-kopf",
+    "href": "slides/VL_case-study-Teil1.html#bip-pro-kopf",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "BIP pro Kopf",
+    "text": "BIP pro Kopf\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |&gt;\n  select(-c(Jahr, einwohner))\nnrow(bip_kombi)\n\n[1] 398\n\nsummary(bip_kombi$bip_pro_kopf)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  21481   36289   42690   47830   51890  193293 \n\n\n\n\nPlausibilitätscheck: BIP pro Kopf in Deutschland ≈ 48.000 €. Passt die Größenordnung? Was wäre ohne * 1e6 passiert?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#alles-zusammenführen",
+    "href": "slides/VL_case-study-Teil1.html#alles-zusammenführen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Alles zusammenführen",
+    "text": "Alles zusammenführen\n\ngesamtdaten &lt;- alo_landkreis |&gt;                                   # Basis: Arbeitslose je Landkreis\n  mutate(bundesland = str_extract(Regionalschluessel, \"^.{2}\")) |&gt;\n  left_join(schulden_kombi, by = \"Regionalschluessel\") |&gt;\n  left_join(bip_kombi,      by = \"Regionalschluessel\") |&gt;\n  left_join(erwerb_kombi,   by = \"Regionalschluessel\")\n\n\n\nnrow(gesamtdaten)\n\n[1] 400\n\ncolSums(is.na(gesamtdaten))\n\n  Regionalschluessel            total_alo           bundesland Schulden_pro_kopf_lk \n                   0                    0                    0                    4 \n           Einwohner      Schulden_gesamt                  bip         bip_pro_kopf \n                   4                    4                    2                    2 \n                 erw \n                   2 \n\n\n\n\n\nDeutschland hat 400 Landkreise und kreisfreie Städte. Stimmt nrow()? Sind die NAs ein Fehler oder eine Eigenschaft der Daten?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#ein-bekannter-wert",
+    "href": "slides/VL_case-study-Teil1.html#ein-bekannter-wert",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ein bekannter Wert",
+    "text": "Ein bekannter Wert\nDer letzte Check ist immer derselbe: eine Zeile, die Sie kennen.\n\ngesamtdaten |&gt;\n  filter(Regionalschluessel %in% c(\"08421\", \"08425\", \"08426\", \"09775\")) |&gt;\n  mutate(alo_je_100_ew = 100 * total_alo / Einwohner) |&gt;\n  select(Regionalschluessel, total_alo, Einwohner, alo_je_100_ew, Schulden_pro_kopf_lk, bip_pro_kopf)\n\n# A tibble: 4 × 6\n  Regionalschluessel total_alo Einwohner alo_je_100_ew Schulden_pro_kopf_lk bip_pro_kopf\n  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;\n1 08421                  3083.    129317          2.38               11334.      102934.\n2 08425                  3359.    201941          1.66                1049.       40250.\n3 08426                  3184.    207290          1.54                 742.       59705.\n4 09775                  2945.    182962          1.61                1662.       43641.\n\n\n\n08421 Ulm, 08425 Alb-Donau, 08426 Biberach, 09775 Neu-Ulm. Hier die Schätzungen aus dem Schulden-Abschnitt auflösen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#zurück-zur-ausgangsfrage",
+    "href": "slides/VL_case-study-Teil1.html#zurück-zur-ausgangsfrage",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Zurück zur Ausgangsfrage",
+    "text": "Zurück zur Ausgangsfrage\n\n\n“Arbeitslose je 100 Einwohner” ist nicht die offizielle Quote. Was fehlt im Nenner? (→ Teil 2)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#code-review-checkliste",
+    "href": "slides/VL_case-study-Teil1.html#code-review-checkliste",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Code-Review-Checkliste",
+    "text": "Code-Review-Checkliste\nBevor Sie Code übernehmen – von Chat AI, aus dem Internet oder von sich selbst:\n\n\n1. Läuft er? Fehlermeldung lesen, nicht wegklicken.\n2. Warnungen? Jede Warnung einmal verstehen, dann erst unterdrücken.\n3. Dimensionen: nrow() vor und nach jedem Schritt. Joins dürfen Zeilen nicht vermehren.\n4. Klassen: glimpse() – Zahlen als &lt;chr&gt; sind ein Warnsignal.\n\n5. Fehlende Werte: colSums(is.na()) – und warum fehlen sie?\n6. Ein bekannter Wert: Ihren Landkreis nachschlagen.\n7. Externe Quelle: eine Summe gegen die amtliche Zahl prüfen.\n8. Verstehe ich jede Zeile? Wenn nicht: erklären lassen – und die Erklärung prüfen.\n\n\nDie fünf Bug Hunts hätte jeder dieser Checks gefunden. Keiner davon war eine Fehlermeldung."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-3-bip-merge",
+    "href": "slides/VL_case-study-Teil1.html#kahoot-checkpoint-3-bip-merge",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 3: BIP & Merge",
+    "text": "📱 Kahoot-Checkpoint 3: BIP & Merge\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n7 Fragen, 5 Minuten\n\nDie pivot_longer()-Fehlermeldung lesen\nwide → long\nBug Hunt 5: der Join und die Zeilenzahl\nEinheiten: × 1.000, × 1e6\n400 Landkreise – und der letzte Check vor der Abgabe\n\nKahoot öffnen →\n\n\n\n\n\n\n\nBestehendes Kahoot 2 um die Fragen aus kahoot_fragen_teil1.xlsx (Checkpoint 3) ergänzen. Zu Beginn der nächsten Sitzung dieselben 7 Fragen als Recap – das ist der billigste Lerneffekt im ganzen Kurs (spaced retrieval)."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#übungsaufgaben",
+    "href": "slides/VL_case-study-Teil1.html#übungsaufgaben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Übungsaufgaben",
+    "text": "Übungsaufgaben\nLaden Sie das durchschnittliche Arbeitnehmerentgelt pro Arbeitnehmer und Landkreis herunter und lesen Sie es in R ein. Teams von 4–5 Personen; Case-Study und Chat AI nutzen.\n\nWas ist der Unterschied zwischen Arbeitnehmerentgelt und Bruttolöhne und -gehälter?\nTabelle Bruttolöhne und -gehälter in R einlesen.\nTabelle bereinigen – der Datensatz soll danach tidy sein.\nKonsistenzcheck: Bruttolöhne pro Bundesland aus den Landkreisen berechnen.\nMit dem Datensatz auf GitHub (einkommen.rds) vergleichen. Stimmen sie überein?\nEinkommen mit gesamtdaten verbinden.\n\n\n\n\n\n\n\n\nAbgabe-Check (Checkliste 3, 5, 6, 7)\n\n\nnrow() vor/nach dem Join · colSums(is.na()) · Wert für Ulm · Summe BW gegen amtliche Zahl"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#prompting-wie-fragt-man-chat-ai",
+    "href": "slides/VL_case-study-Teil1.html#prompting-wie-fragt-man-chat-ai",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Prompting: Wie fragt man Chat AI?",
+    "text": "Prompting: Wie fragt man Chat AI?\nWie sollte ein Prompt aufgebaut sein?\n\nAufgabe: Was soll Chat AI tun? Möglichst genau und spezifisch.\nInstruktionen: Wie soll es das tun? Persona? Beispiele für den Output? Schritt für Schritt?\nKontext: Was muss Chat AI wissen? (Paket, Datenstruktur, Vorlesung)\n\nWenn Sie nicht weiterwissen:\n\n“Sag mir, welche Informationen du benötigst, um …”\n“Stelle mir 5 Fragen, die dir helfen, die bestmögliche Antwort zu geben.”\n\nKomplexe Aufgaben in kleine Unteraufgaben zerlegen – und nach jeder Unteraufgabe prüfen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#prompting-verifizieren-statt-vertrauen",
+    "href": "slides/VL_case-study-Teil1.html#prompting-verifizieren-statt-vertrauen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Prompting: Verifizieren statt vertrauen",
+    "text": "Prompting: Verifizieren statt vertrauen\n\nGeben Sie glimpse()-Output mit – dann rät Chat AI die Spaltentypen nicht.\nLassen Sie sich zu jedem Code-Block einen Check mitliefern: “Wie prüfe ich, dass das Ergebnis stimmt?”\nFragen Sie: “Welche stillen Fehler könnte dieser Code haben?”\nWenn Sie einen Fehler vermuten: konkret sagen – mit Zeilenzahl oder Output.\n\n\nChat AI hat heute fünfmal plausiblen, lauffähigen, falschen Code geliefert. Das wird nicht aufhören. Die Checkliste schon lesen zu können, ist der Unterschied."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#schritt-für-schritt-durch-die-pipe",
+    "href": "slides/VL_case-study-Teil1.html#schritt-für-schritt-durch-die-pipe",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schritt für Schritt durch die Pipe",
+    "text": "Schritt für Schritt durch die Pipe\nKlicken Sie sich durch die Reiter – nach jedem |&gt; sehen Sie, was mit den Daten passiert:\n\n1 · select()2 · mutate() zerlegen3 · mutate() als Zahl4 · aufräumen\n\n\nVon den 27 eingelesenen Spalten nur die drei relevanten behalten:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  head(4)\n\n# A tibble: 4 × 3\n  ...1                  Jahresdurchschnitte ...3               \n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;              \n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt\n2 Region                2023                2024               \n3 Deutschland           2608671.5           2787112.0833333335 \n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672 \n\n\n\n\n...1 enthält Schlüssel und Name – wir ziehen beides in eigene Spalten:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  head(4)\n\n# A tibble: 4 × 5\n  ...1                  Jahresdurchschnitte ...3                Regionalschluessel Gemeinde    \n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;               &lt;chr&gt;              &lt;chr&gt;       \n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt &lt;NA&gt;               &lt;NA&gt;        \n2 Region                2023                2024                &lt;NA&gt;               Region      \n3 Deutschland           2608671.5           2787112.0833333335  &lt;NA&gt;               Deutschland \n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672  01                 Schleswig-H…\n\n\n\n\n...3 ist Text – als Zahl alo umwandeln (Kopfzeilen werden dabei zu NA):\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  mutate(alo = as.numeric(`...3`)) |&gt;\n  head(4)\n\n# A tibble: 4 × 6\n  ...1                  Jahresdurchschnitte ...3                Regionalschl…¹ Gemeinde     alo\n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;               &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;\n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt &lt;NA&gt;           &lt;NA&gt;     NA     \n2 Region                2023                2024                &lt;NA&gt;           Region    2.02e3\n3 Deutschland           2608671.5           2787112.0833333335  &lt;NA&gt;           Deutsch…  2.79e6\n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672  01             Schlesw…  9.25e4\n# ℹ abbreviated name: ¹​Regionalschluessel\n\n\n\n\nHilfsspalten entfernen und NA-Zeilen (Kopf-/Leerzeilen) herausfiltern → fertig:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  mutate(alo = as.numeric(`...3`)) |&gt;\n  select(-c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  filter(!is.na(alo)) |&gt;\n  head(4)\n\n# A tibble: 4 × 3\n  Regionalschluessel Gemeinde                alo\n  &lt;chr&gt;              &lt;chr&gt;                 &lt;dbl&gt;\n1 &lt;NA&gt;               Region                2024 \n2 &lt;NA&gt;               Deutschland        2787112.\n3 01                 Schleswig-Holstein   92493.\n4 01001              Flensburg, Stadt      4416.\n\n\n\n\n\n\nDurch die Reiter klicken und bei jedem Schritt fragen: Welche Spalte kommt dazu, welche fällt weg, welche Zeilen verschwinden? Guter Moment, um den Pipe-Operator |&gt; (“… und dann …”) zu erklären."
+  }
+]

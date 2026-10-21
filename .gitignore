@@ -40,8 +40,9 @@ vignettes/*.pdf
 .Renviron
 .env
 
-# pkgdown site
-docs/
+# Hinweis: docs/ wird bewusst NICHT ignoriert.
+# Die Folien werden lokal mit `quarto render` gebaut und der fertige
+# Ordner docs/ committet, damit Netlify ihn direkt ausliefern kann.
 
 # translation temp files
 po/*~
@@ -51,10 +52,13 @@ rsconnect/
 
 # Quarto-Zwischendateien
 /.quarto/
-slides/*_files/
-slides/*.html
 slides/*_cache/
 *.rmarkdown
+
+# Hinweis: slides/*.html und die zugehörigen slides/*_files/ werden BEWUSST
+# versioniert. Es sind die vorgerenderten Lehrvideo-Foliensätze (xaringan),
+# die von slides.html eingebettet und von Netlify ausgeliefert werden.
+# Die neue interaktive Vorlesung (Quarto) rendert dagegen nach docs/.
 
 # R
 .Rproj.user/
@@ -63,4 +67,11 @@ slides/*_cache/
 
 # Entpackte Excel-Datei aus dem Arbeitslose-ZIP (wird im Setup wieder gelöscht)
 slides/*.xlsx
-.positai
+
+**/*.quarto_ipynb
+
+# Rohdaten der Case-Study (~131 MB: .rds/.xlsx/.zip). Reine Quell-/Reproduktions-
+# daten – die ausgelieferten case-study/*.html sind self-contained und brauchen
+# sie NICHT. Zu groß für Git/Netlify; bei Bedarf separat (Git LFS/Cloud) ablegen.
+case-study/data/*
+!case-study/data/Readme.md
