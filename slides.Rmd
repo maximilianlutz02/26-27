@@ -176,12 +176,12 @@ knitr::include_url("docs/slides/VL_case-study-Teil1.html")
 ### 03: Zweiter Teil der Case-Study 
 
 ```{r}
-knitr::include_url("slides/VL_case-study-Teil2.html")
+knitr::include_url("docs/slides/VL_case-study-Teil2.html")
 ```
 
 ### 04: KI und Projekte 
 
 ```{r}
-knitr::include_url("slides/VL_KI_und_Projekte.html")
+knitr::include_url("docs/slides/VL_KI_und_Projekte.html")
 ```
 

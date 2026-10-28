@@ -16,6 +16,8 @@ website:
         text: Start
       - href: slides/VL_case-study-Teil1.qmd
         text: "Case-Study Teil 1"
+      - href: slides/VL_case-study-Teil2.qmd
+        text: "Case-Study Teil 2"
   page-footer: "Universität Ulm · Studienkommission Wirtschaftswissenschaften"
 
 format:
