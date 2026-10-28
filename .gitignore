@@ -75,3 +75,4 @@ slides/*.xlsx
 # sie NICHT. Zu groß für Git/Netlify; bei Bedarf separat (Git LFS/Cloud) ablegen.
 case-study/data/*
 !case-study/data/Readme.md
+.positai
