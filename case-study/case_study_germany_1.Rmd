@@ -456,8 +456,28 @@ Nun können wir uns anschauen, ob die von uns berechneten und die vom Statistisc
 skim_without_charts(schulden_consistency$differenz)
 ```
 
-Die Differenzen liegen zwischen `r de(min(schulden_consistency$differenz, na.rm = TRUE), 2)`€ und `r de(max(schulden_consistency$differenz, na.rm = TRUE), 2)`€ und können vermutlich auf Rundungsfehler zurückgeführt werden.
-D.h. hier können wir die vom statistischen Bundesamt herausgegebenen Berechnungen auf Gemeindeebene verifizieren.
+Insgesamt liegen die Differenzen zwischen `r de(min(schulden_consistency$differenz, na.rm = TRUE), 2)`€ und `r de(max(schulden_consistency$differenz, na.rm = TRUE), 2)`€.
+In `schulden_consistency` stecken allerdings nicht nur Gemeinden, sondern auch die Summenzeilen für Landkreise, Verbandsgemeinden und Ämter.
+Schauen wir uns beide Gruppen getrennt an (Gemeinden haben einen 12-stelligen Regionalschlüssel):
+
+```{r}
+schulden_consistency |>
+  mutate(ebene = if_else(nchar(Regionalschluessel) == 12, "Gemeinde", "Summenzeile")) |>
+  group_by(ebene) |>
+  summarise(anzahl = sum(!is.na(differenz)),
+            min_differenz = min(differenz, na.rm = TRUE),
+            max_differenz = max(differenz, na.rm = TRUE))
+```
+
+```{r, include=FALSE}
+diff_gemeinde <- schulden_consistency |>
+  filter(nchar(Regionalschluessel) == 12) |>
+  pull(differenz)
+```
+
+Auf **Gemeindeebene** stimmen unsere Werte bis auf höchstens `r de(max(abs(diff_gemeinde), na.rm = TRUE), 2)`€ mit denen des Statistischen Bundesamts überein, also bis auf einen Cent Rundung (das ist auch der Wert, den wir in der Vorlesung erhalten).
+Die größeren Abweichungen von bis zu 50 Cent entstehen nur in den **Summenzeilen**: Dort wird die Verschuldung pro Kopf meist auf ganze Euro gerundet angegeben.
+D.h. hier können wir die vom Statistischen Bundesamt herausgegebenen Berechnungen auf Gemeindeebene verifizieren.
 
 ### Vergleich der Schulden pro Kopf auf Landkreisebene
 
@@ -790,6 +810,43 @@ Anschließend können wir die Datensätze anhand des Regionalschlüssels miteina
 Weiterhin wollen wir die geografischen Daten separat abspeichern und bei Bedarf anhand des Regionalschlüssels zu unserem Datensatz hinzumergen.
 Der Regionalschlüssel dient uns hierbei als eindeutige Identifikation der jeweiligen Gemeinde.
 
+## Sonderfall Stadtstaaten: Hamburg und Berlin
+
+Bevor wir zusammenführen, müssen wir prüfen, ob die Regionalschlüssel in allen Datensätzen gleich aufgebaut sind.
+Hamburg und Berlin sind gleichzeitig Bundesland und kreisfreie Stadt.
+In den Arbeitslosendaten haben sie deshalb einen fünfstelligen Kreisschlüssel (`02000` bzw. `11000`), in den Daten der Volkswirtschaftlichen Gesamtrechnung (BIP, Erwerbstätige, Einwohner) dagegen nur den zweistelligen Länderschlüssel (`02` bzw. `11`):
+
+```{r}
+bip_long |>
+  filter(Regionalschluessel %in% c("02", "11", "02000", "11000"), Jahr == jahr_max)
+```
+
+Würden wir die Daten so verbinden, würden Hamburg und Berlin beim Filter `nchar(Regionalschluessel) == 5` herausfallen und der `left_join()` fände für `02000` und `11000` keinen Partner.
+Das Tückische: `left_join()` gibt dabei **weder einen Fehler noch eine Warnung** aus, die Werte sind einfach `NA`.
+(Bremen ist kein Problem, da die Stadt Bremen und Bremerhaven jeweils einen eigenen Kreisschlüssel haben.)
+
+Wir ergänzen daher für Hamburg und Berlin jeweils eine Kopie mit dem Kreisschlüssel.
+Die Zeilen mit dem Länderschlüssel behalten wir, damit Auswertungen auf Bundeslandebene weiterhin funktionieren:
+
+```{r}
+# Hamburg (02) und Berlin (11) zusätzlich mit Kreisschlüssel (02000, 11000) aufnehmen
+stadtstaaten_als_kreis <- function(df) {
+  df |>
+    bind_rows(df |>
+                filter(Regionalschluessel %in% c("02", "11")) |>
+                mutate(Regionalschluessel = paste0(Regionalschluessel, "000")))
+}
+
+bip_long       <- stadtstaaten_als_kreis(bip_long)
+erwerb_long    <- stadtstaaten_als_kreis(erwerb_long)
+einwohner_long <- stadtstaaten_als_kreis(einwohner_long)
+
+# Prüfung: Jetzt gibt es für jedes Jahr genau eine Zeile mit 02000 und 11000
+bip_long |>
+  filter(Regionalschluessel %in% c("02000", "11000")) |>
+  count(Regionalschluessel)
+```
+
 ```{r}
 # Schulden auf Landkreisebene
 schulden_kombi <- schulden_bereinigt |>
@@ -853,6 +910,21 @@ saveRDS(bundesland, "./data/bundesland.rds")
 saveRDS(gemeinden, "./data/gemeinden.rds")
 saveRDS(landkreise, "./data/landkreise.rds")
 ```
+
+Nach jedem Merge prüfen wir, ob die Zeilenzahl stimmt und wo Werte fehlen:
+
+```{r}
+nrow(gesamtdaten)
+colSums(is.na(gesamtdaten))
+
+gesamtdaten |>
+  filter(if_any(c(Einwohner, bip, erw), is.na)) |>
+  select(Regionalschluessel, landkreis_name, Einwohner, bip, erw)
+```
+
+Es fehlen nur noch die Einwohner und Schulden der vier Stadtstaaten-Kreise (Hamburg, Berlin, Bremen, Bremerhaven).
+Das ist eine Eigenschaft der Daten: Die "Integrierten Schulden der Gemeinden und Gemeindeverbände" enthalten keine Stadtstaaten, da deren Schulden Landesschulden sind.
+BIP und Erwerbstätige sind dagegen für alle `r nrow(gesamtdaten)` Landkreise und kreisfreien Städte vorhanden.
 
 # Übungsaufgaben
 

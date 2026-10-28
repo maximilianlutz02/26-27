@@ -522,7 +522,7 @@
     "href": "slides/VL_case-study-Teil1.html#interne-validität-schulden-pro-kopf",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Interne Validität: Schulden pro Kopf",
-    "text": "Interne Validität: Schulden pro Kopf\nDas Statistische Bundesamt liefert “Schulden je Einwohner” fertig. Wir rechnen nach:\n\nWette: Stimmt Schulden_gesamt / Einwohner mit der gelieferten Spalte überein? (a) exakt (b) bis auf Rundung (c) echte Abweichungen\n\n\nschulden_consistency &lt;- schulden_bereinigt |&gt;\n  mutate(Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner, 2),\n         differenz = Schulden_pro_kopf - Schulden_pro_kopf_new)\n\nrange(schulden_consistency$differenz, na.rm = TRUE)\n\n\n\n[1] 0.00 0.01\n\n\n\n\n± 50 Cent – Rundung auf ganze Euro in der Quelle. Intern konsistent."
+    "text": "Interne Validität: Schulden pro Kopf\nDas Statistische Bundesamt liefert “Schulden je Einwohner” fertig. Wir rechnen nach:\n\nWette: Stimmt Schulden_gesamt / Einwohner mit der gelieferten Spalte überein? (a) exakt (b) bis auf Rundung (c) echte Abweichungen\n\n\nschulden_consistency &lt;- schulden_bereinigt |&gt;\n  mutate(Schulden_pro_kopf_new = round(Schulden_gesamt / Einwohner, 2),\n         differenz = Schulden_pro_kopf - Schulden_pro_kopf_new)\n\nrange(schulden_consistency$differenz, na.rm = TRUE)\n\n\n\n[1] 0.00 0.01\n\n\n\n\nbis auf 1 Cent, d.h. die Daten sind intern konsistent."
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#auflösung-ihr-landkreis",
@@ -592,14 +592,14 @@
     "href": "slides/VL_case-study-Teil1.html#umwandeln-und-die-warnung-ernst-nehmen",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Umwandeln – und die Warnung ernst nehmen",
-    "text": "Umwandeln – und die Warnung ernst nehmen\n\nbip_wide |&gt; mutate(across(`1992`:`1999`, as.numeric)) |&gt; nrow()\n\nWarning: There were 7 warnings in `mutate()`.\nThe first warning was:\nℹ In argument: `across(`1992`:`1999`, as.numeric)`.\nCaused by warning:\n! NAs durch Umwandlung erzeugt\nℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.\n\n\n[1] 444\n\n\n\n\nEs wird gewarnt, dass NAs erzeugt wurden. Warum? Welche Werte sind betroffen?\n\n\n\n\nbip_wide |&gt;\n  filter(is.na(suppressWarnings(as.numeric(`1992`)))) |&gt;\n  select(Regionalschluessel, `1992`, `1995`)\n\n# A tibble: 57 × 3\n  Regionalschluessel `1992` `1995`\n  &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 13003              .      .     \n2 13004              .      .     \n3 13071              .      .     \n4 13072              .      .     \n# ℹ 53 more rows\n\n\n\n\nBetroffen sind Zellen mit - (kein Wert). Ein NA ist hier inhaltlich richtig – jetzt dürfen wir guten Gewissens umwandeln."
+    "text": "Umwandeln – und die Warnung ernst nehmen\n\nbip_wide |&gt; mutate(across(`1992`:`1999`, as.numeric)) |&gt; nrow()\n\nWarning: There were 7 warnings in `mutate()`.\nThe first warning was:\nℹ In argument: `across(`1992`:`1999`, as.numeric)`.\nCaused by warning:\n! NAs durch Umwandlung erzeugt\nℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.\n\n\n[1] 444\n\n\n\n\nEs wird gewarnt, dass NAs erzeugt wurden. Warum? Welche Werte sind betroffen?\n\n\n\n\nbip_wide |&gt;\n  filter(is.na(suppressWarnings(as.numeric(`1992`)))) |&gt;\n  select(Regionalschluessel, `1992`, `1995`)\n\n# A tibble: 57 × 3\n  Regionalschluessel `1992` `1995`\n  &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 13003              .      .     \n2 13004              .      .     \n3 13071              .      .     \n4 13072              .      .     \n# ℹ 53 more rows\n\n\n\n\nBetroffen sind Zellen mit - (kein Wert). Ein NA ist hier inhaltlich richtig, nach dem Check können wir diese Zeilen umwandeln."
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#umwandeln",
     "href": "slides/VL_case-study-Teil1.html#umwandeln",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Umwandeln",
-    "text": "Umwandeln\n\nzu_zahl &lt;- function(df) df |&gt; mutate(across(`1992`:`1999`, \\(x) suppressWarnings(as.numeric(x))))\n\nbip_wide       &lt;- zu_zahl(bip_wide)\nerwerb_wide    &lt;- zu_zahl(erwerb_wide)\neinwohner_wide &lt;- zu_zahl(einwohner_wide)\n\n\n\n\n\n\n\nsuppressWarnings() erst, nachdem wir wissen, was die Warnung bedeutet. Vorher versteckt es einen Fehler, nachher dokumentiert es eine Entscheidung."
+    "text": "Umwandeln\n\nzu_zahl &lt;- function(df) df |&gt; mutate(across(`1992`:`1999`, \\(x) suppressWarnings(as.numeric(x))))\n\nbip_wide       &lt;- zu_zahl(bip_wide)\nerwerb_wide    &lt;- zu_zahl(erwerb_wide)\neinwohner_wide &lt;- zu_zahl(einwohner_wide)\n\n\n\n\n\n\n\nsuppressWarnings() erst, nachdem wir wissen, was die Warnung bedeutet, ansonsten hätten wir diesen Fehler nie entdeckt."
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#ins-long-format",
@@ -620,14 +620,14 @@
     "href": "slides/VL_case-study-Teil1.html#lösung-als-funktion",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Lösung als Funktion",
-    "text": "Lösung als Funktion\nDasselbe für Erwerbstätige – also wieder eine Funktion statt Copy & Paste:\n\nins_long &lt;- function(df, name, faktor) {\n  df |&gt;\n    pivot_longer(cols = matches(\"^[0-9]{4}$\"), names_to = \"Jahr\", values_to = name) |&gt;\n    mutate(Jahr = as.numeric(Jahr), across(all_of(name), \\(x) x * faktor)) |&gt;\n    arrange(Jahr)\n}\n\nerwerb_long    &lt;- ins_long(erwerb_wide,    \"erw\",       1000)\neinwohner_long &lt;- ins_long(einwohner_wide, \"einwohner\", 1000)"
+    "text": "Lösung als Funktion\nDasselbe für Erwerbstätige, also wieder eine Funktion statt Copy & Paste:\n\nins_long &lt;- function(df, name, faktor) {\n  df |&gt;\n    pivot_longer(cols = matches(\"^[0-9]{4}$\"), names_to = \"Jahr\", values_to = name) |&gt;\n    mutate(Jahr = as.numeric(Jahr), across(all_of(name), \\(x) x * faktor)) |&gt;\n    arrange(Jahr)\n}\n\nerwerb_long    &lt;- ins_long(erwerb_wide,    \"erw\",       1000)\neinwohner_long &lt;- ins_long(einwohner_wide, \"einwohner\", 1000)"
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#konsistenzcheck-ihre-aufgabe",
     "href": "slides/VL_case-study-Teil1.html#konsistenzcheck-ihre-aufgabe",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Konsistenzcheck: Ihre Aufgabe",
-    "text": "Konsistenzcheck: Ihre Aufgabe\n\nVergleichen Sie die Einwohnerzahlen aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) – auf Landkreisebene.\n\nLeitfragen:\n\nWelche Schlüssel-Länge brauchen Sie in beiden Datensätzen?\nWie groß dürfen die Abweichungen sein (beide beziehen sich auf 2024)?\nWelche Landkreise fallen auf – und warum?\n\n\n\n\n\n\n\nGenau diese Art Check sollten Sie bei jedem KI-generierten Datensatz machen: eine Zahl, die Sie aus einer anderen Quelle kennen."
+    "text": "Konsistenzcheck: Ihre Aufgabe\n\nVergleichen Sie die Einwohnerzahlen aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) auf Landkreisebene.\n\nLeitfragen:\n\nWelche Schlüssel-Länge brauchen Sie in beiden Datensätzen?\nWie groß dürfen die Abweichungen sein (beide beziehen sich auf 2024)?\nWelche Landkreise fallen auf – und warum?\n\n\n\n\n\n\n\nGenau diese Art Check sollten Sie bei jedem KI-generierten Datensatz machen: eine Zahl, die Sie aus einer anderen Quelle kennen."
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#kartenmaterial-hinzufügen",
@@ -676,35 +676,35 @@
     "href": "slides/VL_case-study-Teil1.html#bug-hunt-5-der-join",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "🐛 Bug Hunt 5: Der Join",
-    "text": "🐛 Bug Hunt 5: Der Join\nChat AI, gefragt nach “BIP pro Kopf”:\n\nbip_kombi_ki &lt;- left_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024)\n\n\n🔮 Prognose: bip_long hat 14.208 Zeilen. Wie viele Zeilen hat das Ergebnis von left_join() in Zeile 1? Wo liegt der Fehler?"
+    "text": "🐛 Bug Hunt 5: Der Join\nChat AI, gefragt nach “BIP pro Kopf”:\n\nbip_kombi_ki &lt;- left_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024)\n\n\n🔮 Prognose: bip_long hat 14.272 Zeilen. Wie viele Zeilen hat das Ergebnis von left_join() in Zeile 1? Wo liegt der Fehler?"
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#bug-hunt-5-prüfung",
     "href": "slides/VL_case-study-Teil1.html#bug-hunt-5-prüfung",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "🐛 Bug Hunt 5: Prüfung",
-    "text": "🐛 Bug Hunt 5: Prüfung\n\nleft_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt; nrow()\n\nWarning in left_join(bip_long, einwohner_long, by = \"Regionalschluessel\"): Detected an unexpected many-to-many relationship between `x` and `y`.\nℹ Row 1 of `x` matches multiple rows in `y`.\nℹ Row 1 of `y` matches multiple rows in `x`.\nℹ If a many-to-many relationship is expected, set `relationship = \"many-to-many\"` to silence\n  this warning.\n\n\n[1] 454656\n\n\n\nJedes BIP-Jahr wird mit jedem Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der many-to-many-Beziehung – und filter(Jahr == 2024) schlägt danach fehl, weil es nur noch Jahr.x und Jahr.y gibt.\n\n\n\n\n\n\nFaustregel: Nach jedem join die Zeilenzahl prüfen. Bei left_join darf sie nicht steigen – sonst fehlt ein Schlüssel."
+    "text": "🐛 Bug Hunt 5: Prüfung\n\nleft_join(bip_long, einwohner_long, by = \"Regionalschluessel\") |&gt; nrow()\n\nWarning in left_join(bip_long, einwohner_long, by = \"Regionalschluessel\"): Detected an unexpected many-to-many relationship between `x` and `y`.\nℹ Row 1 of `x` matches multiple rows in `y`.\nℹ Row 1 of `y` matches multiple rows in `x`.\nℹ If a many-to-many relationship is expected, set `relationship = \"many-to-many\"` to silence\n  this warning.\n\n\n[1] 456704\n\n\n\nJedes BIP-Jahr wird mit jedem Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der many-to-many-Beziehung und filter(Jahr == 2024) schlägt danach fehl, weil es nur noch Jahr.x und Jahr.y gibt.\n\n\n\n\n\n\nFaustregel: Nach jedem join die Zeilenzahl prüfen. Bei left_join darf sie nicht steigen, sonst fehlt ein Schlüssel."
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-5-reparieren",
     "href": "slides/VL_case-study-Teil1.html#jetzt-sie-bug-hunt-5-reparieren",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "✍️ Jetzt Sie: Bug Hunt 5 reparieren",
-    "text": "✍️ Jetzt Sie: Bug Hunt 5 reparieren\nbip_long und einwohner_long (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie bip_pro_kopf für 2024. Die Zeilenzahl von bip_long ist nrow(bip_long) – prüfen Sie sie nach dem Join!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nEin Panel hat zwei Schlüssel: Region und Jahr. by = c(\"Regionalschluessel\", \"Jahr\").\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(Jahr == 2024)\nbip_kombi"
+    "text": "✍️ Jetzt Sie: Bug Hunt 5 reparieren\nbip_long und einwohner_long (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie bip_pro_kopf für 2024. Die Zeilenzahl von bip_long ist nrow(bip_long). Prüfen Sie sie nach dem Join!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nEin Panel hat zwei Schlüssel: Region und Jahr. by = c(\"Regionalschluessel\", \"Jahr\").\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(Jahr == 2024)\nbip_kombi"
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#bip-pro-kopf",
     "href": "slides/VL_case-study-Teil1.html#bip-pro-kopf",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "BIP pro Kopf",
-    "text": "BIP pro Kopf\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |&gt;\n  select(-c(Jahr, einwohner))\nnrow(bip_kombi)\n\n[1] 398\n\nsummary(bip_kombi$bip_pro_kopf)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  21481   36289   42690   47830   51890  193293 \n\n\n\n\nPlausibilitätscheck: BIP pro Kopf in Deutschland ≈ 48.000 €. Passt die Größenordnung? Was wäre ohne * 1e6 passiert?"
+    "text": "BIP pro Kopf\n\nbip_kombi &lt;- left_join(bip_long, einwohner_long, by = c(\"Regionalschluessel\", \"Jahr\")) |&gt;\n  mutate(bip_pro_kopf = bip / einwohner) |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024) |&gt;\n  select(-c(Jahr, einwohner))\nnrow(bip_kombi)\n\n[1] 400\n\nsummary(bip_kombi$bip_pro_kopf)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  21481   36301   42721   47951   52178  193293 \n\n\n\n\nPlausibilitätscheck: Durchschnittliches BIP pro Kopf in Deutschland ≈ 48.000 €. Passt die Größenordnung? Was wäre ohne * 1e6 passiert?"
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#alles-zusammenführen",
     "href": "slides/VL_case-study-Teil1.html#alles-zusammenführen",
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Alles zusammenführen",
-    "text": "Alles zusammenführen\n\ngesamtdaten &lt;- alo_landkreis |&gt;                                   # Basis: Arbeitslose je Landkreis\n  mutate(bundesland = str_extract(Regionalschluessel, \"^.{2}\")) |&gt;\n  left_join(schulden_kombi, by = \"Regionalschluessel\") |&gt;\n  left_join(bip_kombi,      by = \"Regionalschluessel\") |&gt;\n  left_join(erwerb_kombi,   by = \"Regionalschluessel\")\n\n\n\nnrow(gesamtdaten)\n\n[1] 400\n\ncolSums(is.na(gesamtdaten))\n\n  Regionalschluessel            total_alo           bundesland Schulden_pro_kopf_lk \n                   0                    0                    0                    4 \n           Einwohner      Schulden_gesamt                  bip         bip_pro_kopf \n                   4                    4                    2                    2 \n                 erw \n                   2 \n\n\n\n\n\nDeutschland hat 400 Landkreise und kreisfreie Städte. Stimmt nrow()? Sind die NAs ein Fehler oder eine Eigenschaft der Daten?"
+    "text": "Alles zusammenführen\n\ngesamtdaten &lt;- alo_landkreis |&gt;                                   # Basis: Arbeitslose je Landkreis\n  mutate(bundesland = str_extract(Regionalschluessel, \"^.{2}\")) |&gt;\n  left_join(schulden_kombi, by = \"Regionalschluessel\") |&gt;\n  left_join(bip_kombi,      by = \"Regionalschluessel\") |&gt;\n  left_join(erwerb_kombi,   by = \"Regionalschluessel\")\n\n\n\nnrow(gesamtdaten)\n\n[1] 400\n\ncolSums(is.na(gesamtdaten))\n\n  Regionalschluessel            total_alo           bundesland Schulden_pro_kopf_lk \n                   0                    0                    0                    4 \n           Einwohner      Schulden_gesamt                  bip         bip_pro_kopf \n                   4                    4                    0                    0 \n                 erw \n                   0 \n\n\n\n\n\nDeutschland hat 400 Landkreise und kreisfreie Städte. Stimmt nrow()? Sind die NAs ein Fehler oder eine Eigenschaft der Daten?"
   },
   {
     "objectID": "slides/VL_case-study-Teil1.html#ein-bekannter-wert",
@@ -761,5 +761,775 @@
     "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
     "section": "Schritt für Schritt durch die Pipe",
     "text": "Schritt für Schritt durch die Pipe\nKlicken Sie sich durch die Reiter – nach jedem |&gt; sehen Sie, was mit den Daten passiert:\n\n1 · select()2 · mutate() zerlegen3 · mutate() als Zahl4 · aufräumen\n\n\nVon den 27 eingelesenen Spalten nur die drei relevanten behalten:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  head(4)\n\n# A tibble: 4 × 3\n  ...1                  Jahresdurchschnitte ...3               \n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;              \n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt\n2 Region                2023                2024               \n3 Deutschland           2608671.5           2787112.0833333335 \n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672 \n\n\n\n\n...1 enthält Schlüssel und Name – wir ziehen beides in eigene Spalten:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  head(4)\n\n# A tibble: 4 × 5\n  ...1                  Jahresdurchschnitte ...3                Regionalschluessel Gemeinde    \n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;               &lt;chr&gt;              &lt;chr&gt;       \n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt &lt;NA&gt;               &lt;NA&gt;        \n2 Region                2023                2024                &lt;NA&gt;               Region      \n3 Deutschland           2608671.5           2787112.0833333335  &lt;NA&gt;               Deutschland \n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672  01                 Schleswig-H…\n\n\n\n\n...3 ist Text – als Zahl alo umwandeln (Kopfzeilen werden dabei zu NA):\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  mutate(alo = as.numeric(`...3`)) |&gt;\n  head(4)\n\n# A tibble: 4 × 6\n  ...1                  Jahresdurchschnitte ...3                Regionalschl…¹ Gemeinde     alo\n  &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;               &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;\n1 &lt;NA&gt;                  Jahresdurch-schnitt Jahresdurch-schnitt &lt;NA&gt;           &lt;NA&gt;     NA     \n2 Region                2023                2024                &lt;NA&gt;           Region    2.02e3\n3 Deutschland           2608671.5           2787112.0833333335  &lt;NA&gt;           Deutsch…  2.79e6\n4 01 Schleswig-Holstein 87757.333333333328  92492.916666666672  01             Schlesw…  9.25e4\n# ℹ abbreviated name: ¹​Regionalschluessel\n\n\n\n\nHilfsspalten entfernen und NA-Zeilen (Kopf-/Leerzeilen) herausfiltern → fertig:\n\nalo_skip |&gt;\n  select(c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  mutate(Regionalschluessel = str_extract(`...1`, \"[[:digit:]]+\"),\n         Gemeinde           = str_extract(`...1`, \"[A-Z].*\")) |&gt;\n  mutate(alo = as.numeric(`...3`)) |&gt;\n  select(-c(`...1`, Jahresdurchschnitte, `...3`)) |&gt;\n  filter(!is.na(alo)) |&gt;\n  head(4)\n\n# A tibble: 4 × 3\n  Regionalschluessel Gemeinde                alo\n  &lt;chr&gt;              &lt;chr&gt;                 &lt;dbl&gt;\n1 &lt;NA&gt;               Region                2024 \n2 &lt;NA&gt;               Deutschland        2787112.\n3 01                 Schleswig-Holstein   92493.\n4 01001              Flensburg, Stadt      4416.\n\n\n\n\n\n\nDurch die Reiter klicken und bei jedem Schritt fragen: Welche Spalte kommt dazu, welche fällt weg, welche Zeilen verschwinden? Guter Moment, um den Pipe-Operator |&gt; (“… und dann …”) zu erklären."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#recap-kahoot-zu-teil-1",
+    "href": "slides/VL_case-study-Teil2.html#recap-kahoot-zu-teil-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Recap: Kahoot zu Teil 1",
+    "text": "📱 Recap: Kahoot zu Teil 1\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\nDieselben 7 Fragen wie am Ende von Teil 1. Mal sehen, was hängen geblieben ist.\nTipp: Öffnen Sie die Folien jetzt schon auf Ihrem Laptop. Die Code-Felder (webR) laden im Hintergrund ca. 20 Sekunden.\n\npivot_longer()-Fehlermeldung lesen\nwide → long\nBug Hunt 5: der Join und die Zeilenzahl\nEinheiten: × 1.000, × 1e6\n400 Landkreise und der letzte Check vor der Abgabe\n\nKahoot öffnen →\n\n\n\n\n\n\n\nSpaced retrieval: dieselben Fragen wie Checkpoint 3 aus Teil 1. Trefferquote mit der letzten Sitzung vergleichen und kurz nennen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#organisatorische-hinweise",
+    "href": "slides/VL_case-study-Teil2.html#organisatorische-hinweise",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Organisatorische Hinweise",
+    "text": "Organisatorische Hinweise\n\n\n\nViele Deadlines\nUngewohntes Format (sehr technisch)\nGitHub, RStudio, R\nArbeitsschritte mit GitHub (3. Problem Set von GitHub herunterladen und lösen)\n\n\nDas ist alles neu, und das ist uns bewusst!\n\n\n\nWarum das Ganze?\n\n\n\nDurch die Deadlines setzen Sie sich kontinuierlich mit dem Stoff auseinander\nGitHub, R, RStudio und Quarto brauchen Sie in den Projekten → Üben mit RTutor\nVisualisierung, Interpretation und Präsentation sind in den Projekten gefragt → Üben mit der Case-Study\nArbeiten mit KI → lernen, wo Chat AI Ihre Arbeit sinnvoll ergänzt und wo nicht"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wo-stehen-wir",
+    "href": "slides/VL_case-study-Teil2.html#wo-stehen-wir",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wo stehen wir?",
+    "text": "Wo stehen wir?\nTeil 1 (✔): Daten beschaffen, bereinigen, prüfen → ein Datensatz gesamtdaten mit einer Zeile je Landkreis.\nTeil 2: Was steht eigentlich in den Daten? Zwei Sitzungen:\n\nSitzung 1: Grundlagen → Überblick → Tabellen\nSitzung 2: Grafiken → Karten → Zusammenhänge\n\nZiele:\n\nDaten beschreiben: Kennzahlen und Tabellen (skimr, kableExtra)\nDaten zeigen: Verteilungen, Zeitreihen, Karten (ggplot2, sf, plotly)\nZusammenhänge mit Korrelationen quantifizieren\nTabellen und Grafiken prüfen, egal ob von Ihnen oder von Chat AI\n\n\n\n\n\n\n\n\n\nDas eigentliche Lernziel von Teil 2\n\n\nTabellen und Grafiken erstellen kann Chat AI in Sekunden. Sie sollen sie richtig lesen, ehrlich beschreiben und prüfen können. Die 🐛 Bug Hunts (Nr. 6–10, weiter gezählt ab Teil 1) sind deshalb oft keine Code-Fehler, sondern Denkfehler: falscher Nenner, falsche Formel, falsche Legende, falsche Interpretation.\n\n\n\n\nLandkreis steht im Folgenden für Landkreise und kreisfreie Städte (Kreisebene). Im dritten RTutor Problem Set visualisieren Sie Daten zu Ländern auf europäischer Ebene."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ziele-von-teil-2",
+    "href": "slides/VL_case-study-Teil2.html#ziele-von-teil-2",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ziele von Teil 2",
+    "text": "Ziele von Teil 2\n\nDaten mit deskriptiven Tabellen beschreiben (skimr, kableExtra)\nDaten visualisieren und Zusammenhänge grafisch veranschaulichen (ggplot2, sf)\nZusammenhänge mit Korrelationen quantifizieren\nInformationen zu einer Fragestellung möglichst effektiv aufbereiten\nEine interaktive Grafik erstellen (plotly)\n\n\n\nIm dritten RTutor Problem Set erstellen Sie Visualisierungen zu einzelnen Ländern auf europäischer Ebene."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#daten-und-pakete-laden",
+    "href": "slides/VL_case-study-Teil2.html#daten-und-pakete-laden",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Daten und Pakete laden",
+    "text": "Daten und Pakete laden\nWir laden die in Teil 1 erstellten Datensätze:\n\nlibrary(tidyverse)\nlibrary(skimr)\nlibrary(kableExtra)\nlibrary(sf)\nlibrary(plotly)\n\ngesamtdaten   &lt;- readRDS(file.path(datenpfad, \"gesamtdaten.rds\"))\nbip_zeitreihe &lt;- readRDS(file.path(datenpfad, \"bip_zeitreihe.rds\"))\nlandkreise    &lt;- readRDS(file.path(datenpfad, \"landkreise.rds\"))   # Geodaten (sf)\nbundesland    &lt;- readRDS(file.path(datenpfad, \"bundesland.rds\"))   # Geodaten (sf)\n\n\n\n\n\n\n\nIm RStudio-Projekt case-study/ lautet der Pfad einfach datenpfad &lt;- \"data\"."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#deskriptive-vs.-induktive-statistik",
+    "href": "slides/VL_case-study-Teil2.html#deskriptive-vs.-induktive-statistik",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Deskriptive vs. induktive Statistik",
+    "text": "Deskriptive vs. induktive Statistik\n\nDeskriptive (beschreibende) Statistik beschreibt den vorliegenden Datensatz\nInduktive (schließende) Statistik schließt von einer Stichprobe auf die Grundgesamtheit\n\n\nAber:\n\nDie Formel für den Mittelwert ist in beiden Fällen dieselbe\nDer Datensatz kann derselbe sein\n\n\n\n\nWorin genau besteht dann der Unterschied?\n\n\nZielantwort: in der Frage, die man stellt. Interessiert mich der Datensatz selbst (deskriptiv) oder eine Population, aus der der Datensatz nur eine Stichprobe ist (induktiv)?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#deskriptive-statistik",
+    "href": "slides/VL_case-study-Teil2.html#deskriptive-statistik",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Deskriptive Statistik",
+    "text": "Deskriptive Statistik\n\n\nDeskriptiv\n\nInteresse gilt dem Datensatz selbst\nBeispiel: Arbeitslose aller Landkreise laut Arbeitsagentur (Vollerhebung)\nDarstellung als Tabelle oder Grafik\n\n\nInduktiv\n\nInteresse gilt der Population, beobachtet ist nur eine (zufällige) Stichprobe\nBeispiel: Mikrozensus, eine Befragung zufällig ausgewählter Haushalte\nTypische Ziele: Vorhersage und kausale Zusammenhänge\n\n\n\n\nIn die induktive Statistik tauchen wir nächstes Semester tiefer ein."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#deskriptiv-oder-induktiv-1",
+    "href": "slides/VL_case-study-Teil2.html#deskriptiv-oder-induktiv-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Deskriptiv oder induktiv?",
+    "text": "Deskriptiv oder induktiv?\n\nHandzeichen: deskriptiv ✋ oder induktiv ✌️?\n\n“Gelsenkirchen hatte 2024 die höchste Arbeitslosenquote aller Landkreise in unseren Daten.”\n“Laut Mikrozensus ist der Anteil der Teilzeitbeschäftigten in Deutschland gestiegen.”\n“Landkreise in Ostdeutschland haben im Mittel eine höhere Arbeitslosenquote als in Westdeutschland.”\n“Eine Umfrage unter 300 Studierenden in Ulm zeigt: Studierende in Deutschland nutzen Chat AI täglich.”\n\n\n\n\n\n\n\n\n1 deskriptiv (Vollerhebung, Aussage über die Daten). 2 induktiv (Stichprobe → Population). 3 deskriptiv, solange es um genau diese Landkreise in 2024 geht; induktiv, wenn man daraus auf “Ostdeutschland generell” schließt. Schöne Diskussion. 4 induktiv, und zwar ein schlechter Schluss: Ulmer Studierende sind keine Zufallsstichprobe aller Studierenden."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#werkzeuge-der-deskriptiven-statistik",
+    "href": "slides/VL_case-study-Teil2.html#werkzeuge-der-deskriptiven-statistik",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Werkzeuge der deskriptiven Statistik",
+    "text": "Werkzeuge der deskriptiven Statistik\n\n\n\n\n\n\n\n\n\nKennzahlen\nGrafiken\n\n\n\n\nUnivariat (eine Variable)\nMittelwert, Median, Standardabweichung, Quantile\nBoxplot, Histogramm, Kerndichte\n\n\nBivariat (zwei Variablen)\nKorrelationskoeffizient, Korrelationsmatrix\nStreudiagramm\n\n\n\n\nUnivariat: Überblick verschaffen, Eigenschaften einer Variablen aufzeigen.\nBivariat: Wenn sich eine Variable verändert, wie verändert sich die andere?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#einen-boxplot-lesen",
+    "href": "slides/VL_case-study-Teil2.html#einen-boxplot-lesen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Einen Boxplot lesen",
+    "text": "Einen Boxplot lesen\n\n\n\n\n\n🔮 Prognose: Welcher Anteil der Beobachtungen liegt in der Box? Ab wann wird ein Punkt einzeln gezeichnet?\n\n\n\nBox = 25 %- bis 75 %-Quantil → die mittleren 50 %\nWhisker: bis max. 1,5 × Interquartilsabstand (IQR)\nPunkte weiter als 1,5 × IQR von der Box entfernt: einzeln gezeichnete Ausreißer"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosenquote-berechnen",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosenquote-berechnen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosenquote berechnen",
+    "text": "Arbeitslosenquote berechnen\n\nZuerst: Überblick gewinnen. Wie viele Landkreise haben wir? Wie sind Schulden, Arbeitslosigkeit und BIP verteilt?\n\nDafür brauchen wir zuerst die Arbeitslosenquote:\n\\[\n\\text{Arbeitslosenquote} = \\frac{\\text{Arbeitslose}}{\\text{Erwerbstätige} + \\text{Arbeitslose}} \\times 100\n\\]\n\ngesamtdaten &lt;- gesamtdaten |&gt;\n  mutate(alo_quote = total_alo / (erw + total_alo) * 100)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ein-erster-schneller-blick",
+    "href": "slides/VL_case-study-Teil2.html#ein-erster-schneller-blick",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ein erster schneller Blick",
+    "text": "Ein erster schneller Blick\nQuick and dirty: Wie viele Erwerbstätige und Einwohner hat Deutschland laut unseren Daten?\n\ngesamtdaten |&gt;\n  summarise(total_erw = sum(erw, na.rm = TRUE), total_einwohner = sum(Einwohner, na.rm = TRUE))\n\n# A tibble: 1 × 2\n  total_erw total_einwohner\n      &lt;dbl&gt;           &lt;dbl&gt;\n1  45987000        77277808\n\n\n\n\nDeutschland hat knapp 84 Mio. Einwohner. Wir kommen auf 77,3 Mio. Wer fehlt?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-1-wer-fehlt",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-1-wer-fehlt",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Wer fehlt?",
+    "text": "🐛 Bug Hunt 1: Wer fehlt?\n\ngesamtdaten |&gt;\n  filter(is.na(Einwohner) | is.na(alo_quote)) |&gt;\n  select(Regionalschluessel, landkreis_name, Einwohner, erw, bip, alo_quote)\n\n# A tibble: 4 × 6\n  Regionalschluessel landkreis_name Einwohner    erw         bip alo_quote\n  &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n1 02000              Hamburg               NA     NA          NA     NA   \n2 04011              Bremen                NA 383383 36111353000      7.72\n3 04012              Bremerhaven           NA  61816  5156070000     12.8 \n4 11000              Berlin                NA     NA          NA     NA   \n\n\n\n2 Minuten, zu zweit: Vier Stadtstaaten, aber unterschiedliche Lücken. Ist das eine Eigenschaft der Daten oder ein Fehler aus Teil 1? Wie prüfen Sie das?\n\n\n\n\n\n\n\nEinwohner fehlen für alle vier, weil sie aus dem Schulden-Datensatz kommen und dieser keine Blätter für Stadtstaaten hat (Eigenschaft der Daten). BIP und Erwerbstätige fehlen nur bei Hamburg und Berlin: Join-Fehler, siehe nächste Folie."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-1-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-1-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Prüfung",
+    "text": "🐛 Bug Hunt 1: Prüfung\nWie heißen Hamburg und Berlin im BIP-Datensatz, so wie er aus der Excel-Datei kommt?\n\nbip_2024_roh |&gt;\n  filter(str_starts(Regionalschluessel, \"02|04|11\")) |&gt;\n  print(n = 5)\n\n# A tibble: 4 × 3\n  Regionalschluessel          bip bip_pro_kopf\n  &lt;chr&gt;                     &lt;dbl&gt;        &lt;dbl&gt;\n1 11                 208449010000       56739.\n2 04011               36111353000       61697.\n3 04012                5156070000       43523.\n4 02                 162843535000       87688.\n\n\n\n\nIn den Arbeitslosendaten: 02000 und 11000 (Kreisschlüssel)\nIn den BIP-Daten: nur 02 und 11 (Länderschlüssel) → nchar(...) == 5 wirft sie raus\nleft_join() findet keinen Partner und füllt mit NA, ohne Warnung\nBremen ist kein Problem: Bremen (04011) und Bremerhaven (04012) haben eigene Kreisschlüssel"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-1-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-1-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 1 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 1 reparieren\nalo_lk enthält Arbeitslose je Landkreis, bip_2024 das BIP 2024 mit den Original-Schlüsseln aus der Excel-Datei. Passen Sie bip_2024 vor dem Join so an, dass Hamburg und Berlin ein bip_pro_kopf bekommen.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nAus \"02\" muss \"02000\" werden, aus \"11\" muss \"11000\" werden. if_else(Regionalschluessel %in% c(\"02\", \"11\"), paste0(...), ...) in einem mutate().\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_2024_fix &lt;- bip_2024 |&gt;\n  mutate(Regionalschluessel = if_else(Regionalschluessel %in% c(\"02\", \"11\"),\n                                      paste0(Regionalschluessel, \"000\"),\n                                      Regionalschluessel))\n\nalo_lk |&gt;\n  left_join(bip_2024_fix, by = \"Regionalschluessel\") |&gt;\n  filter(landkreis_name %in% c(\"Hamburg\", \"Berlin\", \"Bremen\"))"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-1-was-lernen-wir",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-1-was-lernen-wir",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Was lernen wir?",
+    "text": "🐛 Bug Hunt 1: Was lernen wir?\n\nleft_join() meldet nichts, wenn ein Schlüssel keinen Partner findet. Die Zeile bleibt, die Werte werden NA.\nSchlüssel sind nicht immer gleich formatiert: \"02\" vs. \"02000\", \"8421\" vs. \"08421\".\n\n\n\n\n\n\n\n\nNach jedem Join: colSums(is.na()) und fragen, welche Zeilen NA sind. Fehlen bekannte, große Einheiten (Hamburg! Berlin!), ist es fast nie eine Eigenschaft der Daten.\n\n\n\n\nIn der Case-Study Teil 1 ist der Fehler inzwischen korrigiert (Abschnitt “Sonderfall Stadtstaaten”). Gefunden hat ihn genau dieser Check."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#überblick-mit-skimr",
+    "href": "slides/VL_case-study-Teil2.html#überblick-mit-skimr",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Überblick mit skimr",
+    "text": "Überblick mit skimr\n\nEtwas besser als summarise(): skimr liefert für alle Variablen auf einmal einen Überblick.\n\n\ngesamtdaten |&gt;\n  select(alo_quote, Schulden_pro_kopf_lk, bip_pro_kopf, landkreis_name) |&gt;\n  skim_without_charts() |&gt;\n  yank(\"character\")\n\n\n\nVariable type: character\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmin\nmax\nempty\nn_unique\nwhitespace\n\n\n\n\nlandkreis_name\n0\n1\n3\n32\n0\n378\n0\n\n\n\n\n\n\n\n400 Beobachtungen, aber nur 378 verschiedene Namen. Woher kommt das?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#zwei-mal-münchen",
+    "href": "slides/VL_case-study-Teil2.html#zwei-mal-münchen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Zwei Mal “München”?",
+    "text": "Zwei Mal “München”?\n\ngesamtdaten |&gt;\n  filter(landkreis_name %in% c(\"München\", \"Augsburg\", \"Würzburg\")) |&gt;\n  select(Regionalschluessel, landkreis_name, bundesland_name) |&gt;\n  print(n = 6)\n\n# A tibble: 6 × 3\n  Regionalschluessel landkreis_name bundesland_name\n  &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;          \n1 09162              München        Bayern         \n2 09184              München        Bayern         \n3 09663              Würzburg       Bayern         \n4 09679              Würzburg       Bayern         \n5 09761              Augsburg       Bayern         \n6 09772              Augsburg       Bayern         \n\n\n\n\n09162 ist die Stadt München, 09184 der Landkreis München\nGleicher Name, anderer Regionalschlüssel → zwei Beobachtungen\nDas betrifft 44 Zeilen\n\n\nDarum mergen wir immer über den Schlüssel, nie über Namen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#stimmen-die-400-beobachtungen",
+    "href": "slides/VL_case-study-Teil2.html#stimmen-die-400-beobachtungen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Stimmen die 400 Beobachtungen?",
+    "text": "Stimmen die 400 Beobachtungen?\n\nWie viele Landkreise und kreisfreie Städte hat Deutschland?\n\n\n\n294 Landkreise\n106 kreisfreie Städte\nZusammen: 400 ✔\n\n\n\n\n\n\n\n\n\nDas ist Prüfschritt 7 der Checkliste aus Teil 1: eine Zahl, die Sie aus einer anderen Quelle kennen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-numerischen-variablen",
+    "href": "slides/VL_case-study-Teil2.html#die-numerischen-variablen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die numerischen Variablen",
+    "text": "Die numerischen Variablen\n\ngesamtdaten |&gt;\n  select(alo_quote, Schulden_pro_kopf_lk, bip_pro_kopf) |&gt;\n  skim_without_charts() |&gt;\n  yank(\"numeric\")\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\n\n\n\n\nalo_quote\n0\n1.00\n5.61\n2.09\n1.88\n4.00\n5.44\n6.90\n14.46\n\n\nSchulden_pro_kopf_lk\n4\n0.99\n3223.38\n2359.84\n188.23\n1660.58\n2513.91\n4041.37\n18911.35\n\n\nbip_pro_kopf\n0\n1.00\n47951.45\n19941.49\n21480.73\n36300.64\n42721.06\n52178.33\n193293.12\n\n\n\n\n\n\n5 Minuten, zu zweit: Wählen Sie eine Variable und beschreiben Sie sie in eigenen Worten: Mittelwert, Standardabweichung, Median. Was sagt das Verhältnis von Mittelwert zu Median?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-tabelle-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#die-tabelle-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die Tabelle beschrieben",
+    "text": "Die Tabelle beschrieben\n\n\nArbeitslosenquote\n\nMittelwert: 5,61 %\nSD: 2,09 Prozentpunkte → deutliche regionale Unterschiede\nMedian: 5,44 % → nahe am Mittelwert, kaum extreme Ausreißer\n\n\nSchulden pro Kopf\n\nMittelwert: 3.223 €\nSD: 2.360 € → sehr hohe Streuung\nMedian: 2.514 € → deutlich darunter: einige sehr hoch verschuldete Kreise ziehen den Mittelwert hoch\n\n\nBIP pro Kopf\n\nMittelwert: 47.951 €\nSD: 19.941 € → hohe Streuung\nMedian: 42.721 € → darunter: einige sehr reiche Kreise (Wolfsburg, Ingolstadt, …)\n\n\n\n\nMittelwert deutlich über dem Median → rechtsschiefe Verteilung. Ein Histogramm zeigt das gleich auf einen Blick."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#konsistenzcheck-gegen-die-amtliche-quote",
+    "href": "slides/VL_case-study-Teil2.html#konsistenzcheck-gegen-die-amtliche-quote",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Konsistenzcheck gegen die amtliche Quote",
+    "text": "Konsistenzcheck gegen die amtliche Quote\nDie Bundesagentur für Arbeit meldet für 2024 eine Arbeitslosenquote von 6,0 % im Jahresdurchschnitt (Quelle: BA, Jahresrückblick 2024). Und wir?\n\ngesamtdaten |&gt;\n  summarise(quote_deutschland = sum(total_alo) / sum(erw + total_alo) * 100)\n\n# A tibble: 1 × 1\n  quote_deutschland\n              &lt;dbl&gt;\n1              5.71\n\n\n\nErst summieren, dann teilen (wie in Bug Hunt 4 aus Teil 1): 5,71 %. Nah dran, aber zu niedrig.\n\nWoher kommt der Rest? Schauen wir uns den Nenner genauer an."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-2-der-nenner",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-2-der-nenner",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 2: Der Nenner",
+    "text": "🐛 Bug Hunt 2: Der Nenner\nTeil 1 endete mit der Frage: Was fehlt im Nenner? Unsere Formel:\n\nalo_quote = total_alo / (erw + total_alo) * 100\n\n\ntotal_alo: Arbeitslose laut Arbeitsagentur\nerw: Erwerbstätige laut Volkswirtschaftlicher Gesamtrechnung\n\n\n2 Minuten, zu zweit: Die Formel ist mathematisch richtig. Trotzdem passen Zähler und Nenner nicht zusammen. Wo werden Arbeitslose gezählt, wo Erwerbstätige? Welche Landkreise bekommen dadurch eine zu hohe Quote?\n\n\n\n\n\n\n\nArbeitslose: am Wohnort. Erwerbstätige (VGR): am Arbeitsort. Kreise im Speckgürtel (viele Auspendler) haben zu wenige Erwerbstätige im Nenner → Quote zu hoch. Städte mit vielen Einpendlern → Quote zu niedrig."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-2-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-2-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 2: Prüfung",
+    "text": "🐛 Bug Hunt 2: Prüfung\nWenn erw die Erwerbstätigen am Wohnort wären, müsste erw / Einwohner deutlich unter 1 liegen (Kinder, Rentner, …):\n\ngesamtdaten |&gt;\n  mutate(erw_je_ew = erw / Einwohner) |&gt;\n  filter(!is.na(erw_je_ew)) |&gt;\n  arrange(desc(erw_je_ew)) |&gt;\n  select(landkreis_name, erw_je_ew, alo_quote) |&gt;\n  slice(c(1:3, (n() - 2):n())) |&gt;     # die drei höchsten und die drei niedrigsten\n  print(n = 6)\n\n# A tibble: 6 × 3\n  landkreis_name    erw_je_ew alo_quote\n  &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;\n1 Schweinfurt           1.22       2.98\n2 Regensburg            1.12       2.37\n3 Passau                1.05       3.15\n4 Rhein-Pfalz-Kreis     0.283      7.68\n5 Kusel                 0.280      8.29\n6 Südwestpfalz          0.261      8.88\n\n\n\nMehr Erwerbstätige als Einwohner? Nur möglich, wenn erw am Arbeitsort zählt. Arbeitslose zählen am Wohnort.\n\nStädte mit vielen Einpendlern → großer Nenner → Quote zu niedrig\nLandkreise im Umland mit vielen Auspendlern → kleiner Nenner → Quote zu hoch"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-der-pendler-check",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-der-pendler-check",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: der Pendler-Check",
+    "text": "✍️ Jetzt Sie: der Pendler-Check\nWenden Sie das auf Baden-Württemberg an: erw_je_ew berechnen, absteigend sortieren. Wo liegen Ulm und der Alb-Donau-Kreis, der Ulm umschließt?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nAbsteigend sortieren mit arrange(desc(erw_je_ew)).\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\ngesamtdaten |&gt;\n  filter(bundesland_name == \"Baden-Württemberg\") |&gt;\n  mutate(erw_je_ew = erw / Einwohner) |&gt;\n  arrange(desc(erw_je_ew)) |&gt;\n  select(landkreis_name, erw_je_ew, alo_quote) |&gt;\n  print(n = 44)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-2-was-lernen-wir",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-2-was-lernen-wir",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 2: Was lernen wir?",
+    "text": "🐛 Bug Hunt 2: Was lernen wir?\n\nDie amtliche Arbeitslosenquote nutzt im Nenner Erwerbspersonen am Wohnort. Diese Zahl haben wir auf Landkreisebene nicht.\nUnsere Quote ist eine Näherung. Für Vergleiche Stadt vs. Umland ist sie verzerrt; für Vergleiche großer Regionen (Ost/West, Bundesländer) ist sie brauchbar.\n\n\n\n\n\n\n\n\nChat AI berechnet Ihnen jede Kennzahl, die Sie verlangen. Ob Zähler und Nenner zusammenpassen (gleiches Gebiet, gleiches Jahr, gleiche Zählweise), müssen Sie prüfen: Dokumentation der Quelle lesen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-1-überblick",
+    "href": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-1-überblick",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 1: Überblick",
+    "text": "📱 Kahoot-Checkpoint 1: Überblick\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n6 Fragen, 5 Minuten\n\ndeskriptiv oder induktiv?\nBoxplot lesen\nMittelwert vs. Median: was heißt “rechtsschief”?\nStadtstaaten: der stille Join\nZwei Mal München\nBug Hunt 6: Wohnort vs. Arbeitsort\n\nKahoot öffnen →\n\n\n\n\n\n\n\nFragenvorschläge (richtige Antwort zuerst): 1. “Die Arbeitsagentur zählt die Arbeitslosen in allen 400 Kreisen. Eine Aussage über genau diese 400 Kreise ist …” → deskriptiv / induktiv / beides / keins 2. Die Box im Boxplot enthält … → die mittleren 50 % / alle Werte ohne Ausreißer / 75 % / Mittelwert ± 1 SD 3. Mittelwert 3.000 €, Median 2.400 € → rechtsschief / linksschief / symmetrisch / nicht entscheidbar 4. left_join() findet für einen Schlüssel keinen Partner → Zeile bleibt, Werte NA / Fehler / Warnung / Zeile fällt weg 5. Landkreis mit vielen Auspendler:innen, unsere Quote ist … → zu hoch / zu niedrig / korrekt / NA 6. skim(): 400 Zeilen, aber nur 378 Namen. Warum? → gleiche Namen für Stadt und Landkreis / Tippfehler / Duplikate durch Join / fehlende Werte"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil1.html#sonderfall-stadtstaaten",
+    "href": "slides/VL_case-study-Teil1.html#sonderfall-stadtstaaten",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Sonderfall Stadtstaaten",
+    "text": "Sonderfall Stadtstaaten\nHamburg und Berlin sind gleichzeitig Bundesland und kreisfreie Stadt. In den Arbeitslosendaten heißen sie 02000 und 11000, in den BIP-Daten?\n\nbip_long |&gt; filter(Regionalschluessel %in% c(\"02\", \"11\", \"02000\", \"11000\"), Jahr == 2024)\n\n# A tibble: 2 × 3\n  Regionalschluessel  Jahr          bip\n  &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;\n1 11                  2024 208449010000\n2 02                  2024 162843535000\n\n\n\nNur Länderschlüssel. nchar(...) == 5 würde sie herauswerfen, und left_join() würde still NA eintragen. Also ergänzen wir eine Kopie mit Kreisschlüssel:\n\nstadtstaaten_als_kreis &lt;- function(df) {\n  df |&gt; bind_rows(df |&gt;\n                    filter(Regionalschluessel %in% c(\"02\", \"11\")) |&gt;\n                    mutate(Regionalschluessel = paste0(Regionalschluessel, \"000\")))\n}\n\nbip_long       &lt;- stadtstaaten_als_kreis(bip_long)\nerwerb_long    &lt;- stadtstaaten_als_kreis(erwerb_long)\neinwohner_long &lt;- stadtstaaten_als_kreis(einwohner_long)\n\n\nDiesen Schritt hatten wir in der ersten Version übersehen; in Teil 2 ist er Bug Hunt 1. Bremen ist kein Problem: Bremen (04011) und Bremerhaven (04012) haben eigene Kreisschlüssel."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wer-fehlt",
+    "href": "slides/VL_case-study-Teil2.html#wer-fehlt",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wer fehlt?",
+    "text": "Wer fehlt?\n\ngesamtdaten |&gt;\n  filter(is.na(Einwohner) | is.na(alo_quote)) |&gt;\n  select(Regionalschluessel, landkreis_name, Einwohner, erw, bip, alo_quote)\n\n# A tibble: 4 × 6\n  Regionalschluessel landkreis_name Einwohner     erw          bip alo_quote\n  &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;\n1 02000              Hamburg               NA 1358514 162843535000      6.11\n2 04011              Bremen                NA  383383  36111353000      7.72\n3 04012              Bremerhaven           NA   61816   5156070000     12.8 \n4 11000              Berlin                NA 2197430 208449010000      8.47\n\n\n\nIst das eine Eigenschaft der Daten oder ein Fehler?\n\n\nEigenschaft der Daten: Einwohner kommt aus der Schuldenstatistik der Gemeinden. Die Schulden der Stadtstaaten sind Landesschulden und stehen dort nicht drin.\n\n\n\n\n\n\nNA ist nicht automatisch ein Fehler. Aber Sie sollten für jedes NA sagen können, warum es da ist."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-1-ein-fehler-aus-teil-1",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-1-ein-fehler-aus-teil-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 1: Ein Fehler aus Teil 1",
+    "text": "🐛 Bug Hunt 1: Ein Fehler aus Teil 1\nIn der ersten Version von gesamtdaten fehlten bei Hamburg und Berlin auch BIP und Erwerbstätige. Gemergt wurde so:\n\nbip_kombi &lt;- bip_zeitreihe |&gt;\n  filter(nchar(Regionalschluessel) == 5 & Jahr == 2024)\n\ngesamtdaten &lt;- left_join(alo_landkreis, bip_kombi, by = \"Regionalschluessel\")\n\n\n2 Minuten, zu zweit: Keine Fehlermeldung, keine Warnung. Warum fehlen genau diese beiden? Tipp: Hamburg und Berlin sind gleichzeitig Bundesland und kreisfreie Stadt.\n\n\n\n\n\n\n\nDiesen Fehler hatten wir in der Case-Study Teil 1 selbst übersehen; er ist erst bei der Vorbereitung von Teil 2 aufgefallen. Das offen sagen: Genau so passieren stille Fehler auch in echten Projekten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosenquote-auf-bundeslandebene",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosenquote-auf-bundeslandebene",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosenquote auf Bundeslandebene",
+    "text": "Arbeitslosenquote auf Bundeslandebene\n\nGibt es deutliche Unterschiede zwischen den Bundesländern? Wir aggregieren die Landkreise je Bundesland.\n\n\nbula_data &lt;- gesamtdaten |&gt;\n  group_by(bundesland_name) |&gt;\n  summarise(mean_alo   = mean(alo_quote),\n            sd_alo     = sd(alo_quote),\n            median_alo = median(alo_quote))\n\n\n\n🔮 Prognose: Welches Bundesland hat die höchste mittlere Arbeitslosenquote? Und wo landet Baden-Württemberg?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#vom-tibble-zur-tabelle",
+    "href": "slides/VL_case-study-Teil2.html#vom-tibble-zur-tabelle",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Vom Tibble zur Tabelle",
+    "text": "Vom Tibble zur Tabelle\n\n\n\nbula_data |&gt;\n  arrange(mean_alo) |&gt;\n  kbl(col.names = c(\"Bundesland\", \"Mittelwert\", \"SD\", \"Median\"),\n      digits = 2) |&gt;\n  kable_styling(font_size = 14) |&gt;\n  kable_paper(full_width = FALSE) |&gt;\n  row_spec(c(8, 9, 10, 12, 13), bold = TRUE, color = \"white\", background = \"#BBBBBB\") |&gt;\n  add_header_above(c(\" \" = 1, \"Arbeitslosenquote\" = 3)) |&gt;\n  footnote(general = \"Die ostdeutschen Bundesländer sind grau hinterlegt.\",\n           general_title = \"Bitte beachten: \")\n\n\n\n\n\nFunktion\nmacht …\n\n\n\n\nkbl()\nTibble → HTML-Tabelle, Spaltennamen, Rundung\n\n\nkable_styling()\nSchriftgröße, Layout\n\n\nrow_spec()\neinzelne Zeilen hervorheben\n\n\nadd_header_above()\nÜberschrift über mehrere Spalten\n\n\nfootnote()\nFußnote\n\n\n\n\nDas Ergebnis sehen Sie auf der nächsten Folie.\n\nNur die Funktionen erklären. Die Tabelle selbst kommt auf der nächsten Folie als Bug Hunt 7."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-3-was-stimmt-nicht",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-3-was-stimmt-nicht",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 3: Was stimmt nicht?",
+    "text": "🐛 Bug Hunt 3: Was stimmt nicht?\n\n\nDer Code stammt aus der Vorlesung im letzten Jahr und lief damals einwandfrei. Dieses Jahr läuft er auch: ohne Fehler, ohne Warnung.\n\n2 Minuten, zu zweit: Lesen Sie die Fußnote und dann die grauen Zeilen. Was ist falsch? Warum war es letztes Jahr richtig?\n\n\n\n\n\n\n\n\n\n\n\n\nBundesland\nMittelwert\nStd.\nMedian\n\n\n\n\nBayern\n3.60\n0.80\n3.51\n\n\nBaden-Württemberg\n4.10\n0.83\n4.12\n\n\nHessen\n5.50\n1.28\n5.61\n\n\nRheinland-Pfalz\n5.84\n1.52\n5.68\n\n\nSchleswig-Holstein\n5.98\n0.80\n6.12\n\n\nHamburg\n6.11\nNA\n6.11\n\n\nNiedersachsen\n6.18\n1.77\n6.37\n\n\nSaarland\n6.33\n1.85\n5.89\n\n\nSachsen\n6.47\n0.88\n6.27\n\n\nThüringen\n6.68\n1.64\n6.12\n\n\nBrandenburg\n7.06\n1.63\n7.19\n\n\nNordrhein-Westfalen\n7.36\n2.33\n6.94\n\n\nMecklenburg-Vorpommern\n7.94\n1.20\n8.26\n\n\nSachsen-Anhalt\n8.09\n1.48\n7.89\n\n\nBerlin\n8.47\nNA\n8.47\n\n\nBremen\n10.24\n3.56\n10.24\n\n\n\nBitte beachten: \n\n\n\n\n\n Die ostdeutschen Bundesländer sind grau hinterlegt.\n\n\n\n\n\n\n\n\n\n\n\n\n\nGrau hinterlegt sind Saarland und NRW, Brandenburg und Sachsen-Anhalt dagegen nicht. Letztes Jahr fehlten Berlin und Hamburg (Bug Hunt 1!) und wurden herausgefiltert; jetzt stehen sie als zwei Zeilen mehr in der Tabelle, und alle festen Zeilennummern verschieben sich."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-3-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-3-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 3: Prüfung",
+    "text": "🐛 Bug Hunt 3: Prüfung\nIn welchen Zeilen stehen die ostdeutschen Länder wirklich?\n\nbula_tabelle |&gt;\n  mutate(zeile = row_number()) |&gt;\n  filter(bundesland_name %in% ost_laender) |&gt;\n  select(zeile, bundesland_name, mean_alo) |&gt;\n  print(n = 5)\n\n# A tibble: 5 × 3\n  zeile bundesland_name        mean_alo\n  &lt;int&gt; &lt;chr&gt;                     &lt;dbl&gt;\n1     9 Sachsen                    6.47\n2    10 Thüringen                  6.68\n3    11 Brandenburg                7.06\n4    13 Mecklenburg-Vorpommern     7.94\n5    14 Sachsen-Anhalt             8.09\n\n\n\n\nrow_spec(c(8, 9, 10, 12, 13)) war per Hand abgezählt.\nDurch die Korrektur aus Bug Hunt 1 sind Hamburg und Berlin jetzt in der Tabelle, und alles verschiebt sich.\nDieselbe Falle wie in Teil 1: sheet_names[7:19], [1:7], data_alo[-c(1, 2), ].\n\n\n\n\n\n\n\nNie per Hand abzählen. Zeilen und Spalten über ihren Inhalt auswählen, nicht über ihre Position."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-3-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-3-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 3 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 3 reparieren\nbula_tabelle ist die sortierte Tabelle, ost_laender der Vektor mit den fünf ostdeutschen Ländern. Berechnen Sie ost_zeilen so, dass sie immer stimmen, egal wie die Tabelle sortiert ist.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nwhich() gibt die Positionen zurück, an denen eine Bedingung TRUE ist. Die Bedingung: bula_tabelle$bundesland_name %in% ost_laender.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nost_zeilen &lt;- which(bula_tabelle$bundesland_name %in% ost_laender)\n\nbula_tabelle$bundesland_name[ost_zeilen]\nIn der Tabelle dann: row_spec(ost_zeilen, bold = TRUE, ...)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-korrigierte-tabelle",
+    "href": "slides/VL_case-study-Teil2.html#die-korrigierte-tabelle",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die korrigierte Tabelle",
+    "text": "Die korrigierte Tabelle\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nArbeitslosenquote\n\n\n\nBundesland\nMittelwert\nSD\nMedian\n\n\n\n\nBayern\n3.60\n0.80\n3.51\n\n\nBaden-Württemberg\n4.10\n0.83\n4.12\n\n\nHessen\n5.50\n1.28\n5.61\n\n\nRheinland-Pfalz\n5.84\n1.52\n5.68\n\n\nSchleswig-Holstein\n5.98\n0.80\n6.12\n\n\nHamburg\n6.11\nNA\n6.11\n\n\nNiedersachsen\n6.18\n1.77\n6.37\n\n\nSaarland\n6.33\n1.85\n5.89\n\n\nSachsen\n6.47\n0.88\n6.27\n\n\nThüringen\n6.68\n1.64\n6.12\n\n\nBrandenburg\n7.06\n1.63\n7.19\n\n\nNordrhein-Westfalen\n7.36\n2.33\n6.94\n\n\nMecklenburg-Vorpommern\n7.94\n1.20\n8.26\n\n\nSachsen-Anhalt\n8.09\n1.48\n7.89\n\n\nBerlin\n8.47\nNA\n8.47\n\n\nBremen\n10.24\n3.56\n10.24\n\n\n\nBitte beachten: \n\n\n\n\n\n Berlin und Hamburg bestehen aus nur einem Kreis, daher keine SD.\n\n\n\n\n\n1 Die ostdeutschen Bundesländer sind grau hinterlegt.\n\n\n\n\n\n\n\n\n\n\n\n\n\nWas ist hier eine Beobachtung? Und was lernen wir aus der Tabelle?\n\n\n\nSüden: Bayern und Baden-Württemberg im Mittel um 4 % oder darunter, mit geringer Streuung\nAlle ostdeutschen Länder über 6,4 %\n\n\n\n\nAber: NRW (7,4 %) liegt im Ost-Bereich und hat die höchste Streuung der Flächenländer (2,33): Ruhrgebiet vs. Münsterland\nMedian meist nahe am Mittelwert\n\n\n\n\nBeobachtung: ein Bundesland (aggregiert aus Landkreisen). Bremen steht ganz unten. Das leitet über zu Bug Hunt 4 aus Teil 1."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-4-ist-zurück",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-4-ist-zurück",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 4 ist zurück",
+    "text": "🐛 Bug Hunt 4 ist zurück\nLaut Tabelle hat Bremen die höchste Arbeitslosenquote: 10,2 %. Das Land Bremen besteht aus zwei Kreisen:\n\ngesamtdaten |&gt;\n  filter(bundesland_name == \"Bremen\") |&gt;\n  select(landkreis_name, total_alo, erw, alo_quote)\n\n# A tibble: 2 × 4\n  landkreis_name total_alo    erw alo_quote\n  &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;\n1 Bremen            32077. 383383      7.72\n2 Bremerhaven        9039.  61816     12.8 \n\n\n\n2 Minuten: Ist 10,2 % die Arbeitslosenquote des Landes Bremen? Wie hoch ist sie wirklich? Woher kennen Sie das Problem?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-4-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-4-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 4: Prüfung",
+    "text": "🐛 Bug Hunt 4: Prüfung\nmean(alo_quote) ist das Mittel aus Bremen (7,7 %) und Bremerhaven (12,8 %), obwohl Bremen sechsmal so viele Erwerbstätige hat. Die Quote des Landes: erst summieren, dann teilen.\n\ngesamtdaten |&gt;\n  group_by(bundesland_name) |&gt;\n  summarise(mittel_kreise = mean(alo_quote),\n            quote_land    = sum(total_alo) / sum(erw + total_alo) * 100) |&gt;\n  arrange(desc(abs(quote_land - mittel_kreise))) |&gt;\n  print(n = 4)\n\n# A tibble: 16 × 3\n  bundesland_name mittel_kreise quote_land\n  &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;\n1 Bremen                  10.2        8.45\n2 Hessen                   5.50       5.12\n3 Saarland                 6.33       6.67\n4 Thüringen                6.68       6.34\n# ℹ 12 more rows\n\n\n\n\n\n\n\n\n\nBeide Zahlen sind richtig gerechnet, sie beantworten nur verschiedene Fragen: “Wie geht es dem durchschnittlichen Landkreis?” vs. “Wie hoch ist die Quote im Land?” Der Fehler ist, die eine zu berechnen und die andere in die Überschrift zu schreiben."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-die-länderquote",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-die-länderquote",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: die Länderquote",
+    "text": "✍️ Jetzt Sie: die Länderquote\nBerechnen Sie je Bundesland quote_land (gewichtet: Summen, dann teilen) und mittel_kreise (ungewichtet), sowie deren Differenz diff. Sortieren Sie nach diff.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDie Quote eines Landkreises ist total_alo / (erw + total_alo) * 100. Für das Land: dieselbe Formel, aber mit sum() um Zähler und Nenner.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\ngesamtdaten |&gt;\n  group_by(bundesland_name) |&gt;\n  summarise(mittel_kreise = mean(alo_quote),\n            quote_land    = sum(total_alo) / sum(erw + total_alo) * 100) |&gt;\n  mutate(diff = quote_land - mittel_kreise) |&gt;\n  arrange(diff) |&gt;\n  print(n = 16)\n\n\n\n\n\n\n\n\nAuflösung der Frage aus dem Check: Große Städte haben viele Einpendler, also einen großen Nenner und eine (künstlich) niedrige Quote. Im gewichteten Wert zählen sie stark, im Mittel nur einfach. Gewichtung und Pendler-Verzerrung wirken hier zusammen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ost-und-west",
+    "href": "slides/VL_case-study-Teil2.html#ost-und-west",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ost und West",
+    "text": "Ost und West\nDie Tabelle legt nahe: Der Unterschied verläuft zwischen Ost und West. Dafür eine neue Variable:\n\ngesamtdaten &lt;- gesamtdaten |&gt;\n  mutate(ost      = bundesland_name %in% ost_laender,\n         ost_name = if_else(ost, \"Ostdeutschland\", \"Westdeutschland\"))\n\n\n\n🔮 Prognose: Wohin gehört Berlin? Was würden Sie entscheiden, und warum?\n\n\n\nWir ordnen Berlin Westdeutschland zu: Ost- und Westberlin sind in den Daten nicht getrennt. Wichtig ist nicht welche Entscheidung, sondern dass sie dokumentiert ist (Fußnote!)."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ost-und-west-im-vergleich",
+    "href": "slides/VL_case-study-Teil2.html#ost-und-west-im-vergleich",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ost und West im Vergleich",
+    "text": "Ost und West im Vergleich\n\nost_west &lt;- gesamtdaten |&gt;\n  group_by(ost_name) |&gt;\n  summarise(mean = mean(alo_quote), sd = sd(alo_quote),\n            min  = min(alo_quote),  p25 = quantile(alo_quote, 0.25),\n            median = median(alo_quote), p75 = quantile(alo_quote, 0.75),\n            max  = max(alo_quote), n = n())\nost_west |&gt;\n  kbl(col.names = c(\"\", \"Mittelwert\", \"SD\", \"Min.\", \"P25\", \"Median\", \"P75\", \"Max.\", \"n\"), digits = 2,\n      format.args = list(decimal.mark = \",\")) |&gt;\n  kable_styling(font_size = 16) |&gt;\n  add_header_above(c(\" \" = 1, \"Arbeitslosenquote der Landkreise\" = 7, \" \" = 1)) |&gt;\n  footnote(general = \"Berlin ist Westdeutschland zugeordnet.\", general_title = \"Bitte beachten: \")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nArbeitslosenquote der Landkreise\n\n\n\n\n\nMittelwert\nSD\nMin.\nP25\nMedian\nP75\nMax.\nn\n\n\n\n\nOstdeutschland\n7,13\n1,55\n4,17\n6,03\n7,02\n8,00\n11,61\n75\n\n\nWestdeutschland\n5,26\n2,05\n1,88\n3,67\n4,73\n6,45\n14,46\n325\n\n\n\nBitte beachten: \n\n\n\n\n\n\n\n\n\n\n Berlin ist Westdeutschland zugeordnet.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n3 Min., zu zweit: Beschreiben Sie die Tabelle in drei Sätzen, einer davon mit einem Quantil."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ost-und-west-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#ost-und-west-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ost und West: beschrieben",
+    "text": "Ost und West: beschrieben\n\n\n\nMittelwert im Osten 1,9 Prozentpunkte höher (7,13 % vs. 5,26 %)\nStreuung im Westen größer (SD 2,05 vs. 1,55): Der Westen reicht von München bis Gelsenkirchen\nWesten: Median (4,73 %) deutlich unter dem Mittelwert → einige Kreise mit sehr hoher Quote ziehen ihn hoch; Osten: Median ≈ Mittelwert\n\n\n\n\nQuantile: Drei Viertel der ostdeutschen Kreise liegen über 6,03 %, drei Viertel der westdeutschen unter 6,45 %\nSelbst der beste ostdeutsche Kreis (4,17 %, Dahme-Spreewald) liegt unter dem westdeutschen Median\n\n\nGroße Unterschiede zwischen Ost und West, aber auch innerhalb des Westens.\n\n\n\nEine Tabelle mit Arbeitslosigkeit, BIP und Schulden je Bundesland finden Sie im Anhang und in der ausformulierten Case-Study."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-bip-und-schulden-je-bundesland",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-bip-und-schulden-je-bundesland",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosigkeit, BIP und Schulden je Bundesland",
+    "text": "Arbeitslosigkeit, BIP und Schulden je Bundesland\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMittel und Streuung über die Landkreise\n\n\n\n\n\nArbeitslosenquote (%)\n\n\nBIP pro Kopf (€)\n\n\nSchulden pro Kopf (€)\n\n\n\nBundesland\nMittel\nSD\nMittel\nSD\nMittel\nSD\n\n\n\n\nBayern\n3,60\n0,80\n55.133\n24.310\n2.422\n1.761\n\n\nBaden-Württemberg\n4,10\n0,83\n55.750\n18.616\n3.461\n2.721\n\n\nHessen\n5,50\n1,28\n52.582\n22.246\n4.329\n3.815\n\n\nRheinland-Pfalz\n5,84\n1,52\n43.915\n15.810\n2.666\n2.586\n\n\nSchleswig-Holstein\n5,98\n0,80\n43.454\n10.333\n3.530\n1.474\n\n\nNiedersachsen\n6,18\n1,77\n46.411\n26.052\n2.757\n1.890\n\n\nSaarland\n6,33\n1,85\n38.998\n9.228\n5.136\n1.124\n\n\nSachsen\n6,47\n0,88\n38.130\n7.508\n2.556\n1.179\n\n\nThüringen\n6,68\n1,64\n35.495\n7.258\n2.827\n637\n\n\nBrandenburg\n7,06\n1,63\n40.426\n9.206\n2.457\n1.313\n\n\nNordrhein-Westfalen\n7,36\n2,33\n45.915\n14.358\n4.846\n2.613\n\n\nMecklenburg-Vorpommern\n7,94\n1,20\n39.548\n8.745\n4.393\n2.267\n\n\nSachsen-Anhalt\n8,09\n1,48\n36.335\n5.195\n3.121\n1.730\n\n\n\nBitte beachten: \n\n\n\n\n\n\n\n\n Ohne Stadtstaaten (keine Schuldendaten). Ostdeutsche Bundesländer grau hinterlegt.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWas lernen wir aus dieser Tabelle? Und warum steht oben “über die Landkreise”?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosenquote-bip-und-schulden-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosenquote-bip-und-schulden-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosenquote, BIP und Schulden: beschrieben",
+    "text": "Arbeitslosenquote, BIP und Schulden: beschrieben\n\nLänder mit niedriger Arbeitslosigkeit haben im Mittel ein hohes BIP pro Kopf (Bayern, Baden-Württemberg, Hessen)\nOstdeutsche Landkreise: BIP pro Kopf im Mittel unter 41.000 €. Die Grenze verschwimmt aber: Das Saarland liegt unter Brandenburg\nBei den Schulden gibt es kein Ost-West-Muster: Bayern, Brandenburg und Sachsen niedrig; Saarland, NRW, Mecklenburg-Vorpommern und Hessen hoch\n\n\n\nAllein mit Mittelwert und Standardabweichung lernen wir schon viel über regionale Unterschiede. Ob sie zusammenhängen, klären wir mit Grafiken und Korrelationen.\n\n\n\n\n\n\n\nAuch Zeitreihen passen in Tabellen. Ein Beispiel mit dem Paket gt (BIP pro Kopf 1992, 2007, 2024 je Bundesland) finden Sie in der ausformulierten Case-Study."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-2-tabellen",
+    "href": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-2-tabellen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 2: Tabellen",
+    "text": "📱 Kahoot-Checkpoint 2: Tabellen\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n6 Fragen, 5 Minuten\n\ngroup_by() + summarise(): Was ist danach eine Beobachtung?\nWelche kableExtra-Funktion macht was?\nBug Hunt 7: feste Zeilennummern\nBremen: Mittel der Kreise vs. Quote des Landes\nQuantile lesen\nMittelwert vs. Median im Westen\n\nKahoot öffnen →\n\n\n\n\n\n\n\nFragenvorschläge (richtige Antwort zuerst): 1. Nach group_by(bundesland_name) |&gt; summarise(...) ist eine Zeile … → ein Bundesland / ein Landkreis / eine Gemeinde / ein Jahr 2. Eine Überschrift über mehrere Spalten setzt … → add_header_above() / row_spec() / kbl() / footnote() 3. row_spec(c(8, 9, 10)) ist riskant, weil … → sich die Zeilen verschieben, wenn sich die Daten ändern / die Farben nicht barrierefrei sind / row_spec() nur eine Zeile erlaubt / es Warnungen erzeugt 4. Bremen 7,7 %, Bremerhaven 12,8 %, Bremen hat 6× mehr Erwerbstätige. Die Landesquote liegt … → näher an 7,7 % / genau bei 10,2 % / näher an 12,8 % / über 12,8 % 5. P25 im Osten = 6,0 % heißt … → 75 % der ostdeutschen Kreise liegen darüber / 25 % liegen darüber / der Mittelwert ist 6,0 % / 6 Kreise liegen darunter 6. “West: Mittelwert 5,3 %, Median 4,7 %” bedeutet … → einige Kreise mit sehr hoher Quote ziehen den Mittelwert hoch / die Hälfte der Kreise liegt über 5,3 % / die Verteilung ist linksschief / ein Datenfehler"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#warum-grafiken",
+    "href": "slides/VL_case-study-Teil2.html#warum-grafiken",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Warum Grafiken?",
+    "text": "Warum Grafiken?\n\nDas Auge verarbeitet Informationen in einer Grafik deutlich schneller und intuitiver als in einer Tabelle.\n\n\nDaten: Arbeitslosenquote 2024 aller 400 Landkreise.\nDie Grafik soll\n\nalle Daten zeigen: jeder Landkreis ein Punkt,\neinen Boxplot darüberlegen, um Ost und West zu vergleichen,\nBaden-Württemberg hervorheben: Wo stehen wir?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#alle-daten-zeigen",
+    "href": "slides/VL_case-study-Teil2.html#alle-daten-zeigen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Alle Daten zeigen",
+    "text": "Alle Daten zeigen\n\n\n\ngesamtdaten |&gt;\n  mutate(bw = bundesland_name == \"Baden-Württemberg\") |&gt;\n  ggplot(aes(x = ost_name, y = alo_quote)) +\n  geom_jitter(aes(colour = bw), width = 0.25, height = 0, alpha = 0.6) +\n  geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +\n  scale_colour_manual(values = c(\"grey60\", \"#1b5e20\"), guide = \"none\") +\n  labs(title = \"Arbeitslosenquote in Deutschland 2024\",\n       subtitle = \"Ein Punkt = ein Landkreis, Baden-Württemberg grün\",\n       x = NULL, y = \"Arbeitslosenquote (%)\",\n       caption = \"Quelle: Bundesagentur für Arbeit, VGR der Länder\") +\n  theme_minimal(base_size = 15)\n\n\n🔮 Wozu height = 0 und outlier.shape = NA? Was passiert ohne?\n\n\n\n\n\n\n\n\n\n\n\n\n\nheight = 0: Jitter verschiebt nur horizontal, sonst würden die Werte auf der y-Achse leicht verfälscht. outlier.shape = NA: Ausreißer sind schon als Jitter-Punkt da; ohne würden sie doppelt gezeichnet."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#beschreiben-sie-das-schaubild",
+    "href": "slides/VL_case-study-Teil2.html#beschreiben-sie-das-schaubild",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Beschreiben Sie das Schaubild",
+    "text": "Beschreiben Sie das Schaubild\n\n\n\n\n\n\n\n\n\n\n\n\n\n3 Min., zu zweit: Beschreiben Sie das Schaubild in drei Sätzen. Wo liegt BW?\n\n\n\n\n\n\n\n\n77 % der Kreise in BW liegen unter dem West-Median\nMedian West 4,7 % vs. Ost 7,0 %\nSelbst das 75 %-Quantil West (6,4 %) liegt unter dem Ost-Median\nFast alle Kreise unter 10 % (Spanien: rund 11 %)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-ihr-bundesland",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-ihr-bundesland",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Ihr Bundesland",
+    "text": "✍️ Jetzt Sie: Ihr Bundesland\nHeben Sie statt Baden-Württemberg ein anderes Bundesland hervor, z.B. Ihr Heimatbundesland. Passen Sie auch den Untertitel an.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDen Namen in Zeile 2 und im subtitle ändern. Die Namen müssen exakt stimmen: unique(gesamtdaten$bundesland_name) zeigt alle.\n\n\n\n\n\n\n\n\n\n\n\nLösung (Beispiel NRW)\n\n\ngesamtdaten |&gt;\n  mutate(hervor = bundesland_name == \"Nordrhein-Westfalen\") |&gt;\n  ggplot(aes(x = ost_name, y = alo_quote)) +\n  geom_jitter(aes(colour = hervor), width = 0.25, height = 0, alpha = 0.6) +\n  geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +\n  scale_colour_manual(values = c(\"grey60\", \"#1b5e20\"), guide = \"none\") +\n  labs(subtitle = \"Nordrhein-Westfalen grün\", x = NULL, y = \"Arbeitslosenquote (%)\") +\n  theme_minimal()\nNRW streut über fast den ganzen westdeutschen Bereich: Münsterland unten, Ruhrgebiet ganz oben."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bip-pro-kopf-unterschiede-seit-wann",
+    "href": "slides/VL_case-study-Teil2.html#bip-pro-kopf-unterschiede-seit-wann",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "BIP pro Kopf: Unterschiede seit wann?",
+    "text": "BIP pro Kopf: Unterschiede seit wann?\nGibt es auch beim BIP pro Kopf regionale Unterschiede? Und war das schon immer so?\n\nBestehen die Unterschiede schon länger?\nWerden sie größer oder kleiner?\n\n\nEin hohes BIP pro Kopf kann bedeuten, dass\n\nviele Personen im Landkreis erwerbstätig sind, oder\ndie Erwerbstätigen in Branchen mit hoher Produktivität arbeiten.\n\n\nTrifft der erste Punkt zu, sollte ein hohes BIP pro Kopf mit niedriger Arbeitslosigkeit einhergehen. Und wo kann es noch herkommen? (Tipp: Bug Hunt 6)\n\n\nBIP am Arbeitsort, geteilt durch Einwohner am Wohnort: Städte mit vielen Einpendler:innen haben ein sehr hohes BIP pro Kopf (Wolfsburg, Ingolstadt, München, Frankfurt). Dieselbe Pendler-Verzerrung wie bei der Quote."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bip-pro-kopf-seit-2000",
+    "href": "slides/VL_case-study-Teil2.html#bip-pro-kopf-seit-2000",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "BIP pro Kopf seit 2000",
+    "text": "BIP pro Kopf seit 2000\n\nGrafikCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nbip_zeitreihe_namen |&gt;\n  filter(Jahr &gt;= 2000) |&gt;\n  group_by(ost_name, Jahr) |&gt;\n  mutate(durchschnitt = mean(bip_pro_kopf)) |&gt;\n  ungroup() |&gt;\n  ggplot(aes(x = Jahr)) +\n  geom_line(aes(y = bip_pro_kopf, group = Regionalschluessel), colour = \"grey80\", linewidth = 0.3) +\n  geom_line(aes(y = durchschnitt), colour = \"#1d3f73\", linewidth = 1.2) +\n  geom_line(data = \\(d) filter(d, landkreis_name == \"Ulm\"), aes(y = bip_pro_kopf),\n            colour = \"#1b5e20\", linewidth = 1.2) +\n  scale_y_log10() +\n  facet_wrap(~ ost_name)\n\nbip_zeitreihe_namen: BIP-Zeitreihe der Landkreise, ergänzt um Namen und ost_name aus gesamtdaten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#holt-der-osten-auf",
+    "href": "slides/VL_case-study-Teil2.html#holt-der-osten-auf",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🔮 Holt der Osten auf?",
+    "text": "🔮 Holt der Osten auf?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# A tibble: 3 × 3\n   Jahr abstand_eur ost_in_prozent_west\n  &lt;dbl&gt;       &lt;dbl&gt;               &lt;dbl&gt;\n1  2000       9272.                64.4\n2  2010       9694.                69.9\n3  2024      12587.                75.0\n\n\n\n\n\nHandzeichen: Die Linien laufen fast parallel. Holt der Osten seit 2000 auf?\n(a) ja (b) nein (c) der Abstand wird größer\n\n\nAlle drei Antworten sind vertretbar:\n\nAbsolut wächst der Abstand in Euro\nRelativ holt der Osten auf, aber langsam\nLog-Skala: “parallel” heißt gleicher relativer Abstand\n\nSchätzfrage aufgelöst: (c) 75 %\n\n\n\nDie alte Folie sagte “kein Anpassungsprozess seit 2000”. Das stimmt relativ nicht: von rund 64 % (2000) auf 75 % (2024) des westdeutschen Niveaus. Gute Diskussion: Welche Zahl zeigt man, und welche Geschichte erzählt sie?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#der-lange-blick-ab-1992",
+    "href": "slides/VL_case-study-Teil2.html#der-lange-blick-ab-1992",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Der lange Blick: ab 1992",
+    "text": "Der lange Blick: ab 1992\n\n\nStarke Anpassung in den 1990er Jahren, danach deutlich langsamer\nVorsicht: Bis 1999 fehlen ganz Niedersachsen und Mecklenburg-Vorpommern, 1992 zusätzlich Sachsen und das Saarland (für 1993 gibt es keine Daten). Die Mittelwerte beziehen sich also nicht jedes Jahr auf dieselben Kreise"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wachstumsraten",
+    "href": "slides/VL_case-study-Teil2.html#wachstumsraten",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wachstumsraten",
+    "text": "Wachstumsraten\nWir haben ein Panel und können das Wachstum des BIP pro Kopf für jeden Landkreis und jedes Jahr berechnen.\n\nLässt sich ein Aufholprozess auch an den Wachstumsraten ablesen? Was müsste dann gelten?\n\n\nWachstumsrate von Jahr \\(t-1\\) auf Jahr \\(t\\):\n\\[\ng_t = \\frac{x_t - x_{t-1}}{x_{t-1}} \\times 100\n\\]"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-5-die-wachstumsrate",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-5-die-wachstumsrate",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 5: Die Wachstumsrate",
+    "text": "🐛 Bug Hunt 5: Die Wachstumsrate\nDer Code aus der Case-Study des letzten Jahres:\n\nbip_wachstum &lt;- bip_zeitreihe_namen |&gt;\n  group_by(Regionalschluessel) |&gt;\n  arrange(Regionalschluessel, Jahr) |&gt;\n  mutate(wachstum = 100 * (bip_pro_kopf - lag(bip_pro_kopf)) / bip_pro_kopf) |&gt;\n  ungroup()\n\n\n2 Minuten: Vergleichen Sie Zeile 4 mit der Formel. Rechnen Sie im Kopf nach: Ein Landkreis verdoppelt sein BIP pro Kopf von 100 auf 200. Was gibt der Code aus?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-5-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-5-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 5: Prüfung",
+    "text": "🐛 Bug Hunt 5: Prüfung\nEin Test mit Zahlen, deren Ergebnis wir kennen:\n\ntibble(vorjahr = c(100, 100), jetzt = c(200, 50)) |&gt;\n  mutate(falsch  = 100 * (jetzt - vorjahr) / jetzt,\n         richtig = 100 * (jetzt - vorjahr) / vorjahr)\n\n# A tibble: 2 × 4\n  vorjahr jetzt falsch richtig\n    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1     100   200     50     100\n2     100    50   -100     -50\n\n\n\nGeteilt wird durch das aktuelle Jahr statt durch das Vorjahr. Kleine Raten ändern sich kaum, große werden stark verzerrt: Verdopplung → +50 %, Halbierung → −100 %.\n\n\nIn unseren Daten: Mainz (BioNTech) 2021 und 2023\n\nbip_wachstum |&gt;\n  filter(landkreis_name == \"Mainz\", Jahr %in% 2020:2023) |&gt;\n  select(landkreis_name, Jahr, bip_pro_kopf, falsch, wachstum)\n\n# A tibble: 4 × 5\n  landkreis_name  Jahr bip_pro_kopf falsch wachstum\n  &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;\n1 Mainz           2020       57939.   1.18     1.19\n2 Mainz           2021      122763.  52.8    112.  \n3 Mainz           2022      120782.  -1.64    -1.61\n4 Mainz           2023       65041. -85.7    -46.2"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-5-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-5-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 5 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 5 reparieren\nbip_lk enthält das BIP pro Kopf aller Landkreise 2015–2024. Berechnen Sie wachstum richtig und zeigen Sie die fünf höchsten Wachstumsraten.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDurch lag(bip_pro_kopf) teilen, nicht durch bip_pro_kopf. Kürzer: 100 * (bip_pro_kopf / lag(bip_pro_kopf) - 1).\n\n\n\n\n\n\n\n\n\n\n\nHinweis 2: Warum group_by()?\n\n\nOhne group_by() wäre der lag() der ersten Zeile eines Landkreises das letzte Jahr des vorherigen Landkreises. Probieren Sie es aus!\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_lk |&gt;\n  group_by(Regionalschluessel) |&gt;\n  arrange(Jahr, .by_group = TRUE) |&gt;\n  mutate(wachstum = 100 * (bip_pro_kopf / lag(bip_pro_kopf) - 1)) |&gt;\n  ungroup() |&gt;\n  slice_max(wachstum, n = 5)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wachstumsraten-ost-und-west",
+    "href": "slides/VL_case-study-Teil2.html#wachstumsraten-ost-und-west",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wachstumsraten: Ost und West",
+    "text": "Wachstumsraten: Ost und West\n\n\nWas sehen Sie? Und warum wachsen 2022 fast alle Landkreise, im Mittel um rund 8 %?\n\n\n2022: Inflation. Das BIP ist nominal (in jeweiligen Preisen), die Wachstumsraten enthalten also die Preissteigerung. Für echtes Wachstum bräuchte man das preisbereinigte BIP."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wachstumsraten-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#wachstumsraten-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wachstumsraten: beschrieben",
+    "text": "Wachstumsraten: beschrieben\nBeschreibung\n\nIm Mittel sehr ähnliche Wachstumsraten, Ost meist leicht darüber\nEinbrüche in der Finanzkrise 2009 und in Corona 2020 in den meisten Landkreisen\nEinzelne Landkreise mit extremen Raten: ein großes Unternehmen reicht (Mainz/BioNTech 2021, Wolfsburg/VW 2016)\n\n\nInterpretation\n\nLeicht höhere Raten im Osten passen zum langsamen relativen Aufholen\nFür eine schnelle Angleichung sind die Unterschiede aber zu klein\nDas BIP ist nominal: 2022 ist vor allem Inflation, kein Boom\n\n\nKein schneller Aufholprozess seit 2000, aber auch kein Stillstand."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-verteilung-2024-histogramm",
+    "href": "slides/VL_case-study-Teil2.html#die-verteilung-2024-histogramm",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die Verteilung 2024: Histogramm",
+    "text": "Die Verteilung 2024: Histogramm\n\nGrafikCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngesamtdaten |&gt;\n  filter(bip_pro_kopf &lt; 1e5) |&gt;\n  ggplot(aes(x = bip_pro_kopf / 1000)) +\n  geom_histogram(binwidth = 1, boundary = 0) +              # 1 Balken = 1.000 €\n  geom_vline(data = mittel_ow, aes(xintercept = mittel / 1000)) +\n  geom_vline(data = mittel_ow, aes(xintercept = median / 1000), linetype = \"dashed\") +\n  facet_wrap(~ ost_name, ncol = 1, scales = \"free_y\")\n\n\n\n\n\nOstdeutschland: schmalere Verteilung, Mittelwert und Median näher beieinander als im Westen. Westdeutschland: lange rechte Flanke (Wolfsburg, Ingolstadt, München, Frankfurt), Mittelwert deutlich über dem Median. Wichtig ist die Caption: Was abgeschnitten wird, muss dranstehen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-verteilung-2024-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#die-verteilung-2024-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die Verteilung 2024: beschrieben",
+    "text": "Die Verteilung 2024: beschrieben\n\nOst: Mittelwert 37.724 €, Median 35.292 € → schmaler, Mittelwert und Median näher beieinander\nWest: Mittelwert 50.312 €, Median 43.935 € → lange rechte Flanke\nEs gibt westdeutsche Kreise mit niedrigerem BIP pro Kopf als viele ostdeutsche, aber der Großteil liegt rechts davon\n\n\n\nDie y-Achse zeigt die Anzahl. Warum ist das beim Vergleich Ost (75 Kreise) und West (325 Kreise) problematisch? Was wäre die Alternative?\n\n\n\nDie Alternative ist eine Kerndichte (geom_density()), ein geglättetes Histogramm mit Fläche 1. Mehr dazu und weitere Grafiktypen (z.B. Small Multiples) finden Sie in der ausformulierten Case-Study, bei Data to Viz und in der R Graph Gallery."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#interaktiv-mit-plotly",
+    "href": "slides/VL_case-study-Teil2.html#interaktiv-mit-plotly",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Interaktiv mit plotly",
+    "text": "Interaktiv mit plotly\nWer ist der Ausreißer? Mit der Maus über einen Punkt fahren:\n\np_interaktiv &lt;- gesamtdaten |&gt;\n  ggplot(aes(x = ost_name, y = alo_quote)) +\n  geom_jitter(aes(text = paste0(landkreis_name, \" (\", bundesland_name, \"): \", round(alo_quote, 1), \" %\")),\n              width = 0.25, height = 0, alpha = 0.6, colour = \"grey40\") +\n  geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +\n  labs(x = NULL, y = \"Arbeitslosenquote (%)\") + theme_minimal()\nggplotly(p_interaktiv, tooltip = \"text\")\n\n\n\n\n\nFunktioniert in HTML (Folien, Case-Study, Quarto-Bericht), nicht im PDF. Für den Projektbericht: statische Grafik zusätzlich bereithalten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#verschuldung-und-arbeitslosigkeit",
+    "href": "slides/VL_case-study-Teil2.html#verschuldung-und-arbeitslosigkeit",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Verschuldung und Arbeitslosigkeit",
+    "text": "Verschuldung und Arbeitslosigkeit\n\nWarum könnte die Verschuldung der öffentlichen Haushalte mit einer hohen Arbeitslosenquote zusammenhängen?\n\n\n\nStrukturschwache Regionen: weniger Unternehmen → weniger Gewerbesteuer\nGleichzeitig höhere Sozialausgaben (Kosten der Unterkunft für SGB-II-Leistungsbeziehende tragen die Kommunen)\nFolge: Kredite statt Investitionen → Region wird für Unternehmen noch unattraktiver\n\n\n\n\nUrsache oder Folge? Beides ist plausibel. Mit deskriptiver Statistik können wir das nicht trennen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#karten-in-r",
+    "href": "slides/VL_case-study-Teil2.html#karten-in-r",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Karten in R",
+    "text": "Karten in R\nDie Geodaten (landkreise, bundesland) aus Teil 1 sind sf-Objekte: eine Tabelle mit einer Spalte geometry.\n\nkarten_daten &lt;- left_join(landkreise, gesamtdaten, by = \"Regionalschluessel\") |&gt;\n  mutate(anteil_schulden = Schulden_gesamt / bip * 100,\n         schulden_klasse = cut(anteil_schulden, breaks = c(0, 2, 4, 6, 8, 10, Inf),\n                               labels = c(\"0–2 %\", \"2–4 %\", \"4–6 %\", \"6–8 %\", \"8–10 %\", \"&gt; 10 %\")))\n\n\n\n🔮 Warum steht landkreise zuerst im left_join() und nicht gesamtdaten?\n\n\n\nDas Ergebnis übernimmt die Klasse des linken Datensatzes. Nur wenn links ein sf-Objekt steht, ist das Ergebnis wieder eine Karte."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schulden-im-verhältnis-zum-bip",
+    "href": "slides/VL_case-study-Teil2.html#schulden-im-verhältnis-zum-bip",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schulden im Verhältnis zum BIP",
+    "text": "Schulden im Verhältnis zum BIP\n\nKarteCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n3 Minuten, zu zweit: Beschreiben und interpretieren Sie die Karte. Welche Regionen fallen auf?\n\n\n\n\n\n\nGrau: Stadtstaaten. Ihre Schulden sind Landesschulden und nicht in der Gemeindestatistik.\n\n\n\n\nggplot(karten_daten) +\n  geom_sf(aes(fill = schulden_klasse), colour = \"white\", linewidth = 0.1) +\n  scale_fill_viridis_d(option = \"inferno\", begin = 0.1, end = 0.9, direction = -1,\n                       name = \"Schulden\\nin % des BIP\", na.value = \"grey85\",\n                       guide = guide_legend(reverse = TRUE)) +\n  geom_sf(data = bundesland, fill = NA, colour = \"black\", linewidth = 0.4) +   # Landesgrenzen\n  labs(title = \"Wie verschuldet sind die Landkreise?\") +\n  theme_void()"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schulden-beschrieben",
+    "href": "slides/VL_case-study-Teil2.html#schulden-beschrieben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schulden: beschrieben",
+    "text": "Schulden: beschrieben\nBeschreibung\n\nNiedrig verschuldet (Landesebene, Schulden/BIP): Bayern, Baden-Württemberg, Rheinland-Pfalz, Brandenburg\nHoch verschuldet: Saarland, Mecklenburg-Vorpommern, Nordrhein-Westfalen, Sachsen-Anhalt\nKein klares Ost-West-Muster: Brandenburg gering, Sachsen im Mittelfeld, Sachsen-Anhalt und Mecklenburg-Vorpommern hoch\n\n\nInterpretation\n\nRuhrgebiet und Saarland: Strukturwandel seit dem Ende von Kohle und Stahl, hohe Sozialausgaben, lange Phase von Kassenkrediten\nAchtung, Pendler: Das BIP wird am Arbeitsort gemessen. Umlandkreise mit vielen Auspendler:innen haben ein kleines BIP und wirken dadurch verschuldeter, als sie sind\n\n\nDen Pendler-Punkt mit Bug Hunt 6 verbinden: Dieselbe Verzerrung taucht bei jeder Kennzahl auf, die Wohnort- und Arbeitsort-Größen mischt."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-6-die-arbeitslosen-karte",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-6-die-arbeitslosen-karte",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 6: Die Arbeitslosen-Karte",
+    "text": "🐛 Bug Hunt 6: Die Arbeitslosen-Karte\n\n\n\n\n\n\n\n\n\n\n\n\nDie Karte aus dem letzten Jahr. Der Code läuft ohne Fehler und ohne Warnung.\n\n2 Minuten, zu zweit: In dieser Karte stecken zwei stille Fehler. Lesen Sie die Legende Wort für Wort. Und: Wo ist der Kreis mit der höchsten Arbeitslosenquote?\n\n\n\n\n\n\n\n\n\nLegendentitel “Schulden pro Kopf in €”: per Copy & Paste von der Schuldenkarte übernommen. 2. Die oberste Klasse endet bei 13,5 %. Gelsenkirchen (14,5 %) fällt in keine Klasse, wird NA und erscheint grau, ausgerechnet der Kreis mit der höchsten Quote."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-6-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-6-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 6: Prüfung",
+    "text": "🐛 Bug Hunt 6: Prüfung\n\nmutate(alo_quote_lk = as.factor(case_when(\n    alo_quote &lt;= 2 ~ \"0 - 2%\",\n    ...\n    alo_quote &gt; 8 & alo_quote &lt;= 10 ~ \"8 - 10%\",\n    alo_quote &gt; 10 & alo_quote &lt;= 13.5 ~ \"10 - 13.5%\")))\n\n\nkarten_daten_alt |&gt;\n  sf::st_drop_geometry() |&gt;\n  filter(is.na(alo_quote_lk)) |&gt;\n  select(landkreis_name, alo_quote)\n\n  landkreis_name alo_quote\n1  Gelsenkirchen  14.45649\n\n\n\n\nLegende: “Schulden pro Kopf in €” auf einer Karte zur Arbeitslosenquote. Copy & Paste von der Schuldenkarte.\nLücke: case_when() ohne Fall für Werte über 13,5 % → NA. Ausgerechnet der Extremwert verschwindet.\n\n\n\n\n\n\n\nNach jeder Klasseneinteilung: count(klasse). Eine NA-Klasse, die es nicht geben sollte, fällt sofort auf."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-klassen-ohne-lücke",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-klassen-ohne-lücke",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Klassen ohne Lücke",
+    "text": "✍️ Jetzt Sie: Klassen ohne Lücke\nErsetzen Sie case_when() durch cut(), sodass jeder Landkreis eine Klasse bekommt, auch wenn nächstes Jahr ein Kreis über 15 % liegt. Die letzte Zeile soll die Klassen zählen.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\ncut(alo_quote, breaks = c(0, 2, 4, 6, 8, 10, Inf)). Mit Inf als oberer Grenze gibt es keine Lücke nach oben. Optional: labels = c(\"0–2 %\", ..., \"&gt; 10 %\").\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\ngesamtdaten |&gt;\n  mutate(klasse = cut(alo_quote, breaks = c(0, 2, 4, 6, 8, 10, Inf),\n                      labels = c(\"0–2 %\", \"2–4 %\", \"4–6 %\", \"6–8 %\", \"8–10 %\", \"&gt; 10 %\"))) |&gt;\n  count(klasse)\nNebeneffekt: cut() liefert einen Faktor mit der richtigen Reihenfolge. fct_relevel() wird überflüssig."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schulden-und-arbeitslosigkeit-im-vergleich",
+    "href": "slides/VL_case-study-Teil2.html#schulden-und-arbeitslosigkeit-im-vergleich",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schulden und Arbeitslosigkeit im Vergleich",
+    "text": "Schulden und Arbeitslosigkeit im Vergleich\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHängen Verschuldung und Arbeitslosigkeit zusammen? Wie sicher sind Sie sich, nur mit dem Auge?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#was-die-karten-zeigen-und-was-nicht",
+    "href": "slides/VL_case-study-Teil2.html#was-die-karten-zeigen-und-was-nicht",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Was die Karten zeigen und was nicht",
+    "text": "Was die Karten zeigen und was nicht\n\nOst-West ist bei der Arbeitslosigkeit deutlich sichtbar, bei den Schulden kaum\nIm Westen fallen beide Karten zusammen: Ruhrgebiet und Saarland sind hoch verschuldet und haben hohe Arbeitslosigkeit\nVerschuldung könnte ein erklärender Faktor sein, aber “fällt zusammen” ist keine Zahl\n\n\n\nDas Auge ist schlecht darin, zwei Farbskalen zu vergleichen. Für Zusammenhänge brauchen wir Streudiagramm und Korrelation → nächster Abschnitt.\n\n\n\n\n\n\n\nGute Karten: kontrastreiche, farbenblind-taugliche Palette (viridis), wenige Klassen, Grenzen per cut() lückenlos, fehlende Werte erklärt, Legende gelesen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-korrelation",
+    "href": "slides/VL_case-study-Teil2.html#die-korrelation",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die Korrelation",
+    "text": "Die Korrelation\nBisher: univariat, eine Variable. Jetzt: bivariat, der Zusammenhang zweier Variablen.\n\\[\nr = \\frac{1}{n} \\sum_{i=1}^n \\left( \\frac{x_i-\\mu_x}{\\sigma_x} \\right)\\left( \\frac{y_i-\\mu_y}{\\sigma_y} \\right)\n\\]\nmit den Mittelwerten \\(\\mu_x, \\mu_y\\) und den Standardabweichungen \\(\\sigma_x, \\sigma_y\\). r sagt, wie eng die Punkte um eine Gerade liegen, nicht wie steil sie ist.\n\n\n\n\n\n\\(|r|\\)\nZusammenhang (Faustregel)\n\n\n\n\n0,1 – 0,3\nschwach\n\n\n0,3 – 0,5\nmittel\n\n\n0,5 – 0,8\nstark\n\n\n&gt; 0,8\nsehr stark\n\n\n\n\n\nWas bedeutet das Produkt in der Summe, wenn ein Landkreis bei \\(x\\) und \\(y\\) über dem Mittelwert liegt? Und wenn nur bei einem?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schätzen-sie-r",
+    "href": "slides/VL_case-study-Teil2.html#schätzen-sie-r",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🔮 Schätzen Sie r",
+    "text": "🔮 Schätzen Sie r\n\n\n\n\n\n\n\n\n\n\n\n\n\nHandzeichen: Wie groß ist die Korrelation?\n(a) −0,9 (b) −0,5 (c) 0 (d) +0,5\n\n\n\ncor(log(gesamtdaten$bip_pro_kopf), gesamtdaten$alo_quote)\n\n[1] -0.4701483\n\n\nMittel negativ: Wo das BIP pro Kopf hoch ist, ist die Arbeitslosigkeit eher niedrig. Aber mit viel Streuung."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-und-bip-wachstum",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-und-bip-wachstum",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosigkeit und BIP-Wachstum",
+    "text": "Arbeitslosigkeit und BIP-Wachstum\n\n\n\n\n\n\n\n\n\n\n\n\n\n🔮 Positiv, negativ oder kein Zusammenhang?\n\n\n\ncor(gesamtdaten$alo_quote, gesamtdaten$wachstum)\n\n[1] 0.09867344\n\n\n\nPraktisch kein Zusammenhang\nDie Ausreißer sind Einzelunternehmen: Wolfsburg (VW) wächst, Ingolstadt (Audi) schrumpft\nEin einzelnes Jahr Wachstum sagt wenig über die Lage am Arbeitsmarkt"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-und-verschuldung",
+    "href": "slides/VL_case-study-Teil2.html#arbeitslosigkeit-und-verschuldung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Arbeitslosigkeit und Verschuldung",
+    "text": "Arbeitslosigkeit und Verschuldung\n\nDeutlich positiver Zusammenhang: Landkreise mit hohen Schulden im Verhältnis zum BIP haben tendenziell eine höhere Arbeitslosenquote.\nannotate() statt geom_text(aes(...)): Ein fester Text wird so einmal gezeichnet und nicht 400-mal übereinander."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-welche-schulden-kennzahl",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-welche-schulden-kennzahl",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Welche Schulden-Kennzahl?",
+    "text": "✍️ Jetzt Sie: Welche Schulden-Kennzahl?\nBerechnen Sie die Korrelation der Arbeitslosenquote mit drei Kennzahlen: Schulden in % des BIP, Schulden pro Kopf, BIP pro Kopf. Ergebnis als eine Zeile mit drei Spalten.\n\n\n\n\n\n\n\n\n\n\n\nZusatz: Berechnen Sie r_anteil getrennt für Ost und West (group_by(ost_name) vor summarise()).\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDie Spalten heißen Schulden_pro_kopf_lk und bip_pro_kopf. Ohne use = \"complete.obs\" liefert cor() bei fehlenden Werten NA.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\ngesamtdaten |&gt;\n  summarise(r_anteil   = cor(alo_quote, anteil_schulden, use = \"complete.obs\"),\n            r_pro_kopf = cor(alo_quote, Schulden_pro_kopf_lk, use = \"complete.obs\"),\n            r_bip      = cor(alo_quote, bip_pro_kopf, use = \"complete.obs\"))"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#die-wahl-der-kennzahl-entscheidet-mit",
+    "href": "slides/VL_case-study-Teil2.html#die-wahl-der-kennzahl-entscheidet-mit",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Die Wahl der Kennzahl entscheidet mit",
+    "text": "Die Wahl der Kennzahl entscheidet mit\n\ngesamtdaten |&gt;\n  summarise(r_anteil   = r_c(alo_quote, anteil_schulden),\n            r_pro_kopf = r_c(alo_quote, Schulden_pro_kopf_lk),\n            r_bip      = r_c(alo_quote, bip_pro_kopf))\n\n# A tibble: 1 × 3\n  r_anteil r_pro_kopf  r_bip\n     &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;\n1    0.554      0.195 -0.426\n\n\n\nPro Kopf ist der Zusammenhang schwach, in % des BIP stark. Woran liegt das? Wer hat die höchsten Schulden pro Kopf?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-7-die-ki-interpretation",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-7-die-ki-interpretation",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 7: Die KI-Interpretation",
+    "text": "🐛 Bug Hunt 7: Die KI-Interpretation\nChat AI, gefragt nach einer Interpretation des Streudiagramms:\n\n\n\n“Die Korrelation von r = 0,55 belegt einen starken Zusammenhang: Hohe Schulden verursachen Arbeitslosigkeit. Steigt der Schuldenanteil um einen Prozentpunkt, steigt die Arbeitslosenquote um 0,55 Prozentpunkte. Dieser Zusammenhang gilt für ganz Deutschland.”\n\n\n\n\n3 Minuten, zu zweit: Klingt kompetent. Finden Sie drei Fehler. Für einen davon brauchen Sie Code: Welchen?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-7-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-7-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 7: Prüfung",
+    "text": "🐛 Bug Hunt 7: Prüfung\nIn welchen Zeilen stehen die ostdeutschen Länder wirklich?\n\n\n\nbula_tabelle |&gt;\n  mutate(zeile = row_number()) |&gt;\n  filter(bundesland_name %in% ost_laender) |&gt;\n  select(zeile, bundesland_name, mean_alo) |&gt;\n  print(n = 5)\n\n# A tibble: 5 × 3\n  zeile bundesland_name        mean_alo\n  &lt;int&gt; &lt;chr&gt;                     &lt;dbl&gt;\n1     9 Sachsen                    6.47\n2    10 Thüringen                  6.68\n3    11 Brandenburg                7.06\n4    13 Mecklenburg-Vorpommern     7.94\n5    14 Sachsen-Anhalt             8.09\n\n\n\n\n\nrow_spec(c(8, 9, 10, 12, 13)) war per Hand abgezählt.\nDurch die Stadtstaaten-Korrektur steht Hamburg jetzt auf Platz 6, alles darunter verschiebt sich.\nDieselbe Falle wie in Teil 1: sheet_names[7:19], [1:7], data_alo[-c(1, 2), ].\n\n\n\n\n\n\n\nNie per Hand abzählen. Zeilen und Spalten über ihren Inhalt auswählen, nicht über ihre Position."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#interpretation-der-korrelation",
+    "href": "slides/VL_case-study-Teil2.html#interpretation-der-korrelation",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Interpretation der Korrelation",
+    "text": "Interpretation der Korrelation\n\nr hat keine quantitative Interpretation (“um wie viel?”)\nr misst nur lineare Zusammenhänge und reagiert auf Ausreißer\nNützlich, um stark korrelierte Variablen zu finden. Das ist für die Regression wichtig (Stichwort Multikollinearität)\n\n\nIn Arbeiten steht meist eine Korrelationsmatrix:\n\n\ngesamtdaten |&gt;\n  select(alo_quote, anteil_schulden,\n         bip_pro_kopf, wachstum) |&gt;\n  cor(use = \"pairwise.complete.obs\") |&gt;\n  round(2)\n\n\n                alo_quote anteil_schulden bip_pro_kopf wachstum\nalo_quote            1.00            0.55        -0.43     0.10\nanteil_schulden      0.55            1.00        -0.06     0.12\nbip_pro_kopf        -0.43           -0.06         1.00     0.02\nwachstum             0.10            0.12         0.02     1.00\n\n\n\nNächstes Semester (Teil 3 der Case-Study): lineare Regression. Deren Koeffizienten lassen sich direkt interpretieren."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-3-grafiken-karten-korrelation",
+    "href": "slides/VL_case-study-Teil2.html#kahoot-checkpoint-3-grafiken-karten-korrelation",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Kahoot-Checkpoint 3: Grafiken, Karten, Korrelation",
+    "text": "📱 Kahoot-Checkpoint 3: Grafiken, Karten, Korrelation\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\n7 Fragen, 5 Minuten\n\nLog-Achse: Was heißt “parallel”?\nBug Hunt 8: die Wachstumsrate\nBug Hunt 9: die Lücke in den Klassen\nr aus dem Streudiagramm schätzen\nSchulden pro Kopf oder in % des BIP?\nBug Hunt 10: Korrelation ≠ Kausalität ≠ Steigung\nOst und West getrennt betrachten\n\nKahoot öffnen →\n\n\n\n\n\n\n\nFragenvorschläge (richtige Antwort zuerst): 1. Zwei Linien laufen auf einer Log-Achse parallel. Das heißt … → gleicher relativer Abstand / gleicher Abstand in Euro / gleiche Höhe / kein Wachstum 2. BIP pro Kopf steigt von 100 auf 200. 100 * (x - lag(x)) / x ergibt … → 50 / 100 / 200 / −50 3. Klassen per case_when bis 13,5 %, ein Kreis hat 14,5 % → er wird NA / er landet in der obersten Klasse / Fehlermeldung / Warnung 4. Bild einer fallenden Punktwolke mit viel Streuung (Streudiagramm als Bild in Kahoot hochladen) → r ≈ −0,5 / −0,95 / 0 / +0,5 5. r = 0,55 zwischen Schulden und Arbeitslosigkeit heißt … → Landkreise mit hohen Schulden haben tendenziell höhere Quoten / Schulden verursachen Arbeitslosigkeit / +1 Pp. Schulden = +0,55 Pp. Quote / 55 % der Kreise sind verschuldet 6. Gesamt r = 0,55, im Osten r = 0,04. Daraus folgt … → der Zusammenhang gilt nicht überall gleich / der Code ist falsch / der Osten hat keine Schulden / r ist im Osten nicht berechenbar 7. “Schulden pro Kopf: r = 0,20; Schulden in % des BIP: r = 0,55” zeigt … → die Wahl der Kennzahl ändert die Aussage / einer der Werte ist falsch berechnet / Schulden pro Kopf sind irrelevant / r ist bei Prozentwerten immer höher"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#checkliste-tabellen-und-grafiken-prüfen",
+    "href": "slides/VL_case-study-Teil2.html#checkliste-tabellen-und-grafiken-prüfen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Checkliste: Tabellen und Grafiken prüfen",
+    "text": "Checkliste: Tabellen und Grafiken prüfen\nBevor Sie eine Tabelle oder Grafik zeigen, egal ob von Chat AI oder von Ihnen:\n\n\n1. Kennzahl = Überschrift? Mittel der Kreise oder Quote des Landes? (Bremen)\n2. Zähler und Nenner passen? Gleiches Gebiet, gleiche Zählweise. (BH 6)\n3. Formel getestet? Mit Zahlen, deren Ergebnis Sie kennen. (BH 8)\n4. Nichts per Hand abgezählt? Zeilen über Inhalt wählen, nicht über Position. (BH 7)\n\n5. Klassen lückenlos? cut() mit Inf, danach count(). (BH 9)\n6. Legende und Achsen gelesen? Titel, Einheit, Log-Skala. (BH 9)\n7. Fehlendes erklärt? Jedes NA, jeder abgeschnittene Wert in der Caption. (Stadtstaaten)\n8. Aussage gedeckt? Korrelation ≠ Kausalität, und gilt sie für alle Gruppen? (BH 10)\n\n\nKeiner der Bug Hunts in Teil 2 hat eine Fehlermeldung erzeugt."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#aufgabe-eigene-grafik-erstellen",
+    "href": "slides/VL_case-study-Teil2.html#aufgabe-eigene-grafik-erstellen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Aufgabe: Eigene Grafik erstellen",
+    "text": "Aufgabe: Eigene Grafik erstellen\n\nZiel: Eine aussagekräftige Grafik zur Einkommensverteilung in Deutschland erstellen und interpretieren.\n\nDaten: einkommen.rds im Repository (case-study/data/): durchschnittliches Einkommen je Arbeitnehmer (vgl. Übung zu Teil 1), Landkreise und Länder, 2000–2022.\n\nGruppen von 4–5 Personen\nFrage wählen: Zeitreihe oder Querschnitt 2022? Was soll die Grafik zeigen?\nGrafik erstellen: Inspiration in der R Graph Gallery und der Case-Study; Chat AI erlaubt\nCheckliste anwenden: mindestens Punkte 1, 6 und 7 schriftlich beantworten\nHochladen: Code + Grafik + drei Sätze Interpretation über das Google-Formular\nFeedback-Runde: anonymes Feedback von Kommiliton:innen und mir\n\n\n\n\n\n\n\nEinkommen hat dieselbe Schlüsselstruktur wie bip_zeitreihe (2-, 3- und 5-stellig), also vor dem Merge nchar(Regionalschluessel) == 5 filtern, und Hamburg/Berlin prüfen (Bug Hunt 1!). Link zum Google-Formular vor der Vorlesung aktualisieren."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#prompting-für-grafiken",
+    "href": "slides/VL_case-study-Teil2.html#prompting-für-grafiken",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Prompting für Grafiken",
+    "text": "Prompting für Grafiken\nDie Hinweise aus Teil 1 gelten weiter (Aufgabe, Instruktionen, Kontext; komplexe Aufgaben zerlegen). Für Grafiken zusätzlich:\n\nFrage zuerst: “Ich möchte zeigen, ob … Welcher Grafiktyp eignet sich?”\nDaten mitgeben: glimpse()-Output einfügen, dann rät Chat AI keine Spaltennamen\nGezielt nachbessern: “Die Legende soll … heißen”, “Werte über 100.000 € abschneiden und in der Caption erwähnen”\nInterpretation selbst schreiben und dann von Chat AI prüfen lassen: “Welche Aussagen in meinem Text sind durch die Grafik nicht gedeckt?”\n\n\nChat AI schreibt Ihnen in Sekunden eine überzeugende Interpretation. Bug Hunt 10 zeigt, wie viel darin falsch sein kann."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#zusammenfassung-und-ausblick",
+    "href": "slides/VL_case-study-Teil2.html#zusammenfassung-und-ausblick",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Zusammenfassung und Ausblick",
+    "text": "Zusammenfassung und Ausblick\nWas haben wir gelernt?\n\nDaten beschreiben: Tabellen mit skimr und kableExtra\nDaten zeigen: Punkte + Boxplot, Zeitreihen, Histogramme, Karten, interaktive Grafiken\nZusammenhänge quantifizieren: Korrelation, auch getrennt nach Gruppen\nPrüfen: Kennzahl, Nenner, Formel, Klassen, Legende, Aussage\n\n\nWas wir gesehen haben: Ost und West unterscheiden sich auch 2024, 35 Jahre nach dem Mauerfall, deutlich. Aber auch im Westen gibt es Regionen mit hoher Arbeitslosigkeit und hohen Schulden.\n\n\n\nDieses Semester: deskriptive Statistik. Nächstes Semester (Teil 3): induktive Statistik und lineare Regression. Dann fragen wir, wie stark Schulden, BIP und Arbeitslosigkeit zusammenhängen, wenn wir andere Faktoren konstant halten."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schätzfrage-zum-einstieg",
+    "href": "slides/VL_case-study-Teil2.html#schätzfrage-zum-einstieg",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schätzfrage zum Einstieg",
+    "text": "Schätzfrage zum Einstieg\n\n30 Sekunden, notieren Sie Ihren Tipp:\n\nWelcher Landkreis hatte 2024 die niedrigste Arbeitslosenquote Deutschlands?\nWelcher die höchste?\nAuf welchem Platz liegt Ulm?\n\n\nAuflösung, sobald wir die Quote berechnet haben.\n\nAuflösung auf der Folie “Höchste und niedrigste Quote” im Abschnitt Überblick. Pointe: Platz 1 ist der Landkreis München (nicht die Stadt), Platz 2 Ulm."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#deskriptiv-oder-induktiv",
+    "href": "slides/VL_case-study-Teil2.html#deskriptiv-oder-induktiv",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Deskriptiv oder induktiv?",
+    "text": "Deskriptiv oder induktiv?\n\nHandzeichen: deskriptiv ✋ oder induktiv ✌️?\n\n“Bremerhaven hatte 2024 eine höhere Arbeitslosenquote als die Stadt Bremen.”\n“Laut Mikrozensus ist der Anteil der Teilzeitbeschäftigten in Deutschland gestiegen.”\n“Landkreise in Ostdeutschland haben im Mittel eine höhere Arbeitslosenquote als in Westdeutschland.”\n“Eine Umfrage unter 300 Studierenden in Ulm zeigt: Studierende in Deutschland nutzen Chat AI täglich.”\n\n\n\n\n\n\n\n\n1 deskriptiv (Vollerhebung, Aussage über die Daten). 2 induktiv (Stichprobe → Population). 3 deskriptiv, solange es um genau diese Landkreise in 2024 geht; induktiv, wenn man daraus auf “Ostdeutschland generell” schließt. Schöne Diskussion. 4 induktiv, und zwar ein schlechter Schluss: Ulmer Studierende sind keine Zufallsstichprobe aller Studierenden."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#erinnern-sie-sich-sonderfall-stadtstaaten",
+    "href": "slides/VL_case-study-Teil2.html#erinnern-sie-sich-sonderfall-stadtstaaten",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🔁 Erinnern Sie sich? Sonderfall Stadtstaaten",
+    "text": "🔁 Erinnern Sie sich? Sonderfall Stadtstaaten\n\n30 Sekunden, Handzeichen: In Teil 1 haben wir vor dem Merge stadtstaaten_als_kreis() eingefügt. Was wäre ohne diesen Schritt mit Hamburg und Berlin passiert?\n(a) Fehlermeldung (b) Warnung (c) Die Zeilen fallen weg (d) BIP und Erwerbstätige werden still NA\n\n\n(d): Im BIP-Datensatz heißen sie nur 02 und 11, in den Arbeitslosendaten 02000 und 11000. left_join() findet keinen Partner und meldet nichts.\n\n\n\n\n\n\nNach jedem Join: colSums(is.na()) und fragen, welche Zeilen NA sind. Fehlen bekannte, große Einheiten (Hamburg! Berlin!), ist es fast nie eine Eigenschaft der Daten.\n\n\n\n\nDiesen Fehler hatten wir in der ersten Version der Case-Study selbst übersehen. Das ruhig offen sagen: Genau so passieren stille Fehler in echten Projekten. Eine Übung dazu steht im Anhang “Zum Selbststudium”."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#auflösung-höchste-und-niedrigste-quote",
+    "href": "slides/VL_case-study-Teil2.html#auflösung-höchste-und-niedrigste-quote",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Auflösung: höchste und niedrigste Quote",
+    "text": "Auflösung: höchste und niedrigste Quote\n\n\n\ngesamtdaten |&gt;\n  slice_min(alo_quote, n = 3) |&gt;\n  select(Regionalschluessel, landkreis_name, alo_quote)\n\n# A tibble: 3 × 3\n  Regionalschluessel landkreis_name alo_quote\n  &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;\n1 09184              München             1.88\n2 08421              Ulm                 2.28\n3 09779              Donau-Ries          2.31\n\n\n\n\ngesamtdaten |&gt;\n  slice_max(alo_quote, n = 3) |&gt;\n  select(Regionalschluessel, landkreis_name, alo_quote)\n\n# A tibble: 3 × 3\n  Regionalschluessel landkreis_name alo_quote\n  &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;\n1 05513              Gelsenkirchen       14.5\n2 04012              Bremerhaven         12.8\n3 05112              Duisburg            12.7\n\n\n\n\n\nPlatz 1 ist der Landkreis München (09184), nicht die Stadt. Daher: immer über den Schlüssel!\nPlatz 2: Ulm. Merken Sie sich das. Gleich sehen wir, warum Ulm so gut dasteht."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-6-mehr-erwerbstätige-als-einwohner",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-6-mehr-erwerbstätige-als-einwohner",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 6: Mehr Erwerbstätige als Einwohner?",
+    "text": "🐛 Bug Hunt 6: Mehr Erwerbstätige als Einwohner?\nUnsere Quote: total_alo / (erw + total_alo). Hier das Verhältnis von Erwerbstätigen (erw) zu Einwohnern:\n\ngesamtdaten |&gt;\n  mutate(erw_je_ew = erw / Einwohner) |&gt;\n  filter(!is.na(erw_je_ew)) |&gt;\n  arrange(desc(erw_je_ew)) |&gt;\n  select(landkreis_name, erw, Einwohner, erw_je_ew, alo_quote) |&gt;\n  slice(c(1:3, (n() - 2):n())) |&gt;     # die drei höchsten und die drei niedrigsten\n  print(n = 6)\n\n# A tibble: 6 × 5\n  landkreis_name       erw Einwohner erw_je_ew alo_quote\n  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 Schweinfurt        66062     54193     1.22       2.98\n2 Regensburg        168660    150678     1.12       2.37\n3 Passau             55698     52974     1.05       3.15\n4 Rhein-Pfalz-Kreis  44112    155807     0.283      7.68\n5 Kusel              19470     69623     0.280      8.29\n6 Südwestpfalz       23534     90294     0.261      8.88\n\n\n\n2 Minuten, zu zweit: Wie kann ein Kreis mehr Erwerbstätige als Einwohner haben? Was bedeutet das für unsere Quote in Schweinfurt und in der Südwestpfalz?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-6-auflösung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-6-auflösung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 6: Auflösung",
+    "text": "🐛 Bug Hunt 6: Auflösung\n\nArbeitslose werden am Wohnort gezählt, Erwerbstätige (VGR) am Arbeitsort\nSchweinfurt: viele Einpendler:innen → großer Nenner → Quote zu niedrig\nSüdwestpfalz: viele Auspendler:innen (nach Pirmasens, Kaiserslautern) → kleiner Nenner → Quote zu hoch\n\n\n\n\n\n\n\n\nDie Formel ist mathematisch richtig, aber Zähler und Nenner passen nicht zusammen. Die BA rechnet mit Erwerbspersonen am Wohnort. Diese Zahl haben wir auf Kreisebene nicht.\n\n\n\n\nFür Deutschland insgesamt gleichen sich Ein- und Auspendler weitgehend aus. Der Rest der Lücke zu den 6 % liegt an der unterschiedlichen Abgrenzung von Erwerbstätigen (VGR) und Erwerbspersonen (BA)."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-6-was-lernen-wir",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-6-was-lernen-wir",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 6: Was lernen wir?",
+    "text": "🐛 Bug Hunt 6: Was lernen wir?\n\nUnsere Quote ist eine Näherung: Für Städte und ihr Umland ist sie verzerrt, auch für die Stadtstaaten. Für große Regionen (Ost/West, Flächenländer) gleichen sich Ein- und Auspendler weitgehend aus.\nDieselbe Verzerrung steckt in jeder Kennzahl, die Arbeitsort- und Wohnort-Größen mischt, z.B. im BIP pro Kopf.\n\n\n\n\n\n\n\n\nChat AI berechnet Ihnen jede Kennzahl, die Sie verlangen. Ob Zähler und Nenner zusammenpassen (gleiches Gebiet, gleiches Jahr, gleiche Zählweise), müssen Sie prüfen: Dokumentation der Quelle lesen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-7-was-stimmt-nicht",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-7-was-stimmt-nicht",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 7: Was stimmt nicht?",
+    "text": "🐛 Bug Hunt 7: Was stimmt nicht?\n\n\nDas ist der Code von eben. Er stammt aus der Vorlesung im letzten Jahr und lief damals einwandfrei. Dieses Jahr läuft er auch: ohne Fehler, ohne Warnung.\n\n2 Minuten, zu zweit: Lesen Sie die Fußnote und dann die grauen Zeilen. Was ist falsch? Warum war es letztes Jahr richtig?\n\n\n\n\n\n\n\n\n\n\n\n\nBundesland\nMittelwert\nSD\nMedian\n\n\n\n\nBayern\n3.60\n0.80\n3.51\n\n\nBaden-Württemberg\n4.10\n0.83\n4.12\n\n\nHessen\n5.50\n1.28\n5.61\n\n\nRheinland-Pfalz\n5.84\n1.52\n5.68\n\n\nSchleswig-Holstein\n5.98\n0.80\n6.12\n\n\nHamburg\n6.11\nNA\n6.11\n\n\nNiedersachsen\n6.18\n1.77\n6.37\n\n\nSaarland\n6.33\n1.85\n5.89\n\n\nSachsen\n6.47\n0.88\n6.27\n\n\nThüringen\n6.68\n1.64\n6.12\n\n\nBrandenburg\n7.06\n1.63\n7.19\n\n\nNordrhein-Westfalen\n7.36\n2.33\n6.94\n\n\nMecklenburg-Vorpommern\n7.94\n1.20\n8.26\n\n\nSachsen-Anhalt\n8.09\n1.48\n7.89\n\n\nBerlin\n8.47\nNA\n8.47\n\n\nBremen\n10.24\n3.56\n10.24\n\n\n\nBitte beachten: \n\n\n\n\n\n Die ostdeutschen Bundesländer sind grau hinterlegt.\n\n\n\n\n\n\n\n\n\n\n\n\n\nGrau hinterlegt sind Saarland und NRW, Brandenburg und Sachsen-Anhalt dagegen nicht. Letztes Jahr fehlten Hamburg und Berlin (Stadtstaaten-Join) und wurden herausgefiltert. Jetzt steht Hamburg auf Platz 6 und schiebt alle Länder darunter um eine Zeile nach unten (Berlin steht auf Platz 15, unterhalb der markierten Zeilen)."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-7-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-7-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 7 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 7 reparieren\nbula_tabelle ist die sortierte Tabelle, ost_laender der Vektor mit den fünf ostdeutschen Ländern. Berechnen Sie ost_zeilen so, dass sie immer stimmen, egal wie die Tabelle sortiert ist.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nwhich() gibt die Positionen zurück, an denen eine Bedingung TRUE ist. Die Bedingung: bula_tabelle$bundesland_name %in% ost_laender.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nost_zeilen &lt;- which(bula_tabelle$bundesland_name %in% ost_laender)\n\nbula_tabelle$bundesland_name[ost_zeilen]\nIn der Tabelle dann: row_spec(ost_zeilen, bold = TRUE, ...)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wiedersehen-mit-bug-hunt-4-teil-1-bremen",
+    "href": "slides/VL_case-study-Teil2.html#wiedersehen-mit-bug-hunt-4-teil-1-bremen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🔁 Wiedersehen mit Bug Hunt 4 (Teil 1): Bremen",
+    "text": "🔁 Wiedersehen mit Bug Hunt 4 (Teil 1): Bremen\nLaut Tabelle hat Bremen die höchste Arbeitslosenquote: 10,2 %. Das Land Bremen besteht aus zwei Kreisen:\n\ngesamtdaten |&gt;\n  filter(bundesland_name == \"Bremen\") |&gt;\n  select(landkreis_name, total_alo, erw, alo_quote)\n\n# A tibble: 2 × 4\n  landkreis_name total_alo    erw alo_quote\n  &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;\n1 Bremen            32077. 383383      7.72\n2 Bremerhaven        9039.  61816     12.8 \n\n\n\n2 Minuten: Ist 10,2 % die Arbeitslosenquote des Landes Bremen? Wie hoch ist sie wirklich? Woher kennen Sie das Problem?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bremen-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bremen-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🔁 Bremen: Prüfung",
+    "text": "🔁 Bremen: Prüfung\nmean(alo_quote) ist das Mittel aus Bremen (7,7 %) und Bremerhaven (12,8 %), obwohl Bremen sechsmal so viele Erwerbstätige hat. Die Quote des Landes: erst summieren, dann teilen.\n\ngesamtdaten |&gt;\n  group_by(bundesland_name) |&gt;\n  summarise(mittel_kreise = mean(alo_quote),\n            quote_land    = sum(total_alo) / sum(erw + total_alo) * 100) |&gt;\n  arrange(desc(abs(quote_land - mittel_kreise))) |&gt;\n  print(n = 4)\n\n# A tibble: 16 × 3\n  bundesland_name mittel_kreise quote_land\n  &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;\n1 Bremen                  10.2        8.45\n2 Hessen                   5.50       5.12\n3 Saarland                 6.33       6.67\n4 Thüringen                6.68       6.34\n# ℹ 12 more rows\n\n\n\n\n\n\n\n\n\nBeide Zahlen sind richtig gerechnet, sie beantworten nur verschiedene Fragen: “Wie geht es dem durchschnittlichen Landkreis?” vs. “Wie hoch ist die Quote im Land?” Der Fehler ist, die eine zu berechnen und die andere in die Überschrift zu schreiben.\n\n\n\nFaustregel: Ob das Mittel der Kreise über oder unter der Landesquote liegt, hängt davon ab, ob die großen Kreise eine niedrige oder hohe Quote haben. In Bremen hat die große Stadt die niedrigere Quote → das Mittel ist zu hoch."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ende-von-sitzung-1",
+    "href": "slides/VL_case-study-Teil2.html#ende-von-sitzung-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Ende von Sitzung 1",
+    "text": "Ende von Sitzung 1\nHeute: Daten beschreiben und prüfen: skimr, Tabellen, Kennzahlen je Gruppe.\nBis zur nächsten Sitzung:\n\nAbschnitt Deskriptive Analysen der ausformulierten Case-Study lesen\nAnhang “Zum Selbststudium” am Ende dieser Folien: Stadtstaaten-Join reparieren\n\n\nNächstes Mal: Grafiken, Karten und Zusammenhänge. Wir starten mit Kahoot-Checkpoint 2 als Recap."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#recap-kahoot-checkpoint-2",
+    "href": "slides/VL_case-study-Teil2.html#recap-kahoot-checkpoint-2",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "📱 Recap: Kahoot-Checkpoint 2",
+    "text": "📱 Recap: Kahoot-Checkpoint 2\n\n\n\n\n\n\n\n\n\n\n\nkahoot.it · PIN am Beamer\n\nDieselben 6 Fragen wie am Ende der letzten Sitzung.\nTipp: Folien jetzt auf dem Laptop öffnen, damit webR im Hintergrund lädt.\nKahoot öffnen →"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#schätzfrage-zum-einstieg-1",
+    "href": "slides/VL_case-study-Teil2.html#schätzfrage-zum-einstieg-1",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Schätzfrage zum Einstieg",
+    "text": "Schätzfrage zum Einstieg\n\n30 Sekunden, notieren: Das mittlere BIP pro Kopf der ostdeutschen Landkreise lag 2024 bei wie viel Prozent des westdeutschen?\n(a) 55 % (b) 65 % (c) 75 % (d) 85 %\n\nUnd: Ist der Abstand seit 2000 kleiner oder größer geworden?\n\nAuflösung auf der Folie “Holt der Osten auf?”: 75 %, relativ kleiner geworden (2000: 64 %), in Euro größer."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-8-die-wachstumsrate",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-8-die-wachstumsrate",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 8: Die Wachstumsrate",
+    "text": "🐛 Bug Hunt 8: Die Wachstumsrate\nDer Code aus der Case-Study des letzten Jahres:\n\nbip_wachstum &lt;- bip_zeitreihe_namen |&gt;\n  group_by(Regionalschluessel) |&gt;\n  arrange(Regionalschluessel, Jahr) |&gt;\n  mutate(wachstum = 100 * (bip_pro_kopf - lag(bip_pro_kopf)) / bip_pro_kopf) |&gt;\n  ungroup()\n\n\n2 Minuten: Vergleichen Sie Zeile 4 mit der Formel. Rechnen Sie im Kopf nach: Ein Landkreis verdoppelt sein BIP pro Kopf von 100 auf 200. Was gibt der Code aus?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-8-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-8-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 8: Prüfung",
+    "text": "🐛 Bug Hunt 8: Prüfung\n\n\nEin Test mit Zahlen, deren Ergebnis wir kennen:\n\ntibble(vorjahr = c(100, 100), jetzt = c(200, 50)) |&gt;\n  mutate(falsch  = 100 * (jetzt - vorjahr) / jetzt,\n         richtig = 100 * (jetzt - vorjahr) / vorjahr)\n\n# A tibble: 2 × 4\n  vorjahr jetzt falsch richtig\n    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1     100   200     50     100\n2     100    50   -100     -50\n\n\n\nGeteilt wird durch das aktuelle Jahr statt durch das Vorjahr. Kleine Raten ändern sich kaum, große werden stark verzerrt: Verdopplung → +50 %, Halbierung → −100 %.\n\n\n\nIn unseren Daten: Mainz (BioNTech) 2021 und 2023\n\nbip_wachstum |&gt;\n  filter(landkreis_name == \"Mainz\", Jahr %in% 2020:2023) |&gt;\n  select(Jahr, bip_pro_kopf, falsch, wachstum)\n\n# A tibble: 4 × 4\n   Jahr bip_pro_kopf falsch wachstum\n  &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;\n1  2020       57939.   1.18     1.19\n2  2021      122763.  52.8    112.  \n3  2022      120782.  -1.64    -1.61\n4  2023       65041. -85.7    -46.2"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-8-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#jetzt-sie-bug-hunt-8-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Jetzt Sie: Bug Hunt 8 reparieren",
+    "text": "✍️ Jetzt Sie: Bug Hunt 8 reparieren\nbip_lk enthält das BIP pro Kopf aller Landkreise 2015–2024. Berechnen Sie wachstum richtig und zeigen Sie die fünf höchsten Wachstumsraten.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDurch lag(bip_pro_kopf) teilen, nicht durch bip_pro_kopf. Kürzer: 100 * (bip_pro_kopf / lag(bip_pro_kopf) - 1).\n\n\n\n\n\n\n\n\n\n\n\nZusatz: Warum group_by()?\n\n\nOhne group_by() wäre der lag() der ersten Zeile eines Landkreises das letzte Jahr des vorherigen Landkreises. Probieren Sie es aus!\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_lk |&gt;\n  group_by(Regionalschluessel) |&gt;\n  arrange(Jahr, .by_group = TRUE) |&gt;\n  mutate(wachstum = 100 * (bip_pro_kopf / lag(bip_pro_kopf) - 1)) |&gt;\n  ungroup() |&gt;\n  slice_max(wachstum, n = 5)"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-9-die-arbeitslosen-karte",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-9-die-arbeitslosen-karte",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 9: Die Arbeitslosen-Karte",
+    "text": "🐛 Bug Hunt 9: Die Arbeitslosen-Karte\n\n\n\n\n\n\n\n\n\n\n\n\nDie Karte aus den Folien des letzten Jahres. Der Code läuft ohne Fehler und ohne Warnung.\n\n2 Minuten, zu zweit: In dieser Karte stecken zwei stille Fehler. Lesen Sie die Legende Wort für Wort. Und: Wo ist der Kreis mit der höchsten Arbeitslosenquote?\n\n\n\n\n\n\n\n\n\nLegendentitel “Schulden pro Kopf in €”: per Copy & Paste von der Schuldenkarte übernommen. 2. Die oberste Klasse endet bei 13,5 %. Gelsenkirchen (14,5 %) fällt in keine Klasse, wird NA und erscheint grau, ausgerechnet der Kreis mit der höchsten Quote."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-9-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-9-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 9: Prüfung",
+    "text": "🐛 Bug Hunt 9: Prüfung\n\nmutate(alo_quote_lk = as.factor(case_when(\n    alo_quote &lt;= 2 ~ \"0 - 2%\",\n    ...\n    alo_quote &gt; 8 & alo_quote &lt;= 10 ~ \"8 - 10%\",\n    alo_quote &gt; 10 & alo_quote &lt;= 13.5 ~ \"10 - 13.5%\")))\n\n\nkarten_daten_alt |&gt;\n  sf::st_drop_geometry() |&gt;\n  filter(is.na(alo_quote_lk)) |&gt;\n  select(landkreis_name, alo_quote)\n\n  landkreis_name alo_quote\n1  Gelsenkirchen  14.45649\n\n\n\n\nLegende: “Schulden pro Kopf in €” auf einer Karte zur Arbeitslosenquote. Copy & Paste von der Schuldenkarte.\nLücke: case_when() ohne Fall für Werte über 13,5 % → NA. Ausgerechnet der Extremwert verschwindet.\n\n\n\n\n\n\n\nNach jeder Klasseneinteilung: count(klasse). Eine NA-Klasse, die es nicht geben sollte, fällt sofort auf."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#wer-hat-die-höchsten-schulden-pro-kopf",
+    "href": "slides/VL_case-study-Teil2.html#wer-hat-die-höchsten-schulden-pro-kopf",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Wer hat die höchsten Schulden pro Kopf?",
+    "text": "Wer hat die höchsten Schulden pro Kopf?\n\ngesamtdaten |&gt;\n  slice_max(Schulden_pro_kopf_lk, n = 4) |&gt;\n  select(landkreis_name, Schulden_pro_kopf_lk, bip_pro_kopf, anteil_schulden, alo_quote)\n\n# A tibble: 4 × 5\n  landkreis_name      Schulden_pro_kopf_lk bip_pro_kopf anteil_schulden alo_quote\n  &lt;chr&gt;                              &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;     &lt;dbl&gt;\n1 Darmstadt                         18911.       97917.            19.3      3.70\n2 Frankfurt am Main                 12707.      126718.            10.0      3.53\n3 Mülheim an der Ruhr               12065.       48484.            24.9      7.84\n4 Ulm                               11334.      102934.            11.0      2.28\n\n\n\n\nÜberwiegend reiche Städte mit niedriger Arbeitslosigkeit (Darmstadt, Frankfurt, Ulm!). Sie drücken die Korrelation pro Kopf.\nAuch gemessen am BIP sind sie überdurchschnittlich verschuldet. Aber das Teilen durch das BIP schiebt vor allem strukturschwache Kreise mit kleinem BIP nach oben (Mülheim, Oberhausen, Herne), und die haben hohe Arbeitslosigkeit.\n\n\nBeide Kennzahlen sind legitim. Aber wer nur eine zeigt, sollte begründen, warum diese."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-10-die-ki-interpretation",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-10-die-ki-interpretation",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 10: Die KI-Interpretation",
+    "text": "🐛 Bug Hunt 10: Die KI-Interpretation\nChat AI, gefragt nach einer Interpretation des Streudiagramms:\n\n\n\n“Die Korrelation von r = 0,55 belegt einen starken Zusammenhang: Hohe Schulden verursachen Arbeitslosigkeit. Steigt der Schuldenanteil um einen Prozentpunkt, steigt die Arbeitslosenquote um 0,55 Prozentpunkte. Dieser Zusammenhang gilt für ganz Deutschland.”\n\n\n\n\n3 Minuten, zu zweit: Klingt kompetent. Finden Sie drei Fehler. Für einen davon brauchen Sie Code: Welchen?"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#bug-hunt-10-prüfung",
+    "href": "slides/VL_case-study-Teil2.html#bug-hunt-10-prüfung",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "🐛 Bug Hunt 10: Prüfung",
+    "text": "🐛 Bug Hunt 10: Prüfung\n\n\n\n\n\n\n\n\n\n\n\n\n\ngesamtdaten |&gt;\n  group_by(ost_name) |&gt;\n  summarise(r = r_c(alo_quote, anteil_schulden))\n\n# A tibble: 2 × 2\n  ost_name             r\n  &lt;chr&gt;            &lt;dbl&gt;\n1 Ostdeutschland  0.0372\n2 Westdeutschland 0.621 \n\n\n\n\n\n“verursachen”: Korrelation ist keine Kausalität. Arbeitslosigkeit kann ebenso Schulden verursachen (Sozialausgaben), oder ein Strukturwandel beides.\n“um 0,55 Prozentpunkte”: r ist keine Steigung. Das leistet erst die Regression (nächstes Semester).\n“für ganz Deutschland”: Im Osten gibt es praktisch keinen Zusammenhang. Die Gesamtkorrelation wird vom Westen getragen."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#hausaufgabe-eigene-grafik-erstellen",
+    "href": "slides/VL_case-study-Teil2.html#hausaufgabe-eigene-grafik-erstellen",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "Hausaufgabe: Eigene Grafik erstellen",
+    "text": "Hausaufgabe: Eigene Grafik erstellen\n\nZiel: Eine aussagekräftige Grafik zur Einkommensverteilung in Deutschland erstellen und interpretieren. Start jetzt (5 Minuten): Gruppen bilden und Fragestellung festlegen.\n\nDaten: einkommen.rds im Repository (case-study/data/): durchschnittliches Einkommen je Arbeitnehmer (vgl. Übung zu Teil 1), Landkreise und Länder, 2000–2022.\n\nGruppen von 4–5 Personen\nFrage wählen: Zeitreihe oder Querschnitt 2022? Was soll die Grafik zeigen?\nGrafik erstellen: Inspiration in der R Graph Gallery und der Case-Study; Chat AI erlaubt\nCheckliste anwenden: mindestens Punkte 1, 6 und 7 schriftlich beantworten\nHochladen: Code + Grafik + drei Sätze Interpretation über das Google-Formular\nFeedback-Runde zu Beginn der nächsten Sitzung: anonymes Feedback von Kommiliton:innen und mir\n\n\n\n\n\n\n\nEinkommen hat dieselbe Schlüsselstruktur wie bip_zeitreihe (2-, 3- und 5-stellig), also vor dem Merge nchar(Regionalschluessel) == 5 filtern, und Hamburg/Berlin prüfen: Sie stehen auch hier nur als 02 und 11 im Datensatz (Stadtstaaten-Falle!). Link zum Google-Formular vor der Vorlesung aktualisieren."
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#stadtstaaten-join-reparieren",
+    "href": "slides/VL_case-study-Teil2.html#stadtstaaten-join-reparieren",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Stadtstaaten-Join reparieren",
+    "text": "✍️ Stadtstaaten-Join reparieren\nalo_lk enthält Arbeitslose je Landkreis, bip_2024 das BIP 2024 mit den Original-Schlüsseln aus der Excel-Datei. Passen Sie bip_2024 vor dem Join so an, dass Hamburg und Berlin ein bip_pro_kopf bekommen.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nAus \"02\" muss \"02000\" werden, aus \"11\" muss \"11000\" werden. if_else(Regionalschluessel %in% c(\"02\", \"11\"), paste0(...), ...) in einem mutate(). Die Variante aus Teil 1 mit bind_rows() funktioniert auch.\n\n\n\n\n\n\n\n\n\n\n\nLösung\n\n\nbip_2024_fix &lt;- bip_2024 |&gt;\n  mutate(Regionalschluessel = if_else(Regionalschluessel %in% c(\"02\", \"11\"),\n                                      paste0(Regionalschluessel, \"000\"),\n                                      Regionalschluessel))\n\nalo_lk |&gt;\n  left_join(bip_2024_fix, by = \"Regionalschluessel\") |&gt;\n  filter(landkreis_name %in% c(\"Hamburg\", \"Berlin\", \"Bremen\"))"
+  },
+  {
+    "objectID": "slides/VL_case-study-Teil2.html#ihr-bundesland-hervorheben",
+    "href": "slides/VL_case-study-Teil2.html#ihr-bundesland-hervorheben",
+    "title": "Case-Study zur Arbeitslosigkeit in Deutschland",
+    "section": "✍️ Ihr Bundesland hervorheben",
+    "text": "✍️ Ihr Bundesland hervorheben\nHeben Sie statt Baden-Württemberg ein anderes Bundesland hervor, z.B. Ihr Heimatbundesland. Passen Sie auch den Untertitel an.\nZusatz: Zeichnen Sie mit geom_hline() den westdeutschen Median ein.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHinweis\n\n\nDen Namen in Zeile 2 und im subtitle ändern. Die Namen müssen exakt stimmen: unique(gesamtdaten$bundesland_name) zeigt alle.\n\n\n\n\n\n\n\n\n\n\n\nLösung (Beispiel NRW)\n\n\ngesamtdaten |&gt;\n  mutate(hervor = bundesland_name == \"Nordrhein-Westfalen\") |&gt;\n  ggplot(aes(x = ost_name, y = alo_quote)) +\n  geom_jitter(aes(colour = hervor), width = 0.25, height = 0, alpha = 0.6) +\n  geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +\n  scale_colour_manual(values = c(\"grey60\", \"#1b5e20\"), guide = \"none\") +\n  labs(subtitle = \"Nordrhein-Westfalen grün\", x = NULL, y = \"Arbeitslosenquote (%)\") +\n  theme_minimal()\nNRW streut über fast den ganzen westdeutschen Bereich: Münsterland unten, Ruhrgebiet ganz oben."
   }
 ]

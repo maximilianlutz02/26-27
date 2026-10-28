@@ -1144,7 +1144,7 @@ range(schulden_consistency$differenz, na.rm = TRUE)
 . . .
 
 ::: {.alert}
-± 50 Cent – Rundung auf ganze Euro in der Quelle. Intern konsistent.
+bis auf 1 Cent, d.h. die Daten sind intern konsistent.
 :::
 
 ## Auflösung: Ihr Landkreis {.smaller}
@@ -1371,7 +1371,7 @@ bip_wide |>
 
 . . .
 
-Betroffen sind Zellen mit `-` (kein Wert). Ein `NA` ist hier **inhaltlich richtig** – jetzt dürfen wir guten Gewissens umwandeln.
+Betroffen sind Zellen mit `-` (kein Wert). Ein `NA` ist hier **inhaltlich richtig**, nach dem Check können wir diese Zeilen umwandeln.
 
 ## Umwandeln
 
@@ -1385,7 +1385,7 @@ einwohner_wide <- zu_zahl(einwohner_wide)
 ```
 
 ::: {.callout-important appearance="simple"}
-`suppressWarnings()` erst, **nachdem** wir wissen, was die Warnung bedeutet. Vorher versteckt es einen Fehler, nachher dokumentiert es eine Entscheidung.
+`suppressWarnings()` erst, **nachdem** wir wissen, was die Warnung bedeutet, ansonsten hätten wir diesen Fehler nie entdeckt.
 :::
 
 ## Ins `long`-Format
@@ -1470,7 +1470,7 @@ countdown(minutes = 3, bottom = 0, right = 0)
 
 ## Lösung als Funktion
 
-Dasselbe für Erwerbstätige – also wieder eine Funktion statt Copy & Paste:
+Dasselbe für Erwerbstätige, also wieder eine Funktion statt Copy & Paste:
 
 ```{r}
 #| code-line-numbers: "1-6|8-9"
@@ -1488,7 +1488,7 @@ einwohner_long <- ins_long(einwohner_wide, "einwohner", 1000)
 ## Konsistenzcheck: Ihre Aufgabe
 
 ::: {.instructions}
-Vergleichen Sie die **Einwohnerzahlen** aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) – auf Landkreisebene.
+Vergleichen Sie die **Einwohnerzahlen** aus dem BIP-Datensatz (Blatt 5, Jahr 2024) mit denen aus dem Schulden-Datensatz (2024) auf Landkreisebene.
 :::
 
 Leitfragen:
@@ -1642,6 +1642,35 @@ schulden_bereinigt |>
   summarise(mittelwert_ki = mean(Schulden_pro_kopf), gewichtet = sum(Schulden_gesamt) / sum(Einwohner))
 ```
 
+## Sonderfall Stadtstaaten
+
+Hamburg und Berlin sind **gleichzeitig** Bundesland und kreisfreie Stadt. In den Arbeitslosendaten heißen sie `02000` und `11000`, in den BIP-Daten?
+
+```{r}
+bip_long |> filter(Regionalschluessel %in% c("02", "11", "02000", "11000"), Jahr == 2024)
+```
+
+. . .
+
+Nur Länderschlüssel. `nchar(...) == 5` würde sie herauswerfen, und `left_join()` würde **still** `NA` eintragen. Also ergänzen wir eine Kopie mit Kreisschlüssel:
+
+```{r stadtstaaten}
+#| code-line-numbers: "1-5|7-9"
+stadtstaaten_als_kreis <- function(df) {
+  df |> bind_rows(df |>
+                    filter(Regionalschluessel %in% c("02", "11")) |>
+                    mutate(Regionalschluessel = paste0(Regionalschluessel, "000")))
+}
+
+bip_long       <- stadtstaaten_als_kreis(bip_long)
+erwerb_long    <- stadtstaaten_als_kreis(erwerb_long)
+einwohner_long <- stadtstaaten_als_kreis(einwohner_long)
+```
+
+::: {.notes}
+Diesen Schritt hatten wir in der ersten Version übersehen; in Teil 2 ist er Bug Hunt 1. Bremen ist kein Problem: Bremen (04011) und Bremerhaven (04012) haben eigene Kreisschlüssel.
+:::
+
 ## Erwerbstätige und Einwohner 2024
 
 ```{r kombi2}
@@ -1685,15 +1714,15 @@ left_join(bip_long, einwohner_long, by = "Regionalschluessel") |> nrow()
 
 . . .
 
-Jedes BIP-Jahr wird mit **jedem** Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der *many-to-many*-Beziehung – und `filter(Jahr == 2024)` schlägt danach fehl, weil es nur noch `Jahr.x` und `Jahr.y` gibt.
+Jedes BIP-Jahr wird mit **jedem** Einwohner-Jahr kombiniert (32 × 32). dplyr warnt vor der *many-to-many*-Beziehung und `filter(Jahr == 2024)` schlägt danach fehl, weil es nur noch `Jahr.x` und `Jahr.y` gibt.
 
 ::: {.callout-tip appearance="simple"}
-**Faustregel:** Nach jedem `join` die Zeilenzahl prüfen. Bei `left_join` darf sie nicht steigen – sonst fehlt ein Schlüssel.
+**Faustregel:** Nach jedem `join` die Zeilenzahl prüfen. Bei `left_join` darf sie nicht steigen, sonst fehlt ein Schlüssel.
 :::
 
 ## ✍️ Jetzt Sie: Bug Hunt 5 reparieren {.bughunt}
 
-`bip_long` und `einwohner_long` (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie `bip_pro_kopf` für 2024. Die Zeilenzahl von `bip_long` ist `nrow(bip_long)` – prüfen Sie sie nach dem Join!
+`bip_long` und `einwohner_long` (nur Landkreise, alle Jahre) sind geladen. Reparieren Sie den Join und berechnen Sie `bip_pro_kopf` für 2024. Die Zeilenzahl von `bip_long` ist `nrow(bip_long)`. Prüfen Sie sie nach dem Join!
 
 ```{webr}
 #| setup: true
@@ -1762,7 +1791,7 @@ summary(bip_kombi$bip_pro_kopf)
 . . .
 
 ::: {.question}
-Plausibilitätscheck: BIP pro Kopf in Deutschland ≈ 48.000 €. Passt die Größenordnung? Was wäre ohne `* 1e6` passiert?
+Plausibilitätscheck: Durchschnittliches BIP pro Kopf in Deutschland ≈ 48.000 €. Passt die Größenordnung? Was wäre ohne `* 1e6` passiert?
 :::
 
 ## Alles zusammenführen
@@ -1819,7 +1848,7 @@ gesamtdaten |>
 #| fig-height: 4.2
 gesamtdaten |>
   mutate(alo_je_100_ew = 100 * total_alo / Einwohner,
-         region = if_else(bundesland %in% c("11", "12", "13", "14", "15", "16"), "Ost (inkl. Berlin)", "West"),
+         region = if_else(bundesland %in% c("12", "13", "14", "15", "16"), "Ost", "West"),
          label  = case_when(Regionalschluessel == "08421" ~ "Ulm",
                             Regionalschluessel == "08425" ~ "Alb-Donau",
                             Regionalschluessel == "08426" ~ "Biberach",
