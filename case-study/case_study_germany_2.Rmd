@@ -40,11 +40,9 @@ Hierzu laden wir uns die aus Teil 1 erstellten Datensätze:
 library(tidyverse)
 library(skimr)
 library(sf)
-library(viridis)
 library(plotly)
 library(kableExtra)
 library(gt)
-library(corrr)
 ```
 
 ```{r}
@@ -69,7 +67,7 @@ jahr_max <- max(bip_zeitreihe$Jahr)
 Wir wollen uns zu Beginn unserer Analysen einen Überblick über die Daten verschaffen. D.h. wie viele Landkreise haben wir in den Daten? Wie ist die Verteilung der Schulden, Arbeitslosigkeit und des BIP? 
 
 Hierfür wollen wir uns im ersten Schritt die Arbeitslosenquote berechnen. Die Schulden pro Kopf und das BIP pro Kopf hatten wir bereits in dem ersten Teil der Case-Study berechnet. 
-Die Arbeitslosenquote wollen wir als $Arbeitslosenquote = Erwerbslose / (Erwerbstätige + Erwerbslose)$ berechnen. Bei der Berechnung der Arbeitslosenquote beziehen wir also das komplette Potential an erwerbsfähigen Personen ein.
+Die Arbeitslosenquote wollen wir als $Arbeitslosenquote = Arbeitslose / (Erwerbstätige + Arbeitslose)$ berechnen. Im Nenner stehen damit alle Personen, die arbeiten oder Arbeit suchen. Achtung: Die Arbeitslosen zählt die Bundesagentur für Arbeit am **Wohnort**, die Erwerbstätigen aus der Volkswirtschaftlichen Gesamtrechnung werden dagegen am **Arbeitsort** gezählt. Für Städte mit vielen Einpendler:innen ist unsere Quote daher zu niedrig, für das Umland mit vielen Auspendler:innen zu hoch. Für große Regionen gleicht sich das weitgehend aus.
 
 In den nächsten Abschnitten wollen wir uns die Parameter für die einzelnen Variablen dann genauer anschauen.
 
@@ -81,10 +79,10 @@ gesamtdaten <- gesamtdaten |>
 
 ### Anzahl an Beobachtungen
 
-Wir wollen zuerst einen Blick auf die Anzahl an Erwerbstätigen und Einwohnern in Deutschland werfen. Hier haben wir `r de(sum(gesamtdaten$erw, na.rm=TRUE)/1e6, 1)` Mio. Erwerbstätige und `r de(sum(gesamtdaten$Einwohner, na.rm=TRUE)/1e6, 1)` Mio. Einwohner in Deutschland. Dies sollte stimmen, da wir Hamburg (1,8 Mio.), Berlin (3,8 Mio.) und Bremen (0,6 Mio.), sowie Bremerhaven (0,1 Mio.) nicht in unserem Datensatz haben. Die Daten wollen wir uns als einfachen Tibble Datensatz anzeigen lassen:
+Wir wollen zuerst einen Blick auf die Anzahl an Erwerbstätigen und Einwohnern in Deutschland werfen. Hier haben wir `r de(sum(gesamtdaten$erw, na.rm=TRUE)/1e6, 1)` Mio. Erwerbstätige und `r de(sum(gesamtdaten$Einwohner, na.rm=TRUE)/1e6, 1)` Mio. Einwohner in Deutschland. Die Zahl der Erwerbstätigen umfasst alle Landkreise und kreisfreien Städte. Bei den Einwohnern fehlen dagegen Hamburg (1,8 Mio.), Berlin (3,8 Mio.), Bremen (0,6 Mio.) und Bremerhaven (0,1 Mio.), da wir die Einwohnerzahlen aus der Schuldenstatistik der Gemeinden übernommen haben, welche keine Stadtstaaten enthält. Die Daten wollen wir uns als einfachen Tibble Datensatz anzeigen lassen:
 
 ```{r}
-# Wie viele Erwerbstätige und Einwohner (ohne Berlin, Hamburg, Bremen und Bremerhaven) hat Deutschland?
+# Wie viele Erwerbstätige und Einwohner (Einwohner ohne Berlin, Hamburg, Bremen und Bremerhaven) hat Deutschland?
 gesamtdaten |> 
   summarise(total_erw = sum(erw, na.rm=TRUE), 
             total_einwohner = sum(Einwohner, na.rm=TRUE))
@@ -108,7 +106,7 @@ In Deutschland gibt es 294 Landkreise. Die Anzahl der Landkreise pro Bundesland 
 
 Jedoch gibt es nur `r n_distinct(gesamtdaten$landkreis_name)` unterschiedliche Landkreis Namen in unserem Datensatz mit `r nrow(gesamtdaten)` unterschiedlichen Beobachtungen (Regionalschlüsseln). Dies kommt daher, dass z.B. die Stadt München eine Beobachtung ist und der Landkreis München eine weitere Beobachtung mit anderem Regionalschlüssel. D.h. der "landkreis_name" ist der Gleiche, jedoch ist der Regionalschlüssel ein anderer.
 
-Für die Schulden und die Einwohnerzahlen fehlen uns leider Daten für _`r sum(is.na(gesamtdaten$Einwohner))`_ Landkreise, für das BIP fehlen uns Daten für _`r sum(is.na(gesamtdaten$bip))`_ Landkreise:
+Für die Schulden und die Einwohnerzahlen fehlen uns leider Daten für _`r sum(is.na(gesamtdaten$Einwohner))`_ Landkreise, für das BIP und die Erwerbstätigen liegen dagegen für alle Landkreise Daten vor (fehlend: _`r sum(is.na(gesamtdaten$bip))`_). Diese Landkreise fehlen bei den Schulden und Einwohnern:
 
 ```{r}
 gesamtdaten |>
@@ -116,14 +114,16 @@ gesamtdaten |>
   select(landkreis_name)
 ```
 
-Leider haben wir hier in den Originaldaten keine Informationen zu Schulden und BIP für diese Städte, daher können wir sie nicht mit in unsere Analysen einbeziehen.
+Dies sind die vier Stadtstaaten-Kreise. Ihre Schulden sind Landesschulden und daher nicht in der Schuldenstatistik der Gemeinden enthalten. Bei Analysen zu Schulden und Einwohnern können wir sie daher nicht berücksichtigen, bei der Arbeitslosenquote und dem BIP pro Kopf aber schon.
+
+_Hinweis:_ In einer früheren Version des ersten Teils der Case Study fehlten bei Hamburg und Berlin auch BIP und Erwerbstätige, da die beiden Städte in den BIP-Daten nur mit ihrem Länderschlüssel (`02` und `11`) geführt werden. Wie wir das korrigiert haben, steht im ersten Teil im Abschnitt "Sonderfall Stadtstaaten". Ein gutes Beispiel dafür, warum man nach jedem Merge prüfen sollte, *welche* Beobachtungen `NA` sind.
 
 ### Beschreibung der Tabelle
 
 **Arbeitslosenquote**
 
-Im Durchschnitt liegt die Arbeitslosenquote in 2024 bei `r de(mean(gesamtdaten$alo_quote, na.rm=TRUE), 2)` Prozent. Dies mag uns zuerst etwas hoch erscheinen, jedoch sollten wir bedenken, dass wir **alle** Arbeitslosen mit in unsere Analyse einbezogen haben, d.h. Bezieher von SGB II und SGB III. Ein kurzer Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt uns die dort gemeldete Arbeitslosenquote von 6.0% für 2024. Unsere niedrigere Quote könnte insbesondere daran liegen, dass die Großstädte Berlin und Hamburg nicht in unserer Analyse enthalten sind.
-Die Standardabweichung beträgt `r de(sd(gesamtdaten$alo_quote, na.rm=TRUE), 2)` und zeigt damit, dass es in Deutschland deutliche regionale Unterschiede bzgl. der Arbeitslosenquote gibt. Ein Blick auf die Verteilung zeigt, dass der Landkreis mit der geringsten Arbeitslosenquote nur eine Arbeitslosenquote von `r de(min(gesamtdaten$alo_quote, na.rm=TRUE), 2)`% (`p0` in der obigen Tabelle) aufweist und der Landkreis mit der höchsten Arbeitslosenquote von `r de(max(gesamtdaten$alo_quote, na.rm=TRUE), 2)`% (`p100` in der obigen Tabelle). Zwar sind die Werte noch ein ganzes Stück von dem Durchschnitt der Arbeitslosenquote in Spanien entfernt ([rund 11,4% im Jahr 2024](https://de.statista.com/statistik/daten/studie/17327/umfrage/arbeitslosenquote-in-spanien/)), zeigen jedoch schon, dass es auch in Deutschland durchaus Regionen mit einer sehr hohen Arbeitslosenquote gibt.
+Im Durchschnitt liegt die Arbeitslosenquote in 2024 bei `r de(mean(gesamtdaten$alo_quote, na.rm=TRUE), 2)` Prozent. Dabei haben wir **alle** Arbeitslosen einbezogen, d.h. Leistungsbeziehende nach SGB II und SGB III. Ein kurzer Konsistenzcheck auf [Statista](https://de.statista.com/statistik/daten/studie/1224/umfrage/arbeitslosenquote-in-deutschland-seit-1995/) zeigt uns die dort gemeldete Arbeitslosenquote von 6,0% für 2024 (siehe auch den [Jahresrückblick 2024 der Bundesagentur für Arbeit](https://www.arbeitsagentur.de/presse/2025-02-jahresrueckblick-2024)). Unser Wert ist allerdings ein einfacher Mittelwert über die Landkreise, in dem z.B. Berlin genauso viel zählt wie ein kleiner Landkreis. Berechnen wir die Quote für Deutschland aus den Summen (alle Arbeitslosen geteilt durch alle Erwerbstätigen plus Arbeitslosen), erhalten wir `r de(100 * sum(gesamtdaten$total_alo) / sum(gesamtdaten$erw + gesamtdaten$total_alo), 2)`%. Der verbleibende Unterschied zur amtlichen Quote liegt am Nenner: Die Bundesagentur für Arbeit bezieht die Arbeitslosen auf alle zivilen Erwerbspersonen am Wohnort, wir auf die Erwerbstätigen aus der Volkswirtschaftlichen Gesamtrechnung, die am Arbeitsort gezählt werden.
+Die Standardabweichung beträgt `r de(sd(gesamtdaten$alo_quote, na.rm=TRUE), 2)` und zeigt damit, dass es in Deutschland deutliche regionale Unterschiede bzgl. der Arbeitslosenquote gibt. Ein Blick auf die Verteilung zeigt, dass der Landkreis mit der geringsten Arbeitslosenquote (der Landkreis `r gesamtdaten$landkreis_name[which.min(gesamtdaten$alo_quote)]`, nicht die gleichnamige Stadt) nur eine Arbeitslosenquote von `r de(min(gesamtdaten$alo_quote, na.rm=TRUE), 2)`% (`p0` in der obigen Tabelle) aufweist und der Landkreis mit der höchsten Arbeitslosenquote (`r gesamtdaten$landkreis_name[which.max(gesamtdaten$alo_quote)]`) eine von `r de(max(gesamtdaten$alo_quote, na.rm=TRUE), 2)`% (`p100` in der obigen Tabelle). Auf Platz 2 der niedrigsten Quoten liegt übrigens Ulm, auch eine Folge der vielen Einpendler:innen. Der Mittelwert liegt damit weit unter dem spanischen Durchschnitt ([rund 11,4% im Jahr 2024](https://de.statista.com/statistik/daten/studie/17327/umfrage/arbeitslosenquote-in-spanien/)), einzelne Landkreise wie `r gesamtdaten$landkreis_name[which.max(gesamtdaten$alo_quote)]` liegen aber sogar darüber. Es gibt also auch in Deutschland Regionen mit einer sehr hohen Arbeitslosenquote.
 
 **Verschuldung pro Kopf**
 
@@ -135,7 +135,7 @@ Wie schon bei der Arbeitslosenquote und der Verschuldung sehen wir auch bei dem 
 
 ## Summary Statistics auf Bundeslandebene für die Arbeitslosigkeit
 
-Nachdem wir im vorherigen Abschnitt bereits gesehen haben, dass es wohl deutliche regionale Unterschiede bei allen Variablen geben muss, wollen wir uns nun noch die Arbeitslosenquote auf Bundeslandebene anschauen. Erinnern wir uns daran das wir hier Querschnittsdaten für das Jahr 2024 für alle deutschen Landkreise betrachten. Weiterhin hat uns die vorherige Tabelle bereits gezeigt, dass wir mit "missing Values" rechnen müssen (`n_missing` bei der skimr-Tabelle). Um nun einen ersten Überblick über die regionale Verteilung der Arbeitsenquote in 2024 zu gewinnen schauen wir uns die Arbeitslosenquote auf Bundeslandebene an, aggregiert über die Landkreise eines Bundeslandes. Hierzu wollen wir uns des Pakets `kableExtra` bedienen um schönere Tabellen zu erstellen:
+Nachdem wir im vorherigen Abschnitt bereits gesehen haben, dass es wohl deutliche regionale Unterschiede bei allen Variablen geben muss, wollen wir uns nun noch die Arbeitslosenquote auf Bundeslandebene anschauen. Erinnern wir uns daran das wir hier Querschnittsdaten für das Jahr 2024 für alle deutschen Landkreise betrachten. Weiterhin hat uns die vorherige Tabelle bereits gezeigt, dass wir mit "missing Values" rechnen müssen (`n_missing` bei der skimr-Tabelle). Um nun einen ersten Überblick über die regionale Verteilung der Arbeitslosenquote in 2024 zu gewinnen schauen wir uns die Arbeitslosenquote auf Bundeslandebene an, aggregiert über die Landkreise eines Bundeslandes. Hierzu wollen wir uns des Pakets `kableExtra` bedienen um schönere Tabellen zu erstellen:
 
 ```{r}
 bula_data <- gesamtdaten |> 
@@ -146,22 +146,29 @@ bula_data <- gesamtdaten |>
 
 bula_data |>
   arrange( mean_alo ) |>
-  filter( !is.na(mean_alo) ) |>
+  filter( !is.na(mean_alo) ) -> bula_tabelle
+
+# Zeilen der ostdeutschen Bundesländer bestimmen (nicht per Hand abzählen:
+# sobald sich Daten oder Sortierung ändern, wären feste Zeilennummern falsch)
+ost_laender <- c("Brandenburg", "Mecklenburg-Vorpommern", "Sachsen", "Sachsen-Anhalt", "Thüringen")
+ost_zeilen  <- which(bula_tabelle$bundesland_name %in% ost_laender)
+
+bula_tabelle |>
   kbl(col.names = c("Bundesland",
                     "Mittelwert",
                     "Std.",
                     "Median"), digits = 2) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) |>
   kable_paper(full_width = F) |>
-  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
+  row_spec(ost_zeilen, bold = T, color = "white", background = "#BBBBBB") |>
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 3), align = "c") |>
-  footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
+  footnote(general = "Berlin und Hamburg bestehen aus nur einem Kreis, daher gibt es für sie keine Standardabweichung.", 
            general_title = "Bitte beachten: ",
            number = "Die ostdeutschen Bundesländer sind grau hinterlegt.")
 ```
 
-Hier sehen wir insbesondere für Landkreise in Bayern und Baden-Württemberg Arbeitslosenquoten von durchschnittlich rund 4% oder darunter und für Landkreise in Sachsen-Anhalt, Bremen, Mecklenburg-Vorpommern, Nordrhein-Westfalen und Brandenburg Arbeitslosenquoten von durchschnittlich über 7%. Es fällt weiterhin auf, dass die Landkreise in ehemaligen ostdeutschen Bundesländern tendenziell höhere Arbeitslosenquoten aufweisen. Weiterhin ist die Standardabweichung, d.h. die Streuung um den Mittelwert, insgesamt für die Landkreise der einzelnen Bundesländer oft vergleichbar (in Nordrhein-Westfalen und Bremen jedoch recht hoch). Mit rund einem Prozentpunkt ist die Standardabweichung oft moderat, d.h. die Landkreise pro Bundesland sind recht ähnlich zueinander. Bei einer Standardabweichung von `r de(sd(gesamtdaten$alo_quote[gesamtdaten$bundesland_name == "Nordrhein-Westfalen"], na.rm=TRUE), 2)` Prozentpunkten ist die Standardabweichung in Nordrhein-Westfalen hoch, was auf große regionale Unterschiede zwischen den einzelnen Landkreisen schließen lässt. Der Median für die Arbeitslosenquote der Landkreise liegt recht nahe am Mittelwert, was auch darauf hindeutet, dass die Landkreise in den einzelnen Bundesländern sich nicht stark voneinander unterscheiden. 
-Da wir hier tendenziell größere Unterschiede zwischen Ost- und Westdeutschland festgestellt haben wollen wir uns eine Dummyvariable "ost" generieren, welche 0 für alle ehemaligen westdeutschen und 1 für alle ehemaligen ostdeutschen Bundesländer ist:
+Hier sehen wir insbesondere für Landkreise in Bayern und Baden-Württemberg Arbeitslosenquoten von durchschnittlich rund 4% oder darunter und für Landkreise in Sachsen-Anhalt, Mecklenburg-Vorpommern, Nordrhein-Westfalen und Brandenburg sowie für die Stadtstaaten Bremen und Berlin Arbeitslosenquoten von durchschnittlich über 7%. Vorsicht bei Bremen: Der Wert ist das einfache Mittel aus der Stadt Bremen (`r de(gesamtdaten$alo_quote[gesamtdaten$Regionalschluessel == "04011"], 1)`%) und Bremerhaven (`r de(gesamtdaten$alo_quote[gesamtdaten$Regionalschluessel == "04012"], 1)`%). Da die Stadt Bremen rund sechsmal so viele Erwerbstätige hat, liegt die Quote des Landes Bremen (erst summieren, dann teilen) nur bei `r de(with(subset(gesamtdaten, bundesland_name == "Bremen"), 100 * sum(total_alo) / sum(erw + total_alo)), 1)`%. Die Tabelle zeigt also das Mittel der *Landkreise*, nicht die Quote der *Länder*. Es fällt weiterhin auf, dass die Landkreise in ehemaligen ostdeutschen Bundesländern tendenziell höhere Arbeitslosenquoten aufweisen. Weiterhin ist die Standardabweichung, d.h. die Streuung um den Mittelwert, insgesamt für die Landkreise der einzelnen Bundesländer oft vergleichbar (in Nordrhein-Westfalen und Bremen jedoch recht hoch). Mit rund einem Prozentpunkt ist die Standardabweichung oft moderat, d.h. die Landkreise pro Bundesland sind recht ähnlich zueinander. Bei einer Standardabweichung von `r de(sd(gesamtdaten$alo_quote[gesamtdaten$bundesland_name == "Nordrhein-Westfalen"], na.rm=TRUE), 2)` Prozentpunkten ist die Standardabweichung in Nordrhein-Westfalen hoch, was auf große regionale Unterschiede zwischen den einzelnen Landkreisen schließen lässt. Der Median für die Arbeitslosenquote der Landkreise liegt recht nahe am Mittelwert, was auch darauf hindeutet, dass die Landkreise in den einzelnen Bundesländern sich nicht stark voneinander unterscheiden. 
+Da wir hier tendenziell größere Unterschiede zwischen Ost- und Westdeutschland festgestellt haben wollen wir uns eine Dummyvariable "ost" generieren, welche 0 für alle ehemaligen westdeutschen und 1 für alle ehemaligen ostdeutschen Bundesländer ist. Berlin ordnen wir dabei Westdeutschland zu, da Ost- und Westberlin in den Daten nicht getrennt werden und Berlin als Stadtstaat ohnehin eine Sonderrolle hat:
 
 ```{r}
 gesamtdaten <- gesamtdaten |>
@@ -169,7 +176,7 @@ gesamtdaten <- gesamtdaten |>
           ost_name = ifelse(ost == 1, "Ostdeutschland", "Westdeutschland"))
 ```
 
-Durch diese Aufteilung treten die Unterschiede in der Arbeitslosenquote zwischen den ehemaligen ost- und westdeutschen Landkreisen besonders stark zutage. Insbesondere wenn wir uns die Quantile anschauen: Im **25% Quantil** in **Ostdeutschland** ist die Arbeitslosenquote bei **`r de(quantile(gesamtdaten$alo_quote[gesamtdaten$ost_name == "Ostdeutschland"], 0.25, na.rm=TRUE), 2)`%**, in **Westdeutschland** ist das **75% Quantil** bei einer Arbeitslosenquote von **`r de(quantile(gesamtdaten$alo_quote[gesamtdaten$ost_name == "Westdeutschland"], 0.75, na.rm=TRUE), 2)`%**!
+Durch diese Aufteilung treten die Unterschiede in der Arbeitslosenquote zwischen den ehemaligen ost- und westdeutschen Landkreisen besonders stark zutage. Insbesondere wenn wir uns die Quantile anschauen: Im **25% Quantil** in **Ostdeutschland** ist die Arbeitslosenquote bei **`r de(quantile(gesamtdaten$alo_quote[gesamtdaten$ost_name == "Ostdeutschland"], 0.25, na.rm=TRUE), 2)`%**, in **Westdeutschland** ist das **75% Quantil** bei einer Arbeitslosenquote von **`r de(quantile(gesamtdaten$alo_quote[gesamtdaten$ost_name == "Westdeutschland"], 0.75, na.rm=TRUE), 2)`%**. D.h. drei Viertel der ostdeutschen Landkreise haben eine Arbeitslosenquote über diesem ersten Wert, drei Viertel der westdeutschen Landkreise eine Quote unter dem zweiten. Die mittleren Hälften der beiden Verteilungen überschneiden sich also nur in einem schmalen Bereich.
 
 ```{r}
 gesamtdaten |>
@@ -187,7 +194,7 @@ gesamtdaten |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) |>
   kable_paper(full_width = F) |>
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 7), align = "c") |>
-  footnote(general = "Wir haben keine Informationen zu Berlin und Hamburg, weshalb sie nicht in der Berechnung enthalten sind.",
+  footnote(general = "Berlin ist Westdeutschland zugeordnet.",
            general_title = "Bitte beachten: ")
 ```
 
@@ -204,15 +211,17 @@ bula_data_all <- gesamtdaten |>
             mean_schulden_kopf = mean(Schulden_gesamt/Einwohner), 
             sd_schulden = sd(Schulden_gesamt/Einwohner), .groups = 'drop')
 
-bula_data_all |> 
+bula_tabelle_all <- bula_data_all |> 
   arrange( mean_alo ) |>
-  filter( !is.na(mean_schulden_kopf) ) |>
+  filter( !is.na(mean_schulden_kopf) )
+
+bula_tabelle_all |>
   kbl(col.names = c("Bundesland", "Mittelwert","Std.","Mittelwert","Std.", "Mittelwert","Std."), digits = 2, format = "html", 
       caption = "Deskriptive Tabelle komplett") |>
   #kbl(col.names = c("Mittelwert","Std.", "Mittelwert","Std."), digits = 0) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) |>
   kable_paper(full_width = F) |>
-  row_spec(c(8,9, 10, 12,13), bold = T, color = "white", background = "#BBBBBB") |>
+  row_spec(which(bula_tabelle_all$bundesland_name %in% ost_laender), bold = T, color = "white", background = "#BBBBBB") |>
   add_header_above(c(" " = 1, "Arbeitslosenquote" = 2, "BIP pro Kopf" = 2, "Schulden pro Kopf" = 2), align = "c") |>
   footnote(general = "Wir haben keine Informationen zu Berlin, Hamburg und Bremen bzgl. ihrer Schulden pro Kopf, weshalb sie nicht in der Tabelle aufgeführt wurden.", 
            general_title = "Bitte beachten: ",
@@ -220,11 +229,11 @@ bula_data_all |>
 ```
 
 Was wir hier gut sehen können ist folgendes:
-Für alle Bundesländer in denen wir niedrige Arbeitslosenquoten pro Landkreis haben gibt es auch durchschnittlich ein hohes BIP pro Kopf über die Landkreise des Bundeslandes hinweg. D.h. speziell in unserem Datensatz von 2024 ist in den Bundesländern mit einer durchschnittlich hohen Wirtschaftsleistung in den Landkreisen die Arbeitslosenquote gering. Insbesondere für ostdeutsche Landkreise ist das BIP pro Kopf durchschnittlich _niedriger_ als für die meisten westdeutschen Landkreise, auch wenn sich die Werte am unteren Rand der westdeutschen Länder (z.B. das Saarland) und am oberen Rand der ostdeutschen Länder (z.B. Brandenburg) inzwischen annähern. Bei den Schulden ist dieser Sachverhalt weniger deutlich ausgeprägt. Es gibt westdeutsche Landkreise, wie z.B. in den Bundesländern Bayern und Niedersachsen, mit sehr geringen Schulden pro Kopf, doch dies trifft auch für Landkreise in Sachsen oder Brandenburg zu. Insbesondere Landkreise im Saarland haben durchschnittlich eine sehr hohe Verschuldung pro Kopf von `r de(bula_data_all$mean_schulden_kopf[bula_data_all$bundesland_name == "Saarland"], 0)`€.
+Für alle Bundesländer in denen wir niedrige Arbeitslosenquoten pro Landkreis haben gibt es auch durchschnittlich ein hohes BIP pro Kopf über die Landkreise des Bundeslandes hinweg. D.h. speziell in unserem Datensatz von 2024 ist in den Bundesländern mit einer durchschnittlich hohen Wirtschaftsleistung in den Landkreisen die Arbeitslosenquote gering. Insbesondere für ostdeutsche Landkreise ist das BIP pro Kopf durchschnittlich _niedriger_ als für die meisten westdeutschen Landkreise, auch wenn sich die Werte am unteren Rand der westdeutschen Länder und am oberen Rand der ostdeutschen Länder inzwischen überschneiden: Im Mittel seiner Landkreise liegt das Saarland (`r de(bula_data_all$mean_bip_kopf[bula_data_all$bundesland_name == "Saarland"], 0)`€) sogar unter Brandenburg (`r de(bula_data_all$mean_bip_kopf[bula_data_all$bundesland_name == "Brandenburg"], 0)`€). Bei den Schulden ist dieser Sachverhalt weniger deutlich ausgeprägt. Es gibt westdeutsche Landkreise, wie z.B. in den Bundesländern Bayern und Niedersachsen, mit sehr geringen Schulden pro Kopf, doch dies trifft auch für Landkreise in Sachsen oder Brandenburg zu. Insbesondere Landkreise im Saarland haben durchschnittlich eine sehr hohe Verschuldung pro Kopf von `r de(bula_data_all$mean_schulden_kopf[bula_data_all$bundesland_name == "Saarland"], 0)`€.
 
 Allein durch den Mittelwert und die Standardabweichung konnten wir bereits sehr viel über unsere Daten lernen und haben hier schon einige deutliche Unterschiede zwischen ostdeutschen und westdeutschen Landkreisen feststellen können.
 
-Wir können in deskriptiven Statistiken neben Ouerschnittsdaten für ein bestimmtes Jahr auch Paneldaten analysieren.
+Wir können in deskriptiven Statistiken neben Querschnittsdaten für ein bestimmtes Jahr auch Paneldaten analysieren.
 Hierbei können wir den Mittelwert und die Standardabweichung über den kompletten Datensatz bilden, wie in den Querschnittsdaten, oder wir können Trends in den Daten beschreiben. Eine solche Trendanalyse wollen wir mit der folgenden Tabelle unternehmen. Dieses mal nehmen wir für unsere Analyse das Paket `gt`.
 
 ```{r}
@@ -288,8 +297,8 @@ th_anteil <- function(j) {
 }
 ```
 
-Auch in dieser Tabelle treten die Unterschiede zwischen westdeutschen und ostdeutschen Landkreisen zutage. Während die westdeutschen Landkreise bereits im Jahr 1992 ein BIP pro Kopf von durchschnittlich über 20 000€ aufweisen konnten, hatten viele ostdeutsche Landkreise diese Schwelle gerade so im Jahr 2007 erreicht.
-Jedoch gibt es seit dem Jahr 1992 einen Aufholprozess der ostdeutschen Landkreise an die westdeutschen Landkreise. Dieser Prozess fand jedoch hauptsächlich in den Jahren direkt nach der Wende statt. Z.B. war das durchschnittliche BIP pro Kopf in den Landkreisen in Thüringen im Jahr 1992 nur `r de(th_anteil(1992), 1)`% des durchschnittlichen BIP pro Kopf der Landkreise in Baden-Württemberg. In 2007 kletterte der Anteil bereits auf `r de(th_anteil(2007), 1)`% und in `r jahr_max` liegt er bei `r de(th_anteil(jahr_max), 1)`%. Durch die Ergebnisse unserer Tabelle bestärkt, könnten wir vermuten das die Erneuerung der Infrastruktur und der Ansiedlung neuer Industriezweige in den ostdeutschen Landkreisen zu einem schnelleren Wachstum dieser Landkreise direkt nach der Wende und in den 1990er Jahren geführt hat. Dieses Wachstum hat sich jedoch in den letzten Jahren deutlich verlangsamt und es kommt nur noch zu einer sehr moderaten Anpassung des BIP pro Kopf.
+Auch in dieser Tabelle treten die Unterschiede zwischen westdeutschen und ostdeutschen Bundesländern zutage (die Tabelle zeigt das BIP pro Kopf der Länder, nicht den Mittelwert ihrer Landkreise). Während alle westdeutschen Bundesländer bereits im Jahr 1992 ein BIP pro Kopf von über 20 000€ aufweisen konnten, hatten die ostdeutschen Bundesländer diese Schwelle gerade so im Jahr 2007 erreicht.
+Jedoch gibt es seit dem Jahr 1992 einen Aufholprozess der ostdeutschen an die westdeutschen Bundesländer. Dieser Prozess fand jedoch hauptsächlich in den Jahren direkt nach der Wende statt. Z.B. lag das BIP pro Kopf des Landes Thüringen im Jahr 1992 bei nur `r de(th_anteil(1992), 1)`% des BIP pro Kopf von Baden-Württemberg. In 2007 kletterte der Anteil bereits auf `r de(th_anteil(2007), 1)`% und in `r jahr_max` liegt er bei `r de(th_anteil(jahr_max), 1)`%. Durch die Ergebnisse unserer Tabelle bestärkt, könnten wir vermuten das die Erneuerung der Infrastruktur und der Ansiedlung neuer Industriezweige in den ostdeutschen Landkreisen zu einem schnelleren Wachstum dieser Landkreise direkt nach der Wende und in den 1990er Jahren geführt hat. Dieses Wachstum hat sich jedoch in den letzten Jahren deutlich verlangsamt und es kommt nur noch zu einer sehr moderaten Anpassung des BIP pro Kopf.
 
 ## Visualisierung der Unterschiede
 
@@ -297,7 +306,7 @@ Tabellen sind hilfreich um Informationen kompakt zu präsentieren. Jedoch ist es
 
 ### Arbeitslosenquote
 
-Die Variable, welche uns besonders interessiert ist die Arbeitslosenquote, insbesondere da ihr Cousin gemeint hat, dass Deutschland kein Problem mit der Arbeitslosigkeit hat. Wir wollen hier alle Datenpunkte zeigen, d.h. die Arbeitslosenquote eines jeden Landkreises für das Jahr 2024, getrennt nach Ost- und Westdeutschland. Weiterhin wollen wir unsere Grafik um einen Boxplot erweitern um einen Vergleich des Medians der Arbeitslosenquote in Ost- und Westdeutschland zu ermöglichen.
+Die Variable, welche uns besonders interessiert ist die Arbeitslosenquote, insbesondere da Ihr Cousin gemeint hat, dass Deutschland kein Problem mit der Arbeitslosigkeit hat. Wir wollen hier alle Datenpunkte zeigen, d.h. die Arbeitslosenquote eines jeden Landkreises für das Jahr 2024, getrennt nach Ost- und Westdeutschland. Weiterhin wollen wir unsere Grafik um einen Boxplot erweitern um einen Vergleich des Medians der Arbeitslosenquote in Ost- und Westdeutschland zu ermöglichen.
 
 ```{r, warning=FALSE}
 alo_quote_jitter <- gesamtdaten |>
@@ -313,11 +322,9 @@ alo_quote_jitter <- gesamtdaten |>
        caption = "Quelle: Daten der Agentur für Arbeit aus dem Jahr 2024")
   
 alo_quote_jitter
-
-# Hamburg und Berlin gibt es keine Informationen, daher gibt R die Warnmeldung aus das 2 rows missing sind
 ```
 
-Das Schaubild zeigt uns zum Einen, dass es deutlich mehr westdeutsche, wie ostdeutsche Landkreise gibt (nicht verwunderlich), aber auch, dass diese westdeutschen Landkreise zu einem sehr großen Teil weniger als 5% Arbeitslosigkeit aufweisen, wohingegen der größte Teil aller ostdeutschen Landkreise mehr als 5% Arbeitslosigkeit aufweist. Selbst der ostdeutsche Landkreis mit der niedrigsten Arbeitslosenquote ist nur leicht unter dem Median in Westdeutschland. Jedoch können wir konstatieren, dass ihr Cousin recht hatte mit seiner Behauptung, denn es gibt sowohl in Ost als auch in Westdeutschland nur sehr wenige Landkreise welche eine Arbeitslosenquote von mehr als 10% haben. In Spanien gibt es [fast keine Region mit einer Arbeitslosenquote unter 10%](https://ec.europa.eu/eurostat/databrowser/view/tgs00010/default/map?lang=en)!
+Das Schaubild zeigt uns zum Einen, dass es deutlich mehr westdeutsche, wie ostdeutsche Landkreise gibt (nicht verwunderlich), aber auch, dass gut die Hälfte der westdeutschen Landkreise (`r round(100 * mean(gesamtdaten$alo_quote[gesamtdaten$ost_name == "Westdeutschland"] < 5))`%) weniger als 5% Arbeitslosigkeit aufweist, wohingegen der größte Teil aller ostdeutschen Landkreise mehr als 5% Arbeitslosigkeit aufweist. Selbst der ostdeutsche Landkreis mit der niedrigsten Arbeitslosenquote ist nur leicht unter dem Median in Westdeutschland. Jedoch können wir konstatieren, dass Ihr Cousin recht hatte mit seiner Behauptung, denn es gibt sowohl in Ost als auch in Westdeutschland nur sehr wenige Landkreise welche eine Arbeitslosenquote von mehr als 10% haben. In Spanien liegt die Arbeitslosenquote [insgesamt bei rund 11%](https://ec.europa.eu/eurostat/databrowser/view/une_rt_a/default/table), in vielen Regionen deutlich darüber.
 Nichtsdestotrotz sind auch in Deutschland regionale Unterschiede erkennbar, welche wir insbesondere im dritten Teil der Case Study zu erklären versuchen. Als mögliche Faktoren, welche die Arbeitslosenquote erklären könnten, wollen wir hier das BIP pro Kopf und die Pro-Kopf-Verschuldung näher untersuchen.
 
 Wir haben nun auch noch die Möglichkeit bestimmte Regionen in unterschiedlichen Farben zu markieren. Wollen wir beispielsweise alle Landkreise aus Baden-Württemberg hervorheben, so können wir diese beispielsweise rot einfärben und bekommen dadurch einen Eindruck wo Baden-Württemberg im deutschlandweiten Vergleich der Arbeitslosenquote pro Landkreis steht.
@@ -350,7 +357,7 @@ alo_quote_jitter_plotly <- gesamtdaten |>
   select(alo_quote, landkreis_name, bundesland_name, ost_name) |>
   mutate(baden_wuerttemberg = as.factor(ifelse(bundesland_name == "Baden-Württemberg", "Baden-Württemberg", "Other"))) |>
   ggplot(aes(x = ost_name, y=alo_quote, group = landkreis_name)) +
-  geom_jitter(alpha=0.5, aes(group = baden_wuerttemberg, fill = baden_wuerttemberg)) +
+  geom_jitter(alpha=0.5, aes(group = baden_wuerttemberg, colour = baden_wuerttemberg)) +
   geom_boxplot(alpha = 0.1) +
   theme_minimal() +
   labs(title = "Arbeitslosenquote in Deutschland",
@@ -358,8 +365,8 @@ alo_quote_jitter_plotly <- gesamtdaten |>
        x = "",
        y = "Arbeitslosenquote",
        caption = "Quelle: Daten der Bundesagentur Agentur für Arbeit aus dem Jahr 2024.") +
-  scale_fill_manual(values = c("Baden-Württemberg" = "darkred", "Other" = "grey")) +
-  guides(fill = "none")
+  scale_colour_manual(values = c("Baden-Württemberg" = "darkred", "Other" = "grey")) +
+  guides(colour = "none")
 
 ggplotly(alo_quote_jitter_plotly)
 ```
@@ -382,14 +389,12 @@ Das Bruttoinlandsprodukt stellt die wichtigste gesamtwirtschaftliche Kenngröße
 Falls der erste Punkt zutrifft sollte ein hohes BIP pro Kopf (man beachte das hier das BIP pro Einwohner berechnet wird) auch mit einer niedrigeren Arbeitslosenquote einhergehen. 
 
 ```{r}
-# Zuerst die Information zu landkreis_name und bundesland_name zum Datensatz big_long hinzumergen
+# Zuerst die Information zu landkreis_name und bundesland_name zum Datensatz bip_zeitreihe hinzumergen
 namen <- gesamtdaten |>
   select(Regionalschluessel, bundesland_name, landkreis_name, ost_name)
 
-# Kommentar zu Eisenach:
-# Eisenach war von 1998 bis 2021 kreisfreie Stadt. Seit 2021 ist diese die erste große Kreisstadt Thüringens und gehört zum Wartburgkreis.
-# In den Daten zum BIP wird Eisenach als eigene kreisfreie Stadt geführt, in den Daten zur Verschuldung und Arbeitslosigkeit nicht
-# Wir haben uns dazu entschlossen die kreisfreie Stadt Eisenach aus unserer weiteren Analyse zu entfernen
+# Nur Landkreise behalten, die auch in gesamtdaten vorkommen (Kreisgebietsreformen
+# können dazu führen, dass alte Kreise in der BIP-Zeitreihe noch auftauchen)
 
 bip_zeitreihe_namen <- bip_zeitreihe |>
   filter( nchar(Regionalschluessel) == 5) |>
@@ -434,9 +439,20 @@ west_match_jahr <- west_ts$Jahr[which.min(abs(west_ts$m - ost_bip_akt))]
 west_bip_match <- west_ts$m[which.min(abs(west_ts$m - ost_bip_akt))]
 ```
 
-Das Niveau des BIP pro Kopf ist in den ostdeutschen Bundesländern deutlich niedriger als in den westdeutschen. Insbesondere wenn wir uns die logarithmische Skalierung der y-Achse anschauen, so können wir doch deutliche Unterschiede erkennen. Beispielsweise ist das durchschnittliche BIP pro Kopf im ehemaligen Ostdeutschland mit `r de(ost_bip_akt, 0)`€ in `r jahr_max` so hoch wie in Westdeutschland im Jahr `r west_match_jahr` (zu diesem Zeitpunkt lag das durchschnittliche BIP pro Kopf in Westdeutschland bei `r de(west_bip_match, 0)`€)!
+Das Niveau des BIP pro Kopf ist in den ostdeutschen Bundesländern deutlich niedriger als in den westdeutschen. Insbesondere wenn wir uns die logarithmische Skalierung der y-Achse anschauen, so können wir doch deutliche Unterschiede erkennen. Beispielsweise ist das durchschnittliche BIP pro Kopf im ehemaligen Ostdeutschland mit `r de(ost_bip_akt, 0)`€ in `r jahr_max` nominal so hoch wie in Westdeutschland im Jahr `r west_match_jahr` (zu diesem Zeitpunkt lag das durchschnittliche BIP pro Kopf in Westdeutschland bei `r de(west_bip_match, 0)`€). Da das BIP in jeweiligen Preisen gemessen ist, ist dieser Vergleich wegen der Inflation zwischen den Jahren nur ein grober Anhaltspunkt.
 
-In der oben dargestellten Grafik sehen wir keinen großen Anpassungsprozess seit dem Jahr 2000 der ostdeutschen Landkreise an die westdeutschen Landkreise was das BIP pro Kopf anbelangt. Nichtsdestotrotz kann es insbesondere in den 1990er Jahren zu einer schnellen Aufholjagd der ostdeutschen Landkreise gekommen sein auf Grund der hohen Investitionen und Infrastrukturausgaben nach der Wende. Dafür müssen wir mit unserer Analyse noch etwas weiter zurück gehen, was jedoch dazu führt, das wir nicht mehr alle Landkreise in unseren Beobachtungen enthalten haben. Für einige Landkreise haben wir erst Daten ab 2000, was wir bei der Interpretation der folgenden Grafik beachten sollten:
+```{r, include=FALSE}
+# Durchschnittliches BIP pro Kopf der ostdeutschen Landkreise in Prozent der westdeutschen
+ost_anteil <- function(j) {
+  m <- bip_zeitreihe_namen |>
+    filter(Jahr == j) |>
+    group_by(ost_name) |>
+    summarise(m = mean(bip_pro_kopf, na.rm = TRUE))
+  100 * m$m[m$ost_name == "Ostdeutschland"] / m$m[m$ost_name == "Westdeutschland"]
+}
+```
+
+In der oben dargestellten Grafik laufen die Durchschnittslinien seit dem Jahr 2000 fast parallel. Auf einer logarithmischen Achse bedeutet "parallel" allerdings einen gleichbleibenden *relativen* Abstand. Rechnen wir nach, so lag das durchschnittliche BIP pro Kopf der ostdeutschen Landkreise im Jahr 2000 bei `r de(ost_anteil(2000), 1)`% des westdeutschen Niveaus, 2010 bei `r de(ost_anteil(2010), 1)`% und `r jahr_max` bei `r de(ost_anteil(jahr_max), 1)`%. Es gibt also einen langsamen Anpassungsprozess, der in der Grafik kaum zu sehen ist. In Euro gemessen ist der Abstand dagegen gewachsen. Nichtsdestotrotz kann es insbesondere in den 1990er Jahren zu einer schnellen Aufholjagd der ostdeutschen Landkreise gekommen sein auf Grund der hohen Investitionen und Infrastrukturausgaben nach der Wende. Dafür müssen wir mit unserer Analyse noch etwas weiter zurück gehen, was jedoch dazu führt, das wir nicht mehr alle Landkreise in unseren Beobachtungen enthalten haben. Für einige Landkreise haben wir erst Daten ab 2000, was wir bei der Interpretation der folgenden Grafik beachten sollten:
 
 ```{r}
 bip_zeitreihe_namen |>
@@ -447,8 +463,8 @@ bip_zeitreihe_namen |>
   scale_color_manual(values = c("#D55E00", "#0072B2")) +
   scale_y_continuous(
     trans = "log10",
-    breaks = c(5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000),
-    limits = c(5000, 50000)
+    breaks = c(5000, 10000, 20000, 30000, 40000, 50000, 60000),
+    limits = c(5000, 60000)
   ) +
   scale_x_continuous(breaks = c(1992, 1995, 2000, 2005, 2010, 2015, 2020)) +
   theme_minimal() +
@@ -482,7 +498,7 @@ bip_zeitreihe_namen |>
   )
 ```
 
-Wie wir aus der Grafik deutlich sehen können hatten die ostdeutschen Landkreise zu Beginn der 1990er Jahre einen deutlich steileren Wachstumspfad als die westdeutschen Landkreise. Für manche ostdeutschen Landkreise haben wir leider keine Information ab 1992, jedoch deutet das Bild schon sehr stark darauf hin, dass es in den ersten Jahren nach der Wende einen starken Anpassungsprozess gegeben hat mit hohen Wachstumsraten des BIP pro Kopf. Dieser hat jedoch Mitte der 1990 Jahre etwas an Fahrt verloren und ab dem Jahr 2010 liegen ost- und westdeutsche Landkreise praktisch auf dem gleichen Wachstumspfad. D.h. hier sehen wir keine weitere Anpassung der ostdeutschen Landkreise an die westdeutschen Landkreise mehr. Einen ähnlichen Schluss hatten wir bereits bei der Analyse der `gt` Tabelle im Abschnitt zu den deskriptiven Tabellen gesehen. 
+Wie wir aus der Grafik deutlich sehen können hatten die ostdeutschen Landkreise zu Beginn der 1990er Jahre einen deutlich steileren Wachstumspfad als die westdeutschen Landkreise. Für manche Landkreise haben wir leider keine Information ab 1992 (bis 1999 fehlen ganz Niedersachsen und Mecklenburg-Vorpommern, 1992 zusätzlich Sachsen und das Saarland), jedoch deutet das Bild schon sehr stark darauf hin, dass es in den ersten Jahren nach der Wende einen starken Anpassungsprozess gegeben hat mit hohen Wachstumsraten des BIP pro Kopf. Dieser hat jedoch Mitte der 1990er Jahre deutlich an Fahrt verloren. Seitdem holt der Osten nur noch langsam auf (2010: `r de(ost_anteil(2010), 1)`%, `r jahr_max`: `r de(ost_anteil(jahr_max), 1)`% des westdeutschen Niveaus), während der Abstand in Euro weiter wächst. Einen ähnlichen Schluss hatten wir bereits bei der Analyse der `gt` Tabelle im Abschnitt zu den deskriptiven Tabellen gesehen. 
 
 Eine weitere Möglichkeit die Wachstumspfade zu visualisieren wäre mit sogenannten "small multiples". Hierdurch können wir die Aufmerksamkeit auf den Wachstumspfad richten und ignorieren dabei die Höhe des Startwertes. Für diese und alle nun folgenden Analysen wollen wir uns nun wieder die Daten ab dem Jahr 2000 anschauen. Hintergrund ist, dass ab diesem Zeitpunkt Daten für alle Landkreise verfügbar sind.
 
@@ -490,11 +506,11 @@ Eine weitere Möglichkeit die Wachstumspfade zu visualisieren wäre mit sogenann
 
 plot_bip_sparklines <- bip_zeitreihe_namen |>
   filter( Jahr >= 2000 ) |>
-  group_by(ost_name, Jahr) |>
+  group_by(bundesland_name, Jahr) |>
   mutate( durchschnitt = mean(bip_pro_kopf),
           ulm = ifelse(landkreis_name == "Ulm", bip_pro_kopf,NA)) |>
   ggplot() +
-  geom_line(aes(x = Jahr, y = durchschnitt, group = Regionalschluessel), color = "darkblue") +
+  geom_line(aes(x = Jahr, y = durchschnitt, group = bundesland_name), color = "darkblue") +
   theme(legend.position = "none") +
   labs(title = "Die Entwicklung des BIP pro Kopf der unterschiedlichen Bundesländer\n",
        caption = "Quelle: Daten der Statistischen Ämter der Länder und des Bundes.",
@@ -514,7 +530,8 @@ Noch besser können wir den Effekt der Finanzkrise an der folgenden Grafik sehen
 bip_wachstum <- bip_zeitreihe_namen |>
   group_by(Regionalschluessel) |>
   arrange(Regionalschluessel, Jahr) |>
-  mutate( bip_pro_kopf_wachstum = 100*(bip_pro_kopf - lag(bip_pro_kopf)) / bip_pro_kopf) |>
+  # Wachstumsrate: Veränderung geteilt durch den Wert des VORJAHRES
+  mutate( bip_pro_kopf_wachstum = 100*(bip_pro_kopf - lag(bip_pro_kopf)) / lag(bip_pro_kopf)) |>
   ungroup() |>
   group_by(ost_name, Jahr) |>
   mutate( durchschnitt = mean(bip_pro_kopf_wachstum, na.rm=TRUE)) |>
@@ -567,7 +584,7 @@ ggplot() +
 
 Insgesamt haben ost- und westdeutsche Landkreise im Durchschnitt eine sehr ähnliche Wachstumsrate des BIP pro Kopf seit 2000. In den westdeutschen Landkreisen ist sie stellenweise etwas niedriger, insbesondere vor der Finanzkrise oder während Corona.
 
-Durch die vorherigen Schaubilder sehen wir, dass die Unterschiede zwischen den ost- und westdeutschen Landkreisen schon lange bestehen (mind. seit 2000) und das es keine große Annäherung der ostdeutschen Landkreise an das westdeutsche BIP pro Kopf nach dem Jahr 2000 gibt. Die Wachstumspfade sind hierfür zu ähnlich. Direkt nach der Wende war dies anders, zu diesem Zeitpunkt waren die Wachstumspfade der ostdeutschen Landkreise deutlich höher als die der westdeutschen. In der Übungsaufgabe beschäftigen Sie sich mit dem Einkommen auf Landkreisebene und können dort nachvollziehen, ob der Trend bei den Einkommen der Gleiche ist wie bei dem BIP pro Kopf!
+Durch die vorherigen Schaubilder sehen wir, dass die Unterschiede zwischen den ost- und westdeutschen Landkreisen schon lange bestehen (mind. seit 2000) und dass sich die ostdeutschen Landkreise dem westdeutschen BIP pro Kopf nach dem Jahr 2000 nur langsam annähern. Die Wachstumsraten sind im Osten im Mittel nur leicht höher; für eine schnelle Angleichung sind sie zu ähnlich. Beachten Sie außerdem, dass das BIP hier nominal gemessen ist: Die hohen Wachstumsraten 2022 und 2023 spiegeln vor allem die Inflation wider. Direkt nach der Wende war dies anders, zu diesem Zeitpunkt waren die Wachstumspfade der ostdeutschen Landkreise deutlich höher als die der westdeutschen. In der Übungsaufgabe beschäftigen Sie sich mit dem Einkommen auf Landkreisebene und können dort nachvollziehen, ob der Trend bei den Einkommen der Gleiche ist wie bei dem BIP pro Kopf!
 
 Wenn wir uns nur auf das Jahr `r jahr_max` beschränken, so sehen wir auch hier im BIP pro Kopf deutliche Unterschiede. Im folgenden Schaubild ist die Verteilung des BIP pro Kopf über alle Landkreise für Ost- und Westdeutschland im Jahr `r jahr_max` abgetragen bei denen das BIP pro Kopf unter 100 000€ lag. Zusätzlich sind die jeweiligen Mittelwerte des BIP pro Kopf für ost- und westdeutsche Landkreise in blau eingezeichnet. Zum Einen können wir uns die Verteilung des BIP pro Kopf gut durch ein Histogramm anzeigen lassen, wobei die "binwidth", d.h. die Dicke eines Balkens, auf 1000€ gesetzt wurde. Dies bedeutet, das alle Beobachtungen innerhalb von 1000€ zusammengefasst in einem Balken dargestellt werden. Z.B. werden alle westdeutschen Landkreise mit einem BIP pro Kopf zwischen 23000€ und 24000€ in einem Balken zusammengefasst (aktuell: `r sum(gesamtdaten$bip_pro_kopf >= 23000 & gesamtdaten$bip_pro_kopf < 24000 & gesamtdaten$ost_name == "Westdeutschland", na.rm = TRUE)`, siehe Schaubild).
 
@@ -623,14 +640,10 @@ Um uns die Verschuldung des öffentlichen Haushalts besser vor Augen zu führen 
 
 ```{r,  warning=FALSE, message=FALSE, error=FALSE}
 schulden_landkreise <- left_join(landkreise, gesamtdaten, by="Regionalschluessel") |>
-  mutate(schulden_pro_kopf = as.factor(case_when(
-    Schulden_pro_kopf_lk <= 1000 ~ "0 - 1k",
-    Schulden_pro_kopf_lk > 1000 & Schulden_pro_kopf_lk <= 2000 ~ "1k - 2k",
-    Schulden_pro_kopf_lk > 2000 & Schulden_pro_kopf_lk <= 3000 ~ "2k - 3k",
-    Schulden_pro_kopf_lk > 3000 & Schulden_pro_kopf_lk <= 5000 ~ "3k - 5k",
-    Schulden_pro_kopf_lk > 5000 & Schulden_pro_kopf_lk <= 8000 ~ "5k - 8k",
-    Schulden_pro_kopf_lk > 8000 & Schulden_pro_kopf_lk <= 20000 ~ "8k - 20k"
-  )))
+  # cut() mit Inf als oberer Grenze: Jeder Landkreis bekommt eine Klasse, auch Extremwerte
+  mutate(schulden_pro_kopf = cut(Schulden_pro_kopf_lk,
+                                 breaks = c(0, 1000, 2000, 3000, 5000, 8000, Inf),
+                                 labels = c("0 - 1k", "1k - 2k", "2k - 3k", "3k - 5k", "5k - 8k", "> 8k")))
 
 plot_schulden_lk <- ggplot(
   # Datensatz
@@ -651,6 +664,7 @@ plot_schulden_lk <- ggplot(
     begin = 0.1,
     end = 0.9,
     direction = -1,
+    na.value = "grey85",
     guide = guide_legend(reverse = T)) +
   # etwas dickere Linien für Bundeslandgrenzen
   geom_sf(
@@ -669,8 +683,8 @@ plot_schulden_lk <- ggplot(
 plot_schulden_lk
 ```
 
-Das Schaubild zeigt die pro-Kopf Verschuldung der einzelnen Landkreise. Je dunkler die Landkreise eingefärbt sind, desto höher ist ihre Verschuldung. Die Legende gibt die Bandbreite der Verschuldung pro Farbschattierung wieder, wobei 1k = 1000€ und 8k = 8000€ bedeuten. Für Berlin, Bremen, Bremerhafen und Hamburg (weiß hinterlegt) haben wir keine Daten. 
-Wir sehen besonders in Bayern und Sachsen sehr viele Landkreise mit einer geringen Pro-Kopf Verschuldung bis maximal 2000€, ähnliches gilt für Niedersachsen. In Nordrhein-Westfalen und dem Saarland hingegen haben wir eine sehr hohe Verschuldung pro Kopf. Baden-Württemberg, Sachsen-Anhalt, Thüringen und Brandenburg sind im Mittelfeld. Besonders das Ruhrgebiet, die ehemalige Herzkammer der deutschen Industrie, sticht durch eine hohe Verschuldung pro Kopf hervor. Nun haben wir hier die öffentliche Verschuldung ins Verhältnis zu der Einwohnerzahl gesetzt, allerdings wird ihnen eine andere Berechnung bzw. Einschätzung der Verschuldung öfter begegnen: Die Verschuldung eines Landes bzw. ein Landkreis im Verhältnis zur Wirtschaftskraft, d.h. zum BIP, dieses Landkreises.
+Das Schaubild zeigt die pro-Kopf Verschuldung der einzelnen Landkreise. Je dunkler die Landkreise eingefärbt sind, desto höher ist ihre Verschuldung. Die Legende gibt die Bandbreite der Verschuldung pro Farbschattierung wieder, wobei 1k = 1000€ und 8k = 8000€ bedeuten. Die Klassen haben wir mit `cut()` gebildet: Mit `Inf` als oberer Grenze fällt kein Landkreis durch das Raster, auch nicht, wenn in den Daten des nächsten Jahres ein Extremwert auftaucht. Für Berlin, Bremen, Bremerhaven und Hamburg (grau hinterlegt) haben wir keine Daten. 
+Besonders in Rheinland-Pfalz, Bayern und Brandenburg hat mehr als die Hälfte der Landkreise eine geringe Pro-Kopf-Verschuldung von maximal 2000€. Im Saarland, in Mecklenburg-Vorpommern und Nordrhein-Westfalen ist dagegen kaum ein Landkreis so gering verschuldet; dort ist die Verschuldung pro Kopf sehr hoch. Rheinland-Pfalz zeigt allerdings auch, wie stark die Unterschiede innerhalb eines Landes sein können: Neben vielen gering verschuldeten Landkreisen liegt gut jeder fünfte über 5000€ pro Kopf. Besonders das Ruhrgebiet, die ehemalige Herzkammer der deutschen Industrie, sticht durch eine hohe Verschuldung pro Kopf hervor. Nun haben wir hier die öffentliche Verschuldung ins Verhältnis zu der Einwohnerzahl gesetzt, allerdings wird ihnen eine andere Berechnung bzw. Einschätzung der Verschuldung öfter begegnen: Die Verschuldung eines Landes bzw. ein Landkreis im Verhältnis zur Wirtschaftskraft, d.h. zum BIP, dieses Landkreises.
 Dies wollen wir hier auch berechnen und die Deutschlandkarte entsprechend einfärben:
 
 ```{r,  warning=FALSE, message=FALSE, error=FALSE}
@@ -704,6 +718,7 @@ plot_schulden_lk <- ggplot(
     begin = 0.1,
     end = 0.9,
     direction = -1,
+    na.value = "grey85",
     guide = guide_legend(reverse = T)) +
   geom_sf(
     data = bundesland,
@@ -721,8 +736,8 @@ plot_schulden_lk <- ggplot(
 plot_schulden_lk
 ```
 
-Auch hier erhalten wir ein sehr ähnliches Bild bzgl. der Verschuldung der Landkreise. Es treten allerdings die ostdeutschen Landkreise nochmal etwas stärker bzgl. ihrer Verschuldung hervor, was zum Einen natürlich an den gewählten Cut-offs für die Darstellung (0-2% bis >10%) liegt. Zum Anderen aber auch daran, dass die Anzahl an Personen in den Landkreisen recht hoch ist, während die Wirtschaftskraft der Landkreise geringer ausfällt.
-In dieser Karte sehen wir nun recht deutlich die wenig verschuldeten Regionen hervortreten, die da wären Bayern, Rheinland-Pfalz und Niedersachsen.
+Auch hier erhalten wir ein sehr ähnliches Bild bzgl. der Verschuldung der Landkreise. Es treten allerdings die ostdeutschen Landkreise nochmal etwas stärker bzgl. ihrer Verschuldung hervor, was zum Einen natürlich an den gewählten Cut-offs für die Darstellung (0-2% bis >10%) liegt. Zum Anderen aber auch daran, dass das BIP pro Kopf in den ostdeutschen Landkreisen niedriger ist: Bei gleicher Verschuldung pro Kopf ist der Anteil der Schulden am BIP dann höher. Vorsicht ist bei Landkreisen im Umland großer Städte geboten: Das BIP wird am Arbeitsort gemessen. Landkreise mit vielen Auspendler:innen haben daher ein kleines BIP und wirken gemessen am BIP verschuldeter, als sie sind.
+In dieser Karte sehen wir nun recht deutlich die wenig verschuldeten Regionen hervortreten, die da wären Bayern, Baden-Württemberg, Rheinland-Pfalz und Brandenburg.
 Um jedoch beurteilen zu können, in wie fern diese Pro-Kopf Verschuldung der öffentlichen Haushalte mit der Arbeitslosigkeit in den jeweiligen Landkreisen zusammenfällt wollen wir uns auch noch eine Karte zur Arbeitslosigkeit in den jeweiligen Landkreisen anschauen:
 
 ```{r, warning=FALSE, message=FALSE, error=FALSE}
@@ -755,6 +770,7 @@ plot_alo_lk <- ggplot(
     begin = 0.1,
     end = 0.9,
     direction = -1,
+    na.value = "grey85",
     guide = guide_legend(reverse = T)) +
   # etwas dickere Linien für Bundeslandgrenzen
   geom_sf(
@@ -795,7 +811,7 @@ bip_wachstum <- bip_wachstum |>
   select(Regionalschluessel, bip_pro_kopf_wachstum, Jahr)
 
 gesamtdaten <- left_join(gesamtdaten, bip_wachstum, by = "Regionalschluessel") |>
-  mutate(anteil_schulden = Schulden_gesamt / bip)
+  mutate(anteil_schulden = Schulden_gesamt / bip * 100)   # in Prozent des BIP
 ```
 
 Anschließend erstellen wir ein Streudiagramm, welches die Arbeitslosenquote und das BIP Wachstum in den einzelnen Landkreisen einander gegenüberstellt. Hier erhalten wir erste Einblicke in die Korrelation der zwei Variablen.
@@ -810,7 +826,7 @@ gesamtdaten |>
   theme_minimal() 
 ```
 
-Zuerst fallen die Ausreißer ins Auge. Insbesondere im positiven Bereich gibt es Landkreise, welche ein hohes BIP-pro-Kopf-Wachstum von `r jahr_max-1` nach `r jahr_max` aufweisen (den höchsten Wert weist `r gesamtdaten$landkreis_name[which.max(gesamtdaten$bip_pro_kopf_wachstum)]` mit rund `r de(max(gesamtdaten$bip_pro_kopf_wachstum, na.rm=TRUE),1)`% auf). Aber es gibt auch Landkreise, welche eine Schrumpfung des BIP pro Kopf um rund `r de(abs(min(gesamtdaten$bip_pro_kopf_wachstum, na.rm=TRUE)),1)`% aufweisen (am deutlichsten `r gesamtdaten$landkreis_name[which.min(gesamtdaten$bip_pro_kopf_wachstum)]`). Solche Ausreißer entstehen oft dadurch, dass [einzelne Branchen (manchmal auch einzelne Firmen)](https://www.statistik.bayern.de/presse/mitteilungen/2024/pm210/) das BIP eines ganzen Landkreises stark bewegen können (man denke z.B. an die Automobilindustrie), d.h. wir sehen hier für vereinzelte Landkreise einen Aufholprozess aus dem vorherigen Jahr. Diese hohen oder niedrigen Wachstumsraten könnten natürlich durch vereinzelte Projekte auf Landkreisebene bedingt sein, werden sich jedoch im gesamten Datensatz mit `r nrow(gesamtdaten)` Landkreisen und kreisfreien Städten wieder relativieren. Je mehr Beobachtungen Sie in ihrem Datensatz haben, desto weniger fallen einzelne Ausreißer ins Gewicht. Durch unseren umfangreichen Datensatz können wir solche einzelnen Ausreißer auffangen. Wenn wir jedoch eine kleine Stichprobe aus diesem Datensatz extrahieren (z.B. nur alle ostdeutschen Landkreise), dann könnte schon ein deutlich anderes Bild des Zusammenhangs der beiden Variablen entstehen. Hier haben z.B. alle ostdeutschen Landkreise eine relativ große Streuung in den Arbeitslosenquoten, aber nur eine geringe Bandbreite beim BIP Wachstum.
+Zuerst fallen die Ausreißer ins Auge. Insbesondere im positiven Bereich gibt es Landkreise, welche ein hohes BIP-pro-Kopf-Wachstum von `r jahr_max-1` nach `r jahr_max` aufweisen (den höchsten Wert weist `r gesamtdaten$landkreis_name[which.max(gesamtdaten$bip_pro_kopf_wachstum)]` mit rund `r de(max(gesamtdaten$bip_pro_kopf_wachstum, na.rm=TRUE),1)`% auf). Aber es gibt auch Landkreise, welche eine Schrumpfung des BIP pro Kopf um rund `r de(abs(min(gesamtdaten$bip_pro_kopf_wachstum, na.rm=TRUE)),1)`% aufweisen (am deutlichsten `r gesamtdaten$landkreis_name[which.min(gesamtdaten$bip_pro_kopf_wachstum)]`). Solche Ausreißer entstehen oft dadurch, dass [einzelne Branchen (manchmal auch einzelne Firmen)](https://www.statistik.bayern.de/presse/mitteilungen/2024/pm210/) das BIP eines ganzen Landkreises stark bewegen können (man denke z.B. an die Automobilindustrie), Diese hohen oder niedrigen Wachstumsraten könnten natürlich durch vereinzelte Projekte auf Landkreisebene bedingt sein, werden sich jedoch im gesamten Datensatz mit `r nrow(gesamtdaten)` Landkreisen und kreisfreien Städten wieder relativieren. Je mehr Beobachtungen Sie in ihrem Datensatz haben, desto weniger fallen einzelne Ausreißer ins Gewicht. Durch unseren umfangreichen Datensatz können wir solche einzelnen Ausreißer auffangen. Wenn wir jedoch eine kleine Stichprobe aus diesem Datensatz extrahieren (z.B. nur alle ostdeutschen Landkreise), dann könnte schon ein deutlich anderes Bild des Zusammenhangs der beiden Variablen entstehen. Betrachten wir z.B. nur die ostdeutschen Landkreise, so ist die Korrelation mit `r de(cor(gesamtdaten$alo_quote[gesamtdaten$ost == 1], gesamtdaten$bip_pro_kopf_wachstum[gesamtdaten$ost == 1], use = "complete.obs"), 2)` sogar negativ, im Westen dagegen mit `r de(cor(gesamtdaten$alo_quote[gesamtdaten$ost == 0], gesamtdaten$bip_pro_kopf_wachstum[gesamtdaten$ost == 0], use = "complete.obs"), 2)` leicht positiv.
 
 ```{r, message=FALSE}
 gesamtdaten |>
@@ -823,7 +839,7 @@ gesamtdaten |>
   theme_minimal()
 ```
 
-Anhand der Punktewolke könnten wir abschätzen, dass der Zusammenhang zwischen der Arbeitslosenquote und dem BIP-pro-Kopf-Wachstum nahe Null sein müsste. D.h. wir würden vermuten das es keinen Zusammenhang zwischen der BIP-pro-Kopf Wachstumsrate und der Arbeitslosenquote eines Landkreises in 2024 gibt.
+Anhand der Punktewolke könnten wir abschätzen, dass der Zusammenhang zwischen der Arbeitslosenquote und dem BIP-pro-Kopf-Wachstum nahe Null sein müsste. D.h. wir würden vermuten dass es keinen Zusammenhang zwischen der BIP-pro-Kopf Wachstumsrate und der Arbeitslosenquote eines Landkreises in 2024 gibt.
 
 Wenn wir uns die Korrelation zwischen den zwei Variablen ausgeben lassen, so erhalten wir die eine (schwach) positive Korrelation nahe Null:
 
@@ -847,12 +863,13 @@ gesamtdaten |>
         y = "Arbeitslosenquote in %",
         title = "Korrelation der öffentlichen Verschuldung und der Arbeitslosenquote") +
   theme_minimal() +
-  geom_text(x = 0.02, y =13, label = paste("r = ", as.character(round(cor_alo_verschuldung,2))))
+  # annotate() zeichnet den Text genau einmal (geom_text() würde ihn für jede Zeile zeichnen)
+  annotate("text", x = 25, y = 3, label = paste("r =", round(cor_alo_verschuldung, 2)))
 ```
 
 In diesem Schaubild scheint es einen positiven Zusammenhang zwischen der öffentlichen Verschuldung und der Arbeitslosenquote der Landkreise zu geben. D.h. Landkreise mit einer hohen Verschuldung im Verhältnis zu ihrem BIP haben tendenziell auch eine höhere Arbeitslosenquote. Jedoch ist es auch hier schwer zu sagen, wie groß die Korrelation tatsächlich ist. Daher haben wir die Korrelation im Schaubild mit eingefügt.
 
-Wenn wir wieder eine kleine Stichprobe aus diesem Datensatz extrahieren, dann haben auch hier alle ostdeutschen Landkreise eine relativ große Streuung in den Arbeitslosenquoten, aber nur eine geringe Bandbreite in der öffentlichen Verschuldung.
+Färben wir die Punkte nach Ost und West ein, so sehen wir: Der positive Zusammenhang wird vor allem von den westdeutschen Landkreisen getragen. Die ostdeutschen Landkreise haben bei ähnlicher Verschuldung sehr unterschiedliche Arbeitslosenquoten.
  
 ```{r}
 gesamtdaten |>
@@ -874,42 +891,43 @@ cor_alo_verschuldung <- cor(cor_data$alo_quote, cor_data$anteil_schulden,use = "
 cor_alo_verschuldung
 ```
 
-D.h. wir würden hier komplett andere Schlüsse ziehen auf Basis dieser Stichprobe.
+D.h. wir würden hier komplett andere Schlüsse ziehen auf Basis dieser Teilgruppe. Eine Korrelation über alle Landkreise gilt also nicht automatisch für jede Teilgruppe.
+
+Auch die Wahl der Kennzahl spielt eine Rolle: Verwenden wir statt des Schuldenanteils am BIP die Schulden **pro Kopf**, so sinkt die Korrelation mit der Arbeitslosenquote auf `r de(cor(gesamtdaten$alo_quote, gesamtdaten$Schulden_pro_kopf_lk, use = "complete.obs"), 2)`. Der Grund: Die höchsten Schulden pro Kopf haben überwiegend reiche Städte mit niedriger Arbeitslosigkeit, z.B. Darmstadt, Frankfurt am Main und Ulm. Teilen wir durch das BIP, rücken dagegen strukturschwache Landkreise mit kleinem BIP nach oben, z.B. Oberhausen, Mülheim an der Ruhr und Herne, und diese haben eine hohe Arbeitslosenquote.
 
 ### Interpretation der Korrelation
 
-Die Korrelation als Zahl an sich hat keine intuitive quantitative Interpretation. Sie ist eine univariate Repräsentation des Zusammenhangs zweier Variablen.
-Sie kann uns jedoch dabei helfen stark miteinander korrelierte Variablen in unserem Datensatz ausfindig zu machen. Dies ist insbesondere bei einer späteren Regressionsanalyse hilfreich, wenn es sich um mehrere erklärende Variablen handelt (multiple lineare Regression), welche wir alle in unsere Regression einfließen lassen möchten. Wenn wir beispielsweise eine sehr hohe positive oder negative Korrelation zwischen den erklärenden Variablen `bip_wachstum` und `anteil_schulden` finden würden, dann sollten wir uns genau überlegen, ob wir beide Variablen in die Regression aufnehmen wollen, oder lieber auf eine verzichten. Denn durch stark miteinander korrelierte Variablen setzen wir uns dem Problem der [Multikolliniarität](https://de.wikipedia.org/wiki/Multikollinearit%C3%A4t) aus. Dadurch würden unsere Regressionskoeffizienten bei einer multiplen linearen Regression verzerrt. In unserem Fall ist die Korrelation der beiden Variablen jedoch gering:
+Die Korrelation als Zahl an sich hat keine intuitive quantitative Interpretation. Sie fasst den (linearen) Zusammenhang zweier Variablen in einer einzigen Kennzahl zusammen. Sie sagt, wie eng die Punkte um eine Gerade liegen, aber nicht, wie steil diese Gerade ist.
+Sie kann uns jedoch dabei helfen stark miteinander korrelierte Variablen in unserem Datensatz ausfindig zu machen. Dies ist insbesondere bei einer späteren Regressionsanalyse hilfreich, wenn es sich um mehrere erklärende Variablen handelt (multiple lineare Regression), welche wir alle in unsere Regression einfließen lassen möchten. Wenn wir beispielsweise eine sehr hohe positive oder negative Korrelation zwischen den erklärenden Variablen `bip_pro_kopf_wachstum` und `anteil_schulden` finden würden, dann setzen wir uns dem Problem der [Multikollinearität](https://de.wikipedia.org/wiki/Multikollinearit%C3%A4t) aus: Die Regression kann die Effekte der beiden Variablen dann kaum auseinanderhalten, die Standardfehler der Koeffizienten werden groß. Eine der Variablen einfach wegzulassen ist allerdings auch keine Lösung, da dies zu einer Verzerrung durch ausgelassene Variablen führen kann. In unserem Fall ist die Korrelation der beiden Variablen jedoch gering:
 
 ```{r}
 cor(gesamtdaten$bip_pro_kopf_wachstum, gesamtdaten$anteil_schulden,use = "pairwise.complete.obs")
 ```
 
-In einer empirischen Ausarbeitung werden Sie i.d.R. keine Schaubilder zur Korrelation der einzelnen Variablen sehen, sondern nur eine Tabelle in der die Korrelationen der Variablen untereinander abgetragen sind. Eine solche Tabelle können Sie auch einfach in R innerhalb des `tidyverse` und mittels des Pakets `corrr` erzeugen:
+In einer empirischen Ausarbeitung werden Sie i.d.R. keine Schaubilder zur Korrelation der einzelnen Variablen sehen, sondern nur eine Tabelle in der die Korrelationen der Variablen untereinander abgetragen sind. Eine solche Tabelle können Sie einfach mit `cor()` erzeugen und mit `kableExtra` formatieren:
 
 ```{r}
 korrelationen <- gesamtdaten |>
   select(bip_pro_kopf_wachstum, anteil_schulden, alo_quote) |>
-  correlate() |> # Korrelationen erzeugen
-  rearrange() |>  # Sortieren nach Korrelation
-  shave(upper = TRUE) |> # Oberen Teil der Tabelle abschneiden
-  mutate(rowname = c("1. BIP pro Kopf Wachstum", "2. Anteil Schulden", "3. Arbeitslosenquote")) |> # Umbenennen der Variablennamen
-  select(-rowname) |>
-  fashion(decimals = 2, na_print = "") # Abschließende Verschönerungen
+  cor(use = "pairwise.complete.obs") |>
+  round(2)
 
+# Nur die untere Hälfte zeigen (die Matrix ist symmetrisch)
+korrelationen[upper.tri(korrelationen)] <- NA
+dimnames(korrelationen) <- list(c("1. BIP-pro-Kopf-Wachstum", "2. Anteil Schulden am BIP", "3. Arbeitslosenquote"),
+                                c("1", "2", "3"))
+
+options(knitr.kable.NA = "")
 korrelationen |>
-  kbl(caption = "Korrelationen der untersuchten Variablen",
-        col.names = c("", "1", "2", "3"),
-      format = "html") |>
+  kbl(caption = "Korrelationen der untersuchten Variablen", format = "html") |>
   kable_styling(bootstrap_options = c("condensed", "responsive")) |>
   kable_paper(full_width = TRUE)
 ```
 
-
 In empirischen Ausarbeitungen wird die Korrelation meist nur berechnet um den Zusammenhang einzelner Variablen miteinander zu veranschaulichen.
-Jedoch sind die Hauptanalysen die getätigt werden keine Korrelationsmatrizen sondern Regressionstabellen. Dies liegt daran, dass Regressionskoeffizienten, anders als Korrelationen eine quantitative Interpretation zulassen. Weiterhin sind die Schätzer in der linearen Regression konsistent und unverzerrt + wir können den Zusammenhang zwischen mehreren Variablen betrachten. Für den Schätzer in der linearen Regression gilt BLUE (best linear unbiased estimator), was für die Korrelation nicht gilt. 
+Jedoch sind die Hauptanalysen die getätigt werden keine Korrelationsmatrizen sondern Regressionstabellen. Dies liegt daran, dass Regressionskoeffizienten, anders als Korrelationen eine quantitative Interpretation zulassen. Außerdem können wir in einer Regression den Zusammenhang zwischen mehreren Variablen gleichzeitig betrachten. Unter bestimmten Annahmen (Gauß-Markov) ist der Kleinste-Quadrate-Schätzer zudem der beste lineare unverzerrte Schätzer (BLUE). 
 
-Der Analyse von Zusammenhängen mittels linearer Regression werden wir uns im dritten Teil der Case-Study widmen.
+Der Analyse von Zusammenhängen mittels linearer Regression werden wir uns im nächsten Semester im dritten Teil der Case-Study widmen.
 
 # Zusammenfassung und Ausblick
 
@@ -919,19 +937,26 @@ Im letzten Teil der Case Study wollen wir mittels linearer Regression ein tiefgr
 
 # Übungsaufgaben
 
-Im ersten Teil der Case Study hatten Sie sich noch die durchschnittlichen Einkommen auf Landkreisebene in R eingelesen. Nun sollten Sie diese Tabelle deskriptiv analysieren:
+Im ersten Teil der Case Study hatten Sie die durchschnittlichen Einkommen auf Landkreisebene in R eingelesen. Den bereinigten Datensatz finden Sie unter `data/einkommen.rds`: die Bruttolöhne und -gehälter je Arbeitnehmer:in in Euro (nominal) für die Jahre 2000 bis 2024. Wie das BIP und die Erwerbstätigen sind die Einkommen nach dem **Arbeitsort** erfasst (Inlandskonzept). Der Datensatz enthält wie `bip_zeitreihe` neben den Kreisen (5-stelliger Regionalschlüssel) auch den Bund, die Länder und die Regierungsbezirke. Nun sollen Sie diese Daten deskriptiv analysieren:
 
-- Erstellen Sie eine deskriptive Tabelle, welche das Einkommen für das Jahr 2022 darstellt. Wie ist hier die Verteilung der Einkommen?
-  - Beschreiben Sie Mittelwert, Standardabweichung, sowie Median
-- Erstellen Sie ein Liniendiagramm zu der Entwicklung des Einkommensniveaus in den einzelnen Landkreisen seit 2000. Sie können sich hierbei an dem Diagramm zum BIP pro Kopf orientieren.
-  - Hinweis: Mergen Sie zu dem Datensatz "Einkommen" zuerst noch die Information zu "Landkreis_name, Bundesland_name und ost_name" hinzu (siehe auch hierzu [diesen Abschnitt](#bruttoinlandsprodukt-pro-kopf))
-- Erstellen Sie eine Karte zum Einkommensniveau der einzelnen Landkreise. Sie können sich hierbei an der Karte zur Verschuldung orientieren.
-- Erstellen Sie eine Korrelationstablle zwischen Arbeitslosenquote, Anteil Schulden, BIP pro Kopf und Einkommen. Sie können sich hierbei an der [Tabelle der Korrleationen aus diesem Abschnitt](#interpretation-der-korrelation) orientieren.
+1. **Daten vorbereiten:** Verbinden Sie die Einkommen mit `gesamtdaten`, damit Sie die Informationen zu `landkreis_name`, `bundesland_name` und `ost_name` erhalten (siehe [diesen Abschnitt](#bruttoinlandsprodukt-pro-kopf)).
+   - Behalten Sie nur die Kreise. Wie viele Kreise hat Ihr Datensatz danach? Fehlen Kreise, und wenn ja, warum? (Tipp: Denken Sie an den Sonderfall der Stadtstaaten aus Teil 1.)
+2. **Tabelle:** Erstellen Sie eine deskriptive Tabelle zum Einkommen im Jahr 2024, getrennt nach Ost- und Westdeutschland.
+   - Beschreiben Sie Mittelwert, Standardabweichung und Median. Was sagt das Verhältnis von Mittelwert zu Median über die Verteilung?
+   - Welche Kreise haben das höchste und das niedrigste Einkommen? Achten Sie darauf, dass manche Kreisnamen doppelt vorkommen (z.B. München).
+3. **Zeitreihe:** Erstellen Sie ein Liniendiagramm zur Entwicklung der Einkommen in den einzelnen Landkreisen seit 2000. Sie können sich an dem Diagramm zum BIP pro Kopf orientieren.
+   - Holt der Osten beim Einkommen schneller auf als beim BIP pro Kopf? Berechnen Sie dazu das Einkommen im Osten in Prozent des Westens für 2000 und 2024, und zusätzlich den Abstand in Euro.
+4. **Karte:** Erstellen Sie eine Karte zum Einkommen der einzelnen Landkreise im Jahr 2024. Sie können sich an der Karte zur Verschuldung orientieren. Wählen Sie die Klassen so, dass jeder Kreis eine Farbe erhält.
+5. **Korrelation:** Erstellen Sie eine Korrelationstabelle zwischen Arbeitslosenquote, Anteil Schulden, BIP pro Kopf und Einkommen. Sie können sich an der [Tabelle der Korrelationen aus diesem Abschnitt](#interpretation-der-korrelation) orientieren.
+   - Welche Variable hängt am stärksten mit dem Einkommen zusammen? Warum ist das wenig überraschend?
+   - Die Arbeitslosenquote messen wir am Wohnort, das Einkommen am Arbeitsort. Was bedeutet das für die Interpretation?
+
+**Hinweis:** Die Daten stammen aus der Revision 2024 der Volkswirtschaftlichen Gesamtrechnungen der Länder. Wenn Sie in Teil 1 eine ältere Version heruntergeladen haben, weichen Ihre Werte ab, für einige Kreise in Niedersachsen sogar deutlich (z.B. Wolfsburg).
 
 # Weitere Quellen:
 
 - [Data to Viz](https://www.data-to-viz.com/)
-- [A ggplot2 Tutorial for Beautiful Plotting in R](https://cedricscherer.netlify.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)
-- [The Evolution of a ggplot](https://cedricscherer.netlify.com/2019/05/17/the-evolution-of-a-ggplot-ep.-1/)
+- [A ggplot2 Tutorial for Beautiful Plotting in R](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)
+- [The Evolution of a ggplot](https://www.cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot-ep.-1/)
 - [Switzerland's regional income (in-)equality](https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/)
 - [R Graph Gallery](https://r-graph-gallery.com/)

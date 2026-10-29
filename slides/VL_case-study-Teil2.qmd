@@ -34,6 +34,9 @@ format:
 # einem versteckten Chunk am Ende dieses Dokuments geschrieben)
 resources:
   - data-webr
+# kableExtra-Tabellen unverändert übernehmen: Sonst baut Quarto die HTML-Tabellen
+# neu auf, und Fußnoten verlieren ihre volle Breite (colspan)
+html-table-processing: none
 execute:
   echo: true
   eval: true
@@ -63,43 +66,6 @@ hat_qr <- requireNamespace("qrcode", quietly = TRUE)
 
 # Rückblick und Ziele {.section background-color="#1d3f73"}
 
-## 📱 Recap: Kahoot zu Teil 1 {.kahoot .smaller}
-:::: {.columns}
-::: {.column width="35%"}
-```{r}
-#| echo: false
-#| eval: !expr hat_qr
-#| fig-width: 3
-#| fig-height: 3
-plot(qrcode::qr_code("https://kahoot.it"))
-```
-
-[**kahoot.it** · PIN am Beamer]{.pin}
-:::
-::: {.column width="65%"}
-**Dieselben 7 Fragen wie am Ende von Teil 1.** Mal sehen, was hängen geblieben ist.
-
-[Tipp: Öffnen Sie die Folien jetzt schon auf Ihrem Laptop. Die Code-Felder (webR) laden im Hintergrund ca. 20 Sekunden.]{.small}
-
-- `pivot_longer()`-Fehlermeldung lesen
-- wide → long
-- Bug Hunt 5: der Join und die Zeilenzahl
-- Einheiten: × 1.000, × 1e6
-- 400 Landkreise und der letzte Check vor der Abgabe
-
-[Kahoot öffnen →](https://play.kahoot.it/v2/lobby?quizId=4d61bc54-dfc6-4152-846f-b670642f6b5a)
-:::
-::::
-
-```{r}
-#| echo: false
-countdown(minutes = 5, bottom = 0, right = 0)
-```
-
-::: {.notes}
-Spaced retrieval: dieselben Fragen wie Checkpoint 3 aus Teil 1. Trefferquote mit der letzten Sitzung vergleichen und kurz nennen.
-:::
-
 ## Schätzfrage zum Einstieg
 
 ::: {.instructions}
@@ -111,6 +77,8 @@ Spaced retrieval: dieselben Fragen wie Checkpoint 3 aus Teil 1. Trefferquote mit
 :::
 
 Auflösung, sobald wir die Quote berechnet haben.
+
+[Tipp: Öffnen Sie die Folien jetzt schon auf Ihrem Laptop. Die Code-Felder (webR) laden im Hintergrund ca. 20 Sekunden.]{.small}
 
 ::: {.notes}
 Auflösung auf der Folie "Höchste und niedrigste Quote" im Abschnitt Überblick. Pointe: Platz 1 ist der Landkreis München (nicht die Stadt), Platz 2 Ulm.
@@ -666,49 +634,6 @@ if (ok) {
 Chat AI berechnet Ihnen jede Kennzahl, die Sie verlangen. Ob **Zähler und Nenner zusammenpassen** (gleiches Gebiet, gleiches Jahr, gleiche Zählweise), müssen Sie prüfen: **Dokumentation der Quelle lesen.**
 :::
 
-## 📱 Kahoot-Checkpoint 1: Überblick {.kahoot}
-
-:::: {.columns}
-::: {.column width="35%"}
-```{r}
-#| echo: false
-#| eval: !expr hat_qr
-#| fig-width: 3
-#| fig-height: 3
-plot(qrcode::qr_code("https://kahoot.it"))
-```
-
-[**kahoot.it** · PIN am Beamer]{.pin}
-:::
-::: {.column width="65%"}
-**6 Fragen, 5 Minuten**
-
-- deskriptiv oder induktiv?
-- Boxplot lesen
-- Mittelwert vs. Median: was heißt "rechtsschief"?
-- Stadtstaaten: der stille Join
-- Zwei Mal München
-- Bug Hunt 6: Wohnort vs. Arbeitsort
-
-[Kahoot öffnen →](https://create.kahoot.it/)
-:::
-::::
-
-```{r}
-#| echo: false
-countdown(minutes = 5, bottom = 0, right = 0)
-```
-
-::: {.notes}
-Fragenvorschläge (richtige Antwort zuerst):
-1. "Die Arbeitsagentur zählt die Arbeitslosen in allen 400 Kreisen. Eine Aussage über genau diese 400 Kreise ist …" → deskriptiv / induktiv / beides / keins
-2. Die Box im Boxplot enthält … → die mittleren 50 % / alle Werte ohne Ausreißer / 75 % / Mittelwert ± 1 SD
-3. Mittelwert 3.000 €, Median 2.400 € → rechtsschief / linksschief / symmetrisch / nicht entscheidbar
-4. left_join() findet für einen Schlüssel keinen Partner → Zeile bleibt, Werte NA / Fehler / Warnung / Zeile fällt weg
-5. Landkreis mit vielen Auspendler:innen, unsere Quote ist … → zu hoch / zu niedrig / korrekt / NA
-6. `skim()`: 400 Zeilen, aber nur 378 Namen. Warum? → gleiche Namen für Stadt und Landkreis / Tippfehler / Duplikate durch Join / fehlende Werte
-:::
-
 # Deskriptive Tabellen {.section background-color="#1d3f73"}
 
 Grundlagen ✔ → Überblick ✔ → [Tabellen]{.hier} → Grafiken → Karten → Zusammenhänge
@@ -761,7 +686,7 @@ bremen_gew   <- 100 * sum(bremen$total_alo) / sum(bremen$erw + bremen$total_alo)
 bula_data |>
   arrange(mean_alo) |>
   kbl(col.names = c("Bundesland", "Mittelwert", "SD", "Median"),
-      digits = 2) |>
+      digits = 2, format.args = list(decimal.mark = ",")) |>
   kable_styling(font_size = 14) |>
   kable_paper(full_width = FALSE) |>
   row_spec(c(8, 9, 10, 12, 13), bold = TRUE, color = "white", background = "#BBBBBB") |>
@@ -806,7 +731,8 @@ countdown(minutes = 2, bottom = 0, right = 0)
 ```{r}
 #| echo: false
 bula_tabelle |>
-  kbl(col.names = c("Bundesland", "Mittelwert", "SD", "Median"), digits = 2) |>
+  kbl(col.names = c("Bundesland", "Mittelwert", "SD", "Median"), digits = 2,
+      format.args = list(decimal.mark = ",")) |>
   kable_styling(font_size = 14) |>
   kable_paper(full_width = FALSE) |>
   row_spec(c(8, 9, 10, 12, 13), bold = TRUE, color = "white", background = "#BBBBBB") |>
@@ -909,7 +835,8 @@ if (ok) {
 ```{r}
 #| echo: false
 bula_tabelle |>
-  kbl(col.names = c("Bundesland", "Mittelwert", "SD", "Median"), digits = 2) |>
+  kbl(col.names = c("Bundesland", "Mittelwert", "SD", "Median"), digits = 2,
+      format.args = list(decimal.mark = ",")) |>
   kable_styling(font_size = 14) |>
   kable_paper(full_width = FALSE) |>
   row_spec(ost_zeilen, bold = TRUE, color = "white", background = "#BBBBBB") |>
@@ -1124,7 +1051,7 @@ Große Unterschiede zwischen Ost und West, aber auch **innerhalb** des Westens.
 
 [Eine Tabelle mit Arbeitslosigkeit, BIP und Schulden je Bundesland finden Sie im Anhang und in der [ausformulierten Case-Study](../case-study/case_study_germany_2.html).]{.small}
 
-## 📱 Kahoot-Checkpoint 2: Tabellen {.kahoot}
+## 📱 Kahoot-Checkpoint 1: Überblick und Tabellen {.kahoot}
 
 :::: {.columns}
 ::: {.column width="35%"}
@@ -1139,14 +1066,14 @@ plot(qrcode::qr_code("https://kahoot.it"))
 [**kahoot.it** · PIN am Beamer]{.pin}
 :::
 ::: {.column width="65%"}
-**6 Fragen, 5 Minuten**
+**10 Fragen, ca. 8 Minuten.** Diesmal müssen Sie nachdenken, nicht nur wiedererkennen.
 
-- `group_by()` + `summarise()`: Was ist danach eine Beobachtung?
-- Welche `kableExtra`-Funktion macht was?
+- deskriptiv oder induktiv?
+- Boxplot, Mittelwert vs. Median, Quantile
+- Der stille Join und wie man ihn findet
+- Bug Hunt 6: Wohnort vs. Arbeitsort
 - Bug Hunt 7: feste Zeilennummern
 - Bremen: Mittel der Kreise vs. Quote des Landes
-- Quantile lesen
-- Mittelwert vs. Median im Westen
 
 [Kahoot öffnen →](https://create.kahoot.it/)
 :::
@@ -1154,17 +1081,11 @@ plot(qrcode::qr_code("https://kahoot.it"))
 
 ```{r}
 #| echo: false
-countdown(minutes = 5, bottom = 0, right = 0)
+countdown(minutes = 8, bottom = 0, right = 0)
 ```
 
 ::: {.notes}
-Fragenvorschläge (richtige Antwort zuerst):
-1. Nach `group_by(bundesland_name) |> summarise(...)` ist eine Zeile … → ein Bundesland / ein Landkreis / eine Gemeinde / ein Jahr
-2. Eine Überschrift über mehrere Spalten setzt … → add_header_above() / row_spec() / kbl() / footnote()
-3. `row_spec(c(8, 9, 10))` ist riskant, weil … → sich die Zeilen verschieben, wenn sich die Daten ändern / die Farben nicht barrierefrei sind / `row_spec()` nur eine Zeile erlaubt / es Warnungen erzeugt
-4. Bremen 7,7 %, Bremerhaven 12,8 %, Bremen hat 6× mehr Erwerbstätige. Die Landesquote liegt … → näher an 7,7 % / genau bei 10,2 % / näher an 12,8 % / über 12,8 %
-5. P25 im Osten = 6,0 % heißt … → 75 % der ostdeutschen Kreise liegen darüber / 25 % liegen darüber / der Mittelwert ist 6,0 % / 6 Kreise liegen darunter
-6. "West: Mittelwert 5,3 %, Median 4,7 %" bedeutet … → einige Kreise mit sehr hoher Quote ziehen den Mittelwert hoch / die Hälfte der Kreise liegt über 5,3 % / die Verteilung ist linksschief / ein Datenfehler
+Fragen mit Antworten und Zeitlimits: kahoot_fragen_teil2.xlsx (im Format der Kahoot-Importvorlage). Nach dem Quiz die Frage mit der schlechtesten Trefferquote kurz an der passenden Folie nachbesprechen.
 :::
 
 ## Ende von Sitzung 1
@@ -1177,38 +1098,10 @@ Fragenvorschläge (richtige Antwort zuerst):
 - Anhang "Zum Selbststudium" am Ende dieser Folien: Stadtstaaten-Join reparieren
 
 ::: {.alert}
-Nächstes Mal: Grafiken, Karten und Zusammenhänge. Wir starten mit Kahoot-Checkpoint 2 als Recap.
+Nächstes Mal: Grafiken, Karten und Zusammenhänge.
 :::
 
 # Sitzung 2 {.section background-color="#1d3f73"}
-
-## 📱 Recap: Kahoot-Checkpoint 2 {.kahoot}
-
-:::: {.columns}
-::: {.column width="35%"}
-```{r}
-#| echo: false
-#| eval: !expr hat_qr
-#| fig-width: 3
-#| fig-height: 3
-plot(qrcode::qr_code("https://kahoot.it"))
-```
-
-[**kahoot.it** · PIN am Beamer]{.pin}
-:::
-::: {.column width="65%"}
-**Dieselben 6 Fragen wie am Ende der letzten Sitzung.**
-
-[Tipp: Folien jetzt auf dem Laptop öffnen, damit webR im Hintergrund lädt.]{.small}
-
-[Kahoot öffnen →](https://create.kahoot.it/)
-:::
-::::
-
-```{r}
-#| echo: false
-countdown(minutes = 5, bottom = 0, right = 0)
-```
 
 ## Schätzfrage zum Einstieg
 
@@ -1219,6 +1112,8 @@ countdown(minutes = 5, bottom = 0, right = 0)
 :::
 
 Und: Ist der Abstand seit 2000 kleiner oder größer geworden?
+
+[Tipp: Folien jetzt auf dem Laptop öffnen, damit webR im Hintergrund lädt.]{.small}
 
 ::: {.notes}
 Auflösung auf der Folie "Holt der Osten auf?": 75 %, relativ kleiner geworden (2000: 64 %), in Euro größer.
@@ -1752,7 +1647,11 @@ gesamtdaten |>
 
 ```{r}
 #| eval: false
-#| code-line-numbers: "1-3|4|5-6|7"
+#| code-line-numbers: "1-3|5-7|8|9-10|11"
+mittel_ow <- gesamtdaten |>                                 # je eine Zeile für Ost und West
+  group_by(ost_name) |>
+  summarise(mittel = mean(bip_pro_kopf), median = median(bip_pro_kopf))
+
 gesamtdaten |>
   filter(bip_pro_kopf < 1e5) |>
   ggplot(aes(x = bip_pro_kopf / 1000)) +
@@ -1787,9 +1686,29 @@ Die Alternative ist eine **Kerndichte** (`geom_density()`), ein geglättetes His
 ## Interaktiv mit `plotly` {.smaller}
 Wer ist der Ausreißer? Mit der Maus über einen Punkt fahren:
 
+::: {.panel-tabset}
+
+### Grafik
+
 ```{r}
-#| fig-width: 10
-#| fig-height: 3.4
+#| echo: false
+set.seed(1)
+p_interaktiv <- gesamtdaten |>
+  ggplot(aes(x = ost_name, y = alo_quote)) +
+  geom_jitter(aes(text = paste0(landkreis_name, " (", bundesland_name, "): ", round(alo_quote, 1), " %")),
+              width = 0.25, height = 0, alpha = 0.6, colour = "grey40") +
+  geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +
+  labs(x = NULL, y = "Arbeitslosenquote (%)") + theme_minimal(base_size = 15)
+# Feste Größe: Sonst passt plotly sich beim Hochskalieren der Folie neu an
+# und wird abgeschnitten
+ggplotly(p_interaktiv, tooltip = "text", width = 1100, height = 420) |>
+  config(responsive = FALSE, displaylogo = FALSE)
+```
+
+### Code
+
+```{r}
+#| eval: false
 #| code-line-numbers: "3-4|7"
 p_interaktiv <- gesamtdaten |>
   ggplot(aes(x = ost_name, y = alo_quote)) +
@@ -1797,8 +1716,10 @@ p_interaktiv <- gesamtdaten |>
               width = 0.25, height = 0, alpha = 0.6, colour = "grey40") +
   geom_boxplot(alpha = 0, outlier.shape = NA, width = 0.5) +
   labs(x = NULL, y = "Arbeitslosenquote (%)") + theme_minimal()
-ggplotly(p_interaktiv, tooltip = "text")
+ggplotly(p_interaktiv, tooltip = "text")    # Tooltip zeigt nur die Spalte "text"
 ```
+
+:::
 
 [Funktioniert in HTML (Folien, Case-Study, Quarto-Bericht), **nicht im PDF**. Für den Projektbericht: statische Grafik zusätzlich bereithalten.]{.small}
 
@@ -2395,51 +2316,6 @@ gesamtdaten |>
 Nächstes Semester (Teil 3 der Case-Study): lineare Regression. Deren Koeffizienten lassen sich direkt interpretieren.
 :::
 
-## 📱 Kahoot-Checkpoint 3: Grafiken, Karten, Korrelation {.kahoot}
-
-:::: {.columns}
-::: {.column width="35%"}
-```{r}
-#| echo: false
-#| eval: !expr hat_qr
-#| fig-width: 3
-#| fig-height: 3
-plot(qrcode::qr_code("https://kahoot.it"))
-```
-
-[**kahoot.it** · PIN am Beamer]{.pin}
-:::
-::: {.column width="65%"}
-**7 Fragen, 5 Minuten**
-
-- Log-Achse: Was heißt "parallel"?
-- Bug Hunt 8: die Wachstumsrate
-- Bug Hunt 9: die Lücke in den Klassen
-- r aus dem Streudiagramm schätzen
-- Schulden pro Kopf oder in % des BIP?
-- Bug Hunt 10: Korrelation ≠ Kausalität ≠ Steigung
-- Ost und West getrennt betrachten
-
-[Kahoot öffnen →](https://create.kahoot.it/)
-:::
-::::
-
-```{r}
-#| echo: false
-countdown(minutes = 5, bottom = 0, right = 0)
-```
-
-::: {.notes}
-Fragenvorschläge (richtige Antwort zuerst):
-1. Zwei Linien laufen auf einer Log-Achse parallel. Das heißt … → gleicher relativer Abstand / gleicher Abstand in Euro / gleiche Höhe / kein Wachstum
-2. BIP pro Kopf steigt von 100 auf 200. `100 * (x - lag(x)) / x` ergibt … → 50 / 100 / 200 / −50
-3. Klassen per case_when bis 13,5 %, ein Kreis hat 14,5 % → er wird NA / er landet in der obersten Klasse / Fehlermeldung / Warnung
-4. Bild einer fallenden Punktwolke mit viel Streuung (Streudiagramm als Bild in Kahoot hochladen) → r ≈ −0,5 / −0,95 / 0 / +0,5
-5. r = 0,55 zwischen Schulden und Arbeitslosigkeit heißt … → Landkreise mit hohen Schulden haben tendenziell höhere Quoten / Schulden verursachen Arbeitslosigkeit / +1 Pp. Schulden = +0,55 Pp. Quote / 55 % der Kreise sind verschuldet
-6. Gesamt r = 0,55, im Osten r = 0,04. Daraus folgt … → der Zusammenhang gilt nicht überall gleich / der Code ist falsch / der Osten hat keine Schulden / r ist im Osten nicht berechenbar
-7. "Schulden pro Kopf: r = 0,20; Schulden in % des BIP: r = 0,55" zeigt … → die Wahl der Kennzahl ändert die Aussage / einer der Werte ist falsch berechnet / Schulden pro Kopf sind irrelevant / r ist bei Prozentwerten immer höher
-:::
-
 # Abschluss {.section background-color="#1d3f73"}
 
 ## Checkliste: Tabellen und Grafiken prüfen {.smaller}
@@ -2505,15 +2381,15 @@ Chat AI schreibt Ihnen in Sekunden eine überzeugende Interpretation. Bug Hunt 1
 ## Hausaufgabe: Eigene Grafik erstellen {.smaller}
 
 ::: {.instructions}
-**Ziel:** Eine aussagekräftige Grafik zur **Einkommensverteilung** in Deutschland erstellen und interpretieren. **Start jetzt (5 Minuten):** Gruppen bilden und Fragestellung festlegen.
+**Ziel:** Eine aussagekräftige Grafik zum **Einkommen** in Deutschland erstellen und interpretieren. **Start jetzt (5 Minuten):** Gruppen bilden und Fragestellung festlegen.
 :::
 
-**Daten:** `einkommen.rds` im Repository (`case-study/data/`): durchschnittliches Einkommen je Arbeitnehmer (vgl. Übung zu Teil 1), Landkreise und Länder, 2000–2022.
+**Daten:** `einkommen.rds` (`case-study/data/`): Bruttolöhne und -gehälter je Arbeitnehmer:in (vgl. Übung zu Teil 1), nominal, **am Arbeitsort**, 2000–2024. Enthält Bund, Länder, Regierungsbezirke und Kreise.
 
 1. **Gruppen** von 4–5 Personen
-2. **Frage wählen:** Zeitreihe oder Querschnitt 2022? Was soll die Grafik zeigen?
-3. **Grafik erstellen:** Inspiration in der [R Graph Gallery](https://r-graph-gallery.com/) und der [Case-Study](../case-study/case_study_germany_2.html); [Chat AI](https://chat-ai.academiccloud.de/) erlaubt
-4. **Checkliste anwenden:** mindestens Punkte 1, 6 und 7 schriftlich beantworten
+2. **Frage wählen**, z.B.: Holt der Osten beim Einkommen schneller auf als beim BIP pro Kopf? Wie verteilen sich die Einkommen 2024? Wo liegen die Einkommen hoch, wo niedrig (Karte)?
+3. **Grafik erstellen:** Mit `gesamtdaten` verbinden; Inspiration in der [R Graph Gallery](https://r-graph-gallery.com/) und der [Case-Study](../case-study/case_study_germany_2.html); [Chat AI](https://chat-ai.academiccloud.de/) erlaubt
+4. **Checkliste anwenden:** mindestens Punkte 1, 2, 6 und 7 schriftlich beantworten
 5. **Hochladen:** Code + Grafik + drei Sätze Interpretation über das [Google-Formular](https://forms.gle/R4qJEegZnFoTHU7f7)
 6. **Feedback-Runde** zu Beginn der nächsten Sitzung: anonymes Feedback von Kommiliton:innen und mir
 
@@ -2523,7 +2399,44 @@ countdown(minutes = 5, bottom = 0, right = 0)
 ```
 
 ::: {.notes}
-Einkommen hat dieselbe Schlüsselstruktur wie bip_zeitreihe (2-, 3- und 5-stellig), also vor dem Merge nchar(Regionalschluessel) == 5 filtern, und Hamburg/Berlin prüfen: Sie stehen auch hier nur als 02 und 11 im Datensatz (Stadtstaaten-Falle!). Link zum Google-Formular vor der Vorlesung aktualisieren.
+Einkommen hat dieselbe Schlüsselstruktur wie bip_zeitreihe (2-, 3- und 5-stellig), also vor dem Merge nchar(Regionalschluessel) == 5 filtern, und Hamburg/Berlin prüfen: Sie stehen auch hier nur als 02 und 11 im Datensatz (Stadtstaaten-Falle!), also vorher auf 02000 und 11000 umkodieren. Danach 400 Kreise, keine NA. Checkliste Punkt 2: Einkommen am Arbeitsort, wie die Erwerbstätigen (Pendler, vgl. BH 6). Ergebnisse 2024 (Mittel der Kreise, ungewichtet): Ost 39.064 €, West 43.504 €. Ost/West 2000 → 2024: 79 % → 90 %, Abstand 5.340 € → 4.441 €, also auch absolut kleiner (anders als beim BIP). Höchster Wert Wolfsburg (74.909 €), niedrigster Südwestpfalz (33.321 €). Zweimal "München" (Stadt und Landkreis): Namen nicht eindeutig, Schlüssel nutzen. Korrelation mit BIP pro Kopf 0,83, mit Arbeitslosenquote −0,36, mit Anteil Schulden 0,03. Achtung Revision 2024: Ältere Downloads weichen ab, v.a. in Niedersachsen (Wolfsburg). Link zum Google-Formular vor der Vorlesung aktualisieren.
+:::
+
+## 📱 Kahoot-Checkpoint 2: Grafiken, Karten, Zusammenhänge {.kahoot}
+
+:::: {.columns}
+::: {.column width="35%"}
+```{r}
+#| echo: false
+#| eval: !expr hat_qr
+#| fig-width: 3
+#| fig-height: 3
+plot(qrcode::qr_code("https://kahoot.it"))
+```
+
+[**kahoot.it** · PIN am Beamer]{.pin}
+:::
+::: {.column width="65%"}
+**10 Fragen, ca. 8 Minuten.** Auch hier: erst nachdenken, dann drücken.
+
+- Jitter-Plot und Log-Achse lesen
+- Holt der Osten auf? Relativ vs. absolut
+- Bug Hunt 8: die Wachstumsrate (und `group_by()`)
+- Bug Hunt 9: die Lücke in den Klassen
+- Bug Hunt 10: Was eine Korrelation aussagt und was nicht
+- Schulden pro Kopf oder in % des BIP?
+
+[Kahoot öffnen →](https://create.kahoot.it/)
+:::
+::::
+
+```{r}
+#| echo: false
+countdown(minutes = 8, bottom = 0, right = 0)
+```
+
+::: {.notes}
+Fragen mit Antworten und Zeitlimits: kahoot_fragen_teil2_sitzung2.xlsx (im Format der Kahoot-Importvorlage). Nach dem Quiz die Frage mit der schlechtesten Trefferquote kurz an der passenden Folie nachbesprechen.
 :::
 
 # Anhang: Zum Selbststudium {.section background-color="#1d3f73"}

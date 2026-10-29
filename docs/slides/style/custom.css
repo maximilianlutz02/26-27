@@ -156,3 +156,10 @@
 .reveal .section .lernziele strong { color: #14301b; }
 .reveal .section .hier { background: #ffffff; color: #1d3f73; }
 .reveal .section a { color: #cfe3ff; }
+
+/* kableExtra-Tabellen (kable_paper) in der Folienschrift statt "Arial Narrow".
+   kable_paper() setzt die Schrift als Inline-Style, daher !important. */
+.reveal table.lightable-paper,
+.reveal table.lightable-paper th,
+.reveal table.lightable-paper td { font-family: Roboto, sans-serif !important; }
+.reveal table.lightable-paper td { font-weight: 400; }
